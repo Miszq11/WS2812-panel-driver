@@ -1,6 +1,10 @@
-config BR2_PACKAGE_WS2812_SPI_MODULE
-    bool "ws2812_spi_module"
+config BR2_PACKAGE_WS2812_MODULE
+    bool "ws2812_module"
+    depends on BR2_LINUX_KERNEL
     help
       WS2812 Panel module support
 
       see: datasheet of WS2812 led.
+
+comment "This module requires Linux kernel to be built"
+    depends on !BR2_LINUX_KERNEL
