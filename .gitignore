@@ -1,2 +1,4 @@
 BR/*/**
 BR/*.tar*
+external/local
+**/.cache

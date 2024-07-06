@@ -1,0 +1,6 @@
+config BR2_PACKAGE_WS2812_SPI_MODULE
+    bool "ws2812_spi_module"
+    help
+      WS2812 Panel module support
+
+      see: datasheet of WS2812 led.

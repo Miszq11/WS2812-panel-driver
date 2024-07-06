@@ -4,5 +4,4 @@
 
 echo 'unpacked BR, copying config'
 cp br_configs/.config_start BR/buildroot-2024.02.3/.config
-cp scripts/build_wsl.sh BR/buildroot-2024.02.3/
 echo 'Done.'
