@@ -2,3 +2,4 @@ BR/*/**
 BR/*.tar*
 external/local
 **/.cache
+scripts/start-qemu.sh

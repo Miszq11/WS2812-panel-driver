@@ -1,1 +1,1 @@
-obj-m := test.o
+obj-m := test.o ws2812_mod.o

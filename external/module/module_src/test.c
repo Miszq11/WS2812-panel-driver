@@ -9,16 +9,14 @@ static void test_uninit(void);
 
 
 static int test_init(void) {
-  printk("Hello from WS2812 module\n");
+  printk("Hello from test module\n");
   return 0;
 }
 
 static void test_uninit(void) {
-  printk("Goodbye from WS2812 module\n");
+  printk("Goodbye from test module\n");
 }
 
 
 module_init(test_init);
 module_exit(test_uninit);
-
-
