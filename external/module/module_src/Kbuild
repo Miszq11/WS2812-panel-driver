@@ -1,1 +1,1 @@
-obj-m := test.o ws2812_mod.o
+obj-m := test.o ws2812_mod.o SPI_mod.o
