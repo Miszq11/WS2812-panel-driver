@@ -128,9 +128,10 @@
 };
 
 &spi4 {
-    pinctrl-names = "default", "sleep";
+    //pinctrl-names = "default", "sleep";
+	pinctrl-names = "default";
     pinctrl-0 = <&spi4_pins_b>;
-	pinctrl-1 = <&spi4_eepy_pins>;
+	//pinctrl-1 = <&spi4_eepy_pins>;
 	status = "okay";
 	cs-gpio = <&gpiog 3 0>;
 
@@ -141,7 +142,7 @@
         spi-max-frequency = <10000000>;
     };
 
-
+ 
 };
 
 /* One should create spi4_pins_b in stm32mp15-pinctrl.dtsi
