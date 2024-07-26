@@ -1,0 +1,3 @@
+[submodule "external/module/app_src/external/fbg"]
+	path = external/module/app_src/external/fbg
+	url = https://github.com/grz0zrg/fbg.git

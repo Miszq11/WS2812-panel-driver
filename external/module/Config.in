@@ -1,1 +1,2 @@
 source "$BR2_EXTERNAL_WS2812_panel_PATH/package/WS2812_module/Config.in"
+source "$BR2_EXTERNAL_WS2812_panel_PATH/package/WS2812_app/Config.in"
