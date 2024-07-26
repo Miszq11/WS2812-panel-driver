@@ -1,0 +1,35 @@
+/dts-v1/;
+/plugin/;
+
+#include "stm32mp157.dtsi"
+#include "stm32mp15xc.dtsi"
+#include "stm32mp15-pinctrl.dtsi"
+#include "stm32mp15xxac-pinctrl.dtsi"
+#include "stm32mp15xx-dkx.dtsi"
+
+&spi4 {
+    pinctrl-names = "default";
+    pinctrl-0 = <&spi4_pins_a>;
+	status = "okay";
+
+	spidev0: spidev@0{
+		compatible = "spidev";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+	};
+
+    WS2812_panel: WS2812_panel@1{
+        compatible = "WS2812_panel";
+        reg = <1>;
+        spi-max-frequency = <10000000>;
+    };
+
+	    fragment@0 {
+        target = <&WS2812_panel>;
+		    reg = <1>;
+        __overlay__ {
+            status = "okay";
+        };
+    };
+
+};

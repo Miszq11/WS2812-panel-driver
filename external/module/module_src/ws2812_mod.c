@@ -2,15 +2,18 @@
 #include <linux/module.h>
 #include <linux/fb.h>
 #include <linux/export.h>
-//#include <linux/kernel.h>
-//#include <linux/uaccess.h>
 
-//#include <linux/mm_types.h>
+// CLEAN HEADERS BELOW!
 #include "asm-generic/errno-base.h"
 #include "asm/memory.h"
+#include "asm/page.h"
 #include "linux/fb.h"
+#include "linux/gfp.h"
 #include "linux/mm.h"
 #include "linux/moduleparam.h"
+#include "linux/platform_device.h"
+#include "linux/slab.h"
+#include "linux/stddef.h"
 #include "linux/types.h"
 #include "linux/vmalloc.h"
 #include "module_config.h"
@@ -32,22 +35,18 @@ unsigned short bOffset = 16;
 
 module_param(xPanelLen, uint, 0444); // SETTING IT AS "WORLD-READABLE" for better debugging
 module_param(yPanelLen, uint, 0444);
-//module_param(colors, ushort, 0444);
 module_param(colorBits, ushort, 0444);
 module_param(gOffset, ushort, 0444);
 module_param(rOffset, ushort, 0444);
 module_param(bOffset, ushort, 0444);
 
+static int module_errno = 0;
+struct WS2812_module_fb_info *module_info = NULL;
 
 static int WS2812_init(void);
 static void WS2812_uninit(void);
 
 static int WS2812_map(struct fb_info* info, struct vm_area_struct* vma);
-static void fb_fillrect(struct fb_info* info, const struct fb_fillrect* rect);
-static void fb_copyarea(struct fb_info* info, const struct fb_copyarea* area);
-static void fb_imageblit(struct fb_info* info, const struct fb_image* area);
-
-//static struct fb_info info;
 
 static const struct fb_ops WS2812_fb_ops = {
   .owner = THIS_MODULE,
@@ -55,18 +54,22 @@ static const struct fb_ops WS2812_fb_ops = {
   //.fb_write = fb_sys_write,
   //.fb_fillrect = sys_fillrect, /* obligatory fun (using sys_XX functions for now)*/
   //.fb_copyarea = sys_copyarea, /* obligatory fun (using sys_XX functions for now)*/
-  //.fb_imageblit = sys_imageblit, /* obligatory fun (using sys_XX functions for now)*/
-  .fb_fillrect = fb_fillrect,
-  .fb_copyarea = fb_copyarea,
-  .fb_imageblit = fb_imageblit,
+  //.fb_imageblit = sys_imageblit, /* obligatory fun (using sys_XX functions for now) sig-segv? memory issue*/
+  .fb_fillrect = cfb_fillrect, /* obligatory fun (using sys_XX functions for now)*/
+  .fb_copyarea = cfb_copyarea, /* obligatory fun (using sys_XX functions for now)*/
+  .fb_imageblit = cfb_imageblit, /* obligatory fun (using sys_XX functions for now) sig-segv? memory issue*/
+  //.fb_fillrect = fb_fillrect,
+  //.fb_copyarea = fb_copyarea,
+  //.fb_imageblit = fb_imageblit,
   .fb_mmap = WS2812_map,
 };
 
-static int __init WS2812_init(void) {
-  //NOTE THIS ALL WILL BE MOVED TO SPI DRIVER INIT FUNCTION
+struct WS2812_module_fb_info* frame_buffer_init(void /* for now? */) {
+    //out of the tree module starting?
   struct fb_info *info;
   struct WS2812_module_fb_info *mod_info;
   int ret = -ENOMEM;
+  unsigned pixel_buffor_len;
 
   PRINT_LOG("Module Init call with params: \n\txPanelLen = %d \n\tyPanelLen = %d\
     \n\tcolorBits = %u \n\tgOffset = %u \n\trOffset = %u \n\tbOffset = %u \n",
@@ -78,15 +81,17 @@ static int __init WS2812_init(void) {
   }
   PRINT_LOG("framebuffer alloc'ed\n", NULL);
   //set the address of module assigned private data
-  mod_info = info->par;
+  mod_info = info->par; // all module info contained in fb private data
+  mod_info->info = info;
+
   // ALLOCATE PIXEL BUFFOR
-  unsigned pixel_buffor_len = xPanelLen*yPanelLen*(colorBits*3/8);
-  mod_info->fb_virt = vzalloc(pixel_buffor_len);
+  pixel_buffor_len = xPanelLen*yPanelLen*(colorBits*3/8);
+  mod_info->fb_virt = (u8*) vmalloc(pixel_buffor_len);
   if(!mod_info->fb_virt)  {
     PRINT_ERR_FA("fb_virt alloc failed with %u\n", (unsigned)(mod_info->fb_virt));
     goto err_fb_virt_alloc;
   }
-  PRINT_LOG("log1\n", NULL);
+  mod_info->fb_virt_size = pixel_buffor_len;
 
   // fill the info structure...
   info->screen_base = (char __iomem *)mod_info->fb_virt;
@@ -96,7 +101,7 @@ static int __init WS2812_init(void) {
   info->fix.smem_len = pixel_buffor_len;
   info->fix.smem_start = virt_to_phys(mod_info->fb_virt);
 
-  PRINT_LOG("fb_virt at %x, smem_start at: %x\n", mod_info->fb_virt, info->fix.smem_start);
+  PRINT_LOG("fb_virt at %p, smem_start at: %p\n", mod_info->fb_virt, info->fix.smem_start);
 
   info->var.xres = xPanelLen;
   info->var.yres = yPanelLen;
@@ -113,15 +118,13 @@ static int __init WS2812_init(void) {
   info->var.transp.offset = 0;
   info->var.activate = FB_ACTIVATE_NOW;
 
-  PRINT_LOG("log3\n", NULL);
   ret = register_framebuffer(info);
-  PRINT_LOG("log4\n", NULL);
   if(ret < 0){
     PRINT_ERR_FA("Framebuffer register failed!", NULL);
     goto err_fb_register;
   }
   printk("WS2812 has succesfully initialise module\n");
-  return 0;
+  return mod_info;
 
   err_fb_register:
   framebuffer_release(info);
@@ -131,36 +134,93 @@ static int __init WS2812_init(void) {
     vfree(mod_info->fb_virt);
 
   err_framebuffer_alloc:
-  printk("WS2812 module did not initialise\n");
-  return ret;
+  PRINT_ERR_FA("WS2812 module did not initialise\n", NULL);
+  module_errno = ret;
+  return NULL;
+}
+
+static int __init WS2812_init(void) {
+  module_info = frame_buffer_init();
+  if(!module_info)
+    return module_errno;
+  return 0;
 }
 
 static void __exit WS2812_uninit(void) {
+  if(module_info) {
+    unregister_framebuffer(module_info->info);
+    if(module_info->info->screen_base)
+      vfree(module_info->info->screen_base);
+    framebuffer_release(module_info->info);
+  } else {
+    PRINT_LOG("module_info is NULL. Module didn't initialise correctly?\n", NULL);
+  }
+
   printk("Goodbye from WS2812 module\n");
 }
 
 static int WS2812_map(struct fb_info* info, struct vm_area_struct* vma) {
-  unsigned long offset  = vma->vm_pgoff << PAGE_SHIFT;
-  unsigned long start   = (unsigned long)info->fix.smem_start;
-  if(offset >= PAGE_ALIGN((start & ~PAGE_MASK) + info->fix.smem_len)) {
-    PRINT_ERR("%s", "Tried to reach too far in memory");
-    return -EINVAL;
+  //TODO: test any vma->vm_ops for detecting any R/W operation?
+  //This is gonna be fun
+  struct WS2812_module_fb_info* priv = info->par;
+  size_t page_count = priv->fb_virt_size/PAGE_SIZE + 1, iterator=0, offset=0;
+  struct page** pages = kmalloc(page_count*(sizeof(struct page*)), GFP_KERNEL);
+  int ret = 0;
+
+  for(offset=0; offset < priv->fb_virt_size; offset += PAGE_SIZE) {
+    pages[iterator++] = vmalloc_to_page(priv->fb_virt + offset);
   }
-  return 0;
+
+  ret = vm_map_pages_zero(vma, pages, page_count);
+  if(ret) {
+    PRINT_ERR_FA("vm_map_pages_zero ret=%d, page_count=%u", ret, page_count);
+  }
+
+  kfree(pages);
+  return ret;
 }
 
-static void fb_fillrect(struct fb_info* info, const struct fb_fillrect* area) {
-  PRINT_LOG("fillrect Called\n", NULL);
-}
+// static void fb_fillrect(struct fb_info* info, const struct fb_fillrect* area) {
+//   PRINT_LOG("fillrect Called\n", NULL);
+// }
 
-static void fb_copyarea(struct fb_info* info, const struct fb_copyarea* area) {
-  PRINT_LOG("copyarea Called\n", NULL);
-}
+// static void fb_copyarea(struct fb_info* info, const struct fb_copyarea* area) {
+//   PRINT_LOG("copyarea Called\n", NULL);
+// }
 
-static void fb_imageblit(struct fb_info* info, const struct fb_image* area) {
-  //PRINT_LOG("imageblit Called\n", NULL);
-}
-
+// static void fb_imageblit(struct fb_info* info, const struct fb_image* area) {
+//   PRINT_LOG("imageblit Called\n", NULL);
+// }
 
 module_init(WS2812_init);
 module_exit(WS2812_uninit);
+
+// INTREE initialisation
+// Think about splitting those files...
+
+// static int WS2812_SPI_probe(struct platform_device *pdev) {
+//   struct spi_master *master;
+//   PRINT_LOG("\n\t\tWS2812_SPI_PROBE called with *pdev: %p\n\n", pdev);
+
+//   return 0;
+// }
+
+// static int WS2812_SPI_remove(struct platform_device *pdev) {
+//   return 0;
+// }
+
+// static const struct of_device_id WS2812_spi_of_match[] = {
+//   {.compatible = "WS2812_panel",},
+//   {}
+// };
+
+// static struct platform_driver WS2812_spi_driver = {
+//   .driver = {
+//     .name = "ws2812-spi",
+//     .of_match_table = WS2812_spi_of_match,
+//   },
+//   .probe = WS2812_SPI_probe,
+//   .remove = WS2812_SPI_remove,
+// };
+
+// module_platform_driver(WS2812_spi_driver);

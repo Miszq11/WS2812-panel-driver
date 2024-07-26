@@ -9,7 +9,12 @@ typedef struct WS2812_regs_t {
 } WS2812_regs;
 
 struct WS2812_module_fb_info {
+  // spi
+  // dma...
+  // workqueue...
   u8 *fb_virt;
+  size_t fb_virt_size;
+  struct fb_info* info;
   dma_addr_t fb_phys;
   struct device *dev;
 };
@@ -17,7 +22,7 @@ struct WS2812_module_fb_info {
 static const struct fb_fix_screeninfo WS_fb_fix = {
   .id         = "WS2812 Panel fb",
   .type       = FB_TYPE_PACKED_PIXELS, // ??
-  .visual     = FB_VISUAL_TRUECOLOR, // ??
+  .visual     = FB_VISUAL_PSEUDOCOLOR, // ??
   .xpanstep   = 0, // ??
   .ypanstep   = 0, // ??
   .ywrapstep  = 0, // ??
