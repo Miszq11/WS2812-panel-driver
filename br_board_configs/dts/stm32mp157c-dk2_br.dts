@@ -152,7 +152,7 @@ because spi4_pins_a doesnt align with hardware
 		pins {
 			pinmux = <STM32_PINMUX('E', 12, AF5)>, /* SPI4_SCK */
 				 <STM32_PINMUX('E', 14, AF5)>;  /* SPI4_MOSI ARD_D11 Connector*/
-			bias-disable;
+			bias-pull-down;
 			drive-push-pull;
 			slew-rate = <1>;
 		};
