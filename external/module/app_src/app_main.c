@@ -49,7 +49,7 @@ void animate_pixel(struct _fbg *fbg, struct _fbg_fbdev_context *fbdev_context, u
             fbg_clear(fbg, 0);
             fbg_pixel(fbg, x, y, r, g,b);
             fbg_flip(fbg);
-            usleep(500000);
+            usleep(50000);
     }
 }
 
@@ -102,7 +102,7 @@ int main(int argc, char* argv[]) {
     ioctl(fbdev_context->fd, WS_IO_PROCESS_AND_SEND, &dummy);
 
     fprintf(stdout, "Executing: \"animation\"\n");
-    animate_pixel(fbg, fbdev_context, 191, 0, 191);
+    animate_pixel(fbg, fbdev_context, 0, 191, 191);
     fprintf(stdout, "Executuing now: \"CLOSE\"\n");
     fbg_close(fbg);
 

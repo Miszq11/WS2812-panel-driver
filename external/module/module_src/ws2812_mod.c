@@ -30,7 +30,7 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Michal Smolinski");
 MODULE_DESCRIPTION("WS2812 stip driver (non-dts version) over SPI");
 
-#define WS2812_SPI_TRUE 0b11111000 /* check that!*/
+#define WS2812_SPI_TRUE 0b11111100 /* check that!*/
 #define WS2812_SPI_FALSE 0b11000000 /* check that as well!*/
 
 #define WS2812_SPI_BUS_NUM 0
@@ -42,7 +42,7 @@ MODULE_DESCRIPTION("WS2812 stip driver (non-dts version) over SPI");
 
 unsigned x_panel_len = 8;
 unsigned y_panel_len = 8;
-//unsigned short colors    = 3;
+//unsigned short colors    = 3; 
 unsigned short color_bits = 8;
 unsigned short g_offset = 0;
 unsigned short r_offset = 8;
