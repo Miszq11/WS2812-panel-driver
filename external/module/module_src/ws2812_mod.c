@@ -17,6 +17,7 @@
 #include "linux/moduleparam.h"
 #include "linux/platform_device.h"
 #include "linux/slab.h"
+#include "linux/spi/spi.h"
 #include "linux/stddef.h"
 #include "linux/types.h"
 #include "linux/vmalloc.h"
@@ -26,11 +27,14 @@
 #include "vdso/bits.h"
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("MS");
-MODULE_DESCRIPTION("WS2812 stip driver over SPI");
+MODULE_AUTHOR("Michal Smolinski");
+MODULE_DESCRIPTION("WS2812 stip driver (non-dts version) over SPI");
 
 #define WS2812_SPI_TRUE 0xF8 /* check that!*/
 #define WS2812_SPI_FALSE 0xE0 /* check that as well!*/
+
+#define WS2812_SPI_BUS_NUM 0
+#define WS2812_SPI_MAX_SPEED_HZ 10000000
 
 // MODULE PARAMETERS
 
@@ -61,8 +65,16 @@ int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg);
 
 static void WS2812_convert_work_fun(struct work_struct* work_str);
 int WS2812_work_init(struct WS2812_module_info* info);
-
+int WS2812_spi_init(struct WS2812_module_info* info);
 struct WS2812_module_info* frame_buffer_init(void);
+
+void WS2812_uninit_framebuffer(struct WS2812_module_info* info);
+void WS2812_uninit_work(struct WS2812_module_info* info);
+void WS2812_uninit_spi(struct WS2812_module_info* info);
+
+static void WS2712_spi_completion(void* arg);
+void WS2812_spi_setup_message(struct WS2812_module_info* info);
+void WS2812_spi_transfer_begin(struct WS2812_module_info* info);
 
 static const struct fb_ops WS2812_fb_ops = {
   .owner = THIS_MODULE,
@@ -153,8 +165,47 @@ struct WS2812_module_info* frame_buffer_init(void /* for now? */) {
   return NULL;
 }
 
-void WS2812_spi_init(struct WS2812_module_info* info) {
+int WS2812_spi_init(struct WS2812_module_info* info) {
+  //fill the info structure
+  // info->spi_device_info.modalias = "WS"
+  struct spi_board_info dummy_spi = {
+    .modalias = "WS2812_panel_simple",
+    .max_speed_hz = WS2812_SPI_MAX_SPEED_HZ,
+    .bus_num = WS2812_SPI_BUS_NUM,
+    .chip_select = 0,
+    .mode = 0,
+  };
+  int ret = 0;
 
+
+  info->WS2812_spi_master = spi_busnum_to_master(WS2812_SPI_BUS_NUM);
+  if(!info->WS2812_spi_master) {
+    PRINT_ERR_FA("Cannot get spi_master (no bus %d?)\n", WS2812_SPI_BUS_NUM);
+    return -ENODEV;
+  }
+
+  //spooky scary
+  memcpy(&(info->spi_device_info), &dummy_spi, sizeof(struct spi_board_info));
+
+  info->WS2812_spi_dev = spi_new_device(info->WS2812_spi_master, &(info->spi_device_info));
+  if(!info->WS2812_spi_dev) {
+    PRINT_ERR_FA("Cannot create spi_device\n", NULL);
+    return -ENODEV;
+  }
+  info->WS2812_spi_dev->bits_per_word = color_bits;
+
+  if((ret = spi_setup(info->WS2812_spi_dev))) {
+    PRINT_ERR_FA("Cannot setup spi device\n", NULL);
+    spi_unregister_device(info->WS2812_spi_dev);
+    module_errno = ret;
+    return ret;
+  }
+
+  // some driver specific data
+  info->spi_transfer_in_progress = false;
+  info->spi_transfer_continous = run_continously;
+
+  return 0;
 }
 
 int WS2812_work_init(struct WS2812_module_info* info) {
@@ -238,9 +289,6 @@ static void WS2812_convert_work_fun(struct work_struct* work_str) {
       }
     }
   }
-
-  PRINT_GOOD("JOB DONE :))))\n", NULL);
-
   // DEBUG PRINT (REMOVE later)
   // local_irq_save(flags);
   // for(y=0; y<3; y++){
@@ -252,11 +300,46 @@ static void WS2812_convert_work_fun(struct work_struct* work_str) {
   // local_irq_restore(flags);
   // printk("");
 
-  PRINT_GOOD("SPI WORK QUEUE TO BE DONE HERE...\n", NULL);
-
+  WS2812_spi_transfer_begin(priv);
 
   if(run_continously)
     queue_work(priv->convert_workqueue, &priv->WS2812_work);
+}
+
+void WS2812_spi_setup_message(struct WS2812_module_info* info) {
+  spi_message_init(&(info->WS2812_message));
+  info->WS2812_message.complete = WS2712_spi_completion;
+  info->WS2812_message.context = info;
+
+  info->WS2812_xfer.tx_buf = info->spi_buffer;
+  info->WS2812_xfer.rx_buf = NULL;
+  info->WS2812_xfer.speed_hz = 8000000;
+  info->WS2812_xfer.bits_per_word = info->WS2812_spi_dev->bits_per_word;
+  info->WS2812_xfer.len = info->spi_buffer_size;
+
+  spi_message_add_tail(&info->WS2812_xfer, &info->WS2812_message);
+}
+
+void WS2812_spi_transfer_begin(struct WS2812_module_info* info) {
+  //build message
+  if(info->spi_transfer_in_progress) {
+    PRINT_LOG("previous message still in progress! ABORTING\n", NULL);
+    return;
+  }
+
+  info->spi_transfer_in_progress = true;
+  if(spi_async(info->WS2812_spi_dev, &info->WS2812_message)) {
+    PRINT_ERR_FA("could not send spi message msg_ptr: 0x%px", &info->WS2812_message);
+    info->spi_transfer_in_progress = false;
+  }
+}
+
+static void WS2712_spi_completion(void* arg) {
+  struct WS2812_module_info *info = arg; // idk mby might be needed
+  PRINT_GOOD("SPI Transfer completed and was %s with status %d (xfered: %dBytes/ %d All Bytes)!\n",
+      (info->WS2812_message.status)?"\033[1;31mUNSUCCESFULL:\033[0m":"\033[1;32mSUCCESFULL:\033[0m",
+      info->WS2812_message.status, info->WS2812_message.frame_length, info->WS2812_message.actual_length);
+  info->spi_transfer_in_progress = false;
 }
 
 static int __init WS2812_init(void) {
@@ -265,17 +348,25 @@ static int __init WS2812_init(void) {
     return module_errno;
 
   if(WS2812_work_init(module_info)) {
-    return module_errno;
+    goto framebuffer_initialized;
   }
+
+  if(WS2812_spi_init(module_info)) {
+    goto work_initialized;
+  }
+
+  WS2812_spi_setup_message(module_info);
   printk("WS2812 has succesfully initialise module\n");
   return 0;
+
+  work_initialized:
+    WS2812_uninit_work(module_info);
+  framebuffer_initialized:
+    WS2812_uninit_framebuffer(module_info);
+  return module_errno;
 }
 
-static void __exit WS2812_uninit(void) {
-  if(!module_info) {
-    PRINT_LOG("module_info is NULL. Module didn't initialise correctly?\n", NULL);
-    return;
-  }
+void WS2812_uninit_framebuffer(struct WS2812_module_info* info) {
   unregister_framebuffer(module_info->info);
   if(module_info->fb_virt)
     vfree(module_info->fb_virt);
@@ -283,11 +374,27 @@ static void __exit WS2812_uninit(void) {
     vfree(module_info->work_buffer_input);
   if(module_info->spi_buffer)
     vfree(module_info->spi_buffer);
-
   framebuffer_release(module_info->info);
+}
 
+void WS2812_uninit_work(struct WS2812_module_info* info) {
   flush_workqueue(module_info->convert_workqueue);
   destroy_workqueue(module_info->convert_workqueue);
+}
+
+void WS2812_uninit_spi(struct WS2812_module_info* info) {
+  if(info->WS2812_spi_dev)
+    spi_unregister_device(info->WS2812_spi_dev);
+}
+
+static void __exit WS2812_uninit(void) {
+  if(!module_info) {
+    PRINT_LOG("module_info is NULL. Module didn't initialise correctly?\n", NULL);
+    return;
+  }
+  WS2812_uninit_spi(module_info);
+  WS2812_uninit_work(module_info);
+  WS2812_uninit_framebuffer(module_info);
 
   printk("Goodbye from WS2812 module\n");
 }

@@ -2,6 +2,7 @@
 #define WS2812_CONFIG_H
 
 #include "linux/fb.h"
+#include "linux/spi/spi.h"
 #include "linux/workqueue.h"
 #include <linux/types.h>
 
@@ -25,6 +26,15 @@ struct WS2812_module_info {
   struct fb_info* info;
   struct work_struct WS2812_work;
   struct workqueue_struct *convert_workqueue;
+  struct spi_master* WS2812_spi_master;
+  struct spi_device* WS2812_spi_dev;
+  struct spi_board_info spi_device_info;
+
+  struct spi_message WS2812_message;
+  struct spi_transfer WS2812_xfer;
+
+  bool spi_transfer_in_progress;
+  bool spi_transfer_continous;
   //struct device *dev;
 };
 
