@@ -30,14 +30,14 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Michal Smolinski");
 MODULE_DESCRIPTION("WS2812 stip driver (non-dts version) over SPI");
 
-#define WS2812_SPI_TRUE 0b11111100 /* check that!*/
-#define WS2812_SPI_FALSE 0b11000000 /* check that as well!*/
+#define WS2812_SPI_TRUE 0b11111000 /* check that!*/
+#define WS2812_SPI_FALSE 0b11100000 /* check that as well!*/
 
 #define WS2812_SPI_BUS_NUM 0
 #define WS2812_SPI_MAX_SPEED_HZ 10000000
 #define WS2812_SPI_TARGET_HZ 8000000
 #define WS2812_ZERO_PAADING_SIZE 50*WS2812_SPI_TARGET_HZ/8000000+10
-
+#define WS2812_ZERO_PADDING_SIZE_50us 50*WS2812_SPI_TARGET_HZ/8000000
 // MODULE PARAMETERS
 
 unsigned x_panel_len = 8;
@@ -220,7 +220,7 @@ int WS2812_work_init(struct WS2812_module_info* info) {
   }
 
   // initialise work output buffer;
-  info->spi_buffer_size = 8*info->fb_virt_size + WS2812_ZERO_PAADING_SIZE;
+  info->spi_buffer_size = 8*info->fb_virt_size + WS2812_ZERO_PADDING_SIZE_50us;
   if(!(info->spi_buffer = vmalloc(info->spi_buffer_size))) {
     PRINT_ERR_FA("vmalloc (spi_buffer) failed", NULL);
     ret = -ENOMEM;
@@ -273,7 +273,7 @@ static void WS2812_convert_work_fun(struct work_struct* work_str) {
       // I had overwhelming desire to do something stupid
       // ...
       // here I go :)
-      #define WS_SPI_IDX(x, y, color) 24*(x + y*priv->info->var.xres) + 8*color + WS2812_ZERO_PAADING_SIZE
+      #define WS_SPI_IDX(x, y, color) 24*(x + y*priv->info->var.xres) + 8*color + WS2812_ZERO_PADDING_SIZE_50us -1
       #define WS_WORK_IDX(x, y, color) 3*(x + y*priv->info->var.xres) + color
 
       #define WS_CHEAT(x, y, color, bit) priv->spi_buffer[ WS_SPI_IDX(x, y, color) + bit] = \
@@ -292,15 +292,15 @@ static void WS2812_convert_work_fun(struct work_struct* work_str) {
     }
   }
   // DEBUG PRINT (REMOVE later)
-  // local_irq_save(flags);
-  // for(y=0; y<3; y++){
-  //   for(x=0; x < 8; x++) {
-  //     printk(KERN_CONT "%u", (priv->spi_buffer[8*y+ x] == WS2812_SPI_TRUE)?1:0);
-  //   }
-  //   printk(KERN_CONT " ");
-  // }
-  // local_irq_restore(flags);
-  // printk("");
+   local_irq_save(flags);
+   for(y=0; y<3; y++){
+     for(x=0; x < 8; x++) {
+       printk(KERN_CONT "%u", (priv->spi_buffer[8*y+ x] == WS2812_SPI_TRUE)?1:0);
+     }
+     printk(KERN_CONT " ");
+   }
+   local_irq_restore(flags);
+   printk("");
 
   WS2812_spi_transfer_begin(priv);
 
