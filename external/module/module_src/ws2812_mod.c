@@ -30,11 +30,13 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Michal Smolinski");
 MODULE_DESCRIPTION("WS2812 stip driver (non-dts version) over SPI");
 
-#define WS2812_SPI_TRUE 0xF8 /* check that!*/
-#define WS2812_SPI_FALSE 0xE0 /* check that as well!*/
+#define WS2812_SPI_TRUE 0b11111000 /* check that!*/
+#define WS2812_SPI_FALSE 0b11000000 /* check that as well!*/
 
 #define WS2812_SPI_BUS_NUM 0
 #define WS2812_SPI_MAX_SPEED_HZ 10000000
+#define WS2812_SPI_TARGET_HZ 8000000
+#define WS2812_ZERO_PAADING_SIZE 50*WS2812_SPI_TARGET_HZ/8000000+10
 
 // MODULE PARAMETERS
 
@@ -186,7 +188,6 @@ int WS2812_spi_init(struct WS2812_module_info* info) {
 
   //spooky scary
   memcpy(&(info->spi_device_info), &dummy_spi, sizeof(struct spi_board_info));
-
   info->WS2812_spi_dev = spi_new_device(info->WS2812_spi_master, &(info->spi_device_info));
   if(!info->WS2812_spi_dev) {
     PRINT_ERR_FA("Cannot create spi_device\n", NULL);
@@ -219,12 +220,13 @@ int WS2812_work_init(struct WS2812_module_info* info) {
   }
 
   // initialise work output buffer;
-  info->spi_buffer_size = 8*info->fb_virt_size;
+  info->spi_buffer_size = 8*info->fb_virt_size + WS2812_ZERO_PAADING_SIZE;
   if(!(info->spi_buffer = vmalloc(info->spi_buffer_size))) {
     PRINT_ERR_FA("vmalloc (spi_buffer) failed", NULL);
     ret = -ENOMEM;
     goto vmalloc_err;
   }
+  memset(info->spi_buffer, 0, info->spi_buffer_size);
 
   // idk how to check if this fails
   INIT_WORK(&(info->WS2812_work), WS2812_convert_work_fun);
@@ -356,7 +358,7 @@ static int __init WS2812_init(void) {
   }
 
   WS2812_spi_setup_message(module_info);
-  printk("WS2812 has succesfully initialise module\n");
+  PRINT_LOG("WS2812 has succesfully initialise module\n", NULL);
   return 0;
 
   work_initialized:

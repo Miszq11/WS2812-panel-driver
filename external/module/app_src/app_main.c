@@ -38,6 +38,21 @@ void printHelp() {
     \n\tlist all framebuffers with: ls /dev/fb*\n");
 }
 
+void animate_pixel(struct _fbg *fbg, struct _fbg_fbdev_context *fbdev_context, unsigned char r, unsigned char g, unsigned char b) {
+    unsigned long dummy;
+
+    for(int y = 0; y< fbg->height; y++)
+        for(int x = 0; x < fbg->width; x++) {
+            fbg_draw(fbg);
+            ioctl(fbdev_context->fd, WS_IO_PROCESS_AND_SEND, &dummy);
+
+            fbg_clear(fbg, 0);
+            fbg_pixel(fbg, x, y, r, g,b);
+            fbg_flip(fbg);
+            usleep(500000);
+    }
+}
+
 int main(int argc, char* argv[]) {
     if(argc < 2) {
         printHelp();
@@ -86,6 +101,8 @@ int main(int argc, char* argv[]) {
     // force buffer to be send to spi
     ioctl(fbdev_context->fd, WS_IO_PROCESS_AND_SEND, &dummy);
 
+    fprintf(stdout, "Executing: \"animation\"\n");
+    animate_pixel(fbg, fbdev_context, 191, 0, 191);
     fprintf(stdout, "Executuing now: \"CLOSE\"\n");
     fbg_close(fbg);
 
