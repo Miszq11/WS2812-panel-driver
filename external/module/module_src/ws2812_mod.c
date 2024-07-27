@@ -42,7 +42,7 @@ MODULE_DESCRIPTION("WS2812 stip driver (non-dts version) over SPI");
 
 unsigned x_panel_len = 8;
 unsigned y_panel_len = 8;
-//unsigned short colors    = 3; 
+//unsigned short colors    = 3;
 unsigned short color_bits = 8;
 unsigned short g_offset = 0;
 unsigned short r_offset = 8;
