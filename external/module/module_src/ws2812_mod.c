@@ -273,7 +273,7 @@ static void WS2812_convert_work_fun(struct work_struct* work_str) {
       // I had overwhelming desire to do something stupid
       // ...
       // here I go :)
-      #define WS_SPI_IDX(x, y, color) 24*(x + y*priv->info->var.xres) + 8*color
+      #define WS_SPI_IDX(x, y, color) 24*(x + y*priv->info->var.xres) + 8*color + WS2812_ZERO_PAADING_SIZE
       #define WS_WORK_IDX(x, y, color) 3*(x + y*priv->info->var.xres) + color
 
       #define WS_CHEAT(x, y, color, bit) priv->spi_buffer[ WS_SPI_IDX(x, y, color) + bit] = \
