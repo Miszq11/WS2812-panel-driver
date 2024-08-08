@@ -1,0 +1,190 @@
+\hypertarget{struct__fbg}{}\doxysection{\+\_\+fbg Struct Reference}
+\label{struct__fbg}\index{\_fbg@{\_fbg}}
+
+
+FB Graphics context data structure.  
+
+
+
+
+{\ttfamily \#include $<$fbgraphics.\+h$>$}
+
+
+
+Collaboration diagram for \+\_\+fbg\+:
+% FIG 0
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{struct__fbg_a84fb220d4804cba22176997898e75b73}\label{struct__fbg_a84fb220d4804cba22176997898e75b73}} 
+int \mbox{\hyperlink{struct__fbg_a84fb220d4804cba22176997898e75b73}{size}}
+\begin{DoxyCompactList}\small\item\em Framebuffer real data length (with B\+PP) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_aa20614c94c7235bc5bc105b6e71e1be8}\label{struct__fbg_aa20614c94c7235bc5bc105b6e71e1be8}} 
+unsigned char $\ast$ \mbox{\hyperlink{struct__fbg_aa20614c94c7235bc5bc105b6e71e1be8}{disp\+\_\+buffer}}
+\begin{DoxyCompactList}\small\item\em Front / display buffer. \end{DoxyCompactList}\item 
+unsigned char $\ast$ \mbox{\hyperlink{struct__fbg_a907e7fc97965b972c17114c885e53735}{back\+\_\+buffer}}
+\begin{DoxyCompactList}\small\item\em Back buffer. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_a0463af9bf583afe770b822c1fbb9a24d}\label{struct__fbg_a0463af9bf583afe770b822c1fbb9a24d}} 
+unsigned char $\ast$ \mbox{\hyperlink{struct__fbg_a0463af9bf583afe770b822c1fbb9a24d}{temp\+\_\+buffer}}
+\begin{DoxyCompactList}\small\item\em Temporary buffer. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_ad7796d799a4ad67405101b8548d99ad8}\label{struct__fbg_ad7796d799a4ad67405101b8548d99ad8}} 
+int \mbox{\hyperlink{struct__fbg_ad7796d799a4ad67405101b8548d99ad8}{allow\+\_\+resizing}}
+\begin{DoxyCompactList}\small\item\em Wether to allow context resize. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_ac9a25b7b2700bee151d8f9dc3e586487}\label{struct__fbg_ac9a25b7b2700bee151d8f9dc3e586487}} 
+int \mbox{\hyperlink{struct__fbg_ac9a25b7b2700bee151d8f9dc3e586487}{initialize\+\_\+buffers}}
+\begin{DoxyCompactList}\small\item\em Wether to allow F\+BG to allocate its internal buffers. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct__fbg__rgb}{\+\_\+fbg\+\_\+rgb}} \mbox{\hyperlink{struct__fbg_ad3cac82bd9448a4020a4e08621f5269a}{fill\+\_\+color}}
+\begin{DoxyCompactList}\small\item\em Current fill color. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct__fbg__rgb}{\+\_\+fbg\+\_\+rgb}} \mbox{\hyperlink{struct__fbg_a4abb858439598b09790ec6d5d8326bb2}{text\+\_\+color}}
+\begin{DoxyCompactList}\small\item\em Current text color. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct__fbg__rgb}{\+\_\+fbg\+\_\+rgb}} \mbox{\hyperlink{struct__fbg_afd34a8de5a853e915bd101f11d44cf67}{text\+\_\+background}}
+\begin{DoxyCompactList}\small\item\em Current text background color (based on colorkey value) \end{DoxyCompactList}\item 
+unsigned char \mbox{\hyperlink{struct__fbg_a06e65293cf0b48e70d76d63f5de453e6}{text\+\_\+colorkey}}
+\begin{DoxyCompactList}\small\item\em Current text color key. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{struct__fbg_a870987786121c51135f20b630d731abd}{text\+\_\+alpha}}
+\begin{DoxyCompactList}\small\item\em Text background alpha value. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{struct__fbg__font}{\+\_\+fbg\+\_\+font}} \mbox{\hyperlink{struct__fbg_a72868d703236aaabb7a5031703a6bbd8}{current\+\_\+font}}
+\begin{DoxyCompactList}\small\item\em Current font. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_a1d3c76643e4ee424f4d17e27991d5e2e}\label{struct__fbg_a1d3c76643e4ee424f4d17e27991d5e2e}} 
+int \mbox{\hyperlink{struct__fbg_a1d3c76643e4ee424f4d17e27991d5e2e}{width}}
+\begin{DoxyCompactList}\small\item\em Display width in pixels. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_a3a3bd409e71d020fa77f69a541d832f8}\label{struct__fbg_a3a3bd409e71d020fa77f69a541d832f8}} 
+int \mbox{\hyperlink{struct__fbg_a3a3bd409e71d020fa77f69a541d832f8}{height}}
+\begin{DoxyCompactList}\small\item\em Display height in pixels. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_a1ab3f10e8c3483d7286db9850511d46d}\label{struct__fbg_a1ab3f10e8c3483d7286db9850511d46d}} 
+int \mbox{\hyperlink{struct__fbg_a1ab3f10e8c3483d7286db9850511d46d}{width\+\_\+n\+\_\+height}}
+\begin{DoxyCompactList}\small\item\em Display lenght in pixels (width $\ast$ height) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_a1db77a2ef506723a575644dbc1cfb747}\label{struct__fbg_a1db77a2ef506723a575644dbc1cfb747}} 
+int \mbox{\hyperlink{struct__fbg_a1db77a2ef506723a575644dbc1cfb747}{components}}
+\begin{DoxyCompactList}\small\item\em Display components amount (3 = 24 B\+PP / 4 = 32 B\+PP) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_a7c2e64d2f40575c8a989c759c30acb0e}\label{struct__fbg_a7c2e64d2f40575c8a989c759c30acb0e}} 
+int \mbox{\hyperlink{struct__fbg_a7c2e64d2f40575c8a989c759c30acb0e}{comp\+\_\+offset}}
+\begin{DoxyCompactList}\small\item\em Offset to add in case of 32 B\+PP. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_af8a1ee8d7004e6f2193f2a3ed98f8ce8}\label{struct__fbg_af8a1ee8d7004e6f2193f2a3ed98f8ce8}} 
+int \mbox{\hyperlink{struct__fbg_af8a1ee8d7004e6f2193f2a3ed98f8ce8}{line\+\_\+length}}
+\begin{DoxyCompactList}\small\item\em Internal buffers line length. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_a95859bd418a5cfff155cdb1421d295ef}\label{struct__fbg_a95859bd418a5cfff155cdb1421d295ef}} 
+int \mbox{\hyperlink{struct__fbg_a95859bd418a5cfff155cdb1421d295ef}{new\+\_\+width}}
+\begin{DoxyCompactList}\small\item\em Requested new display width (resize event) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_a509aa5f8f0a94d8313bb4da777aa64bc}\label{struct__fbg_a509aa5f8f0a94d8313bb4da777aa64bc}} 
+int \mbox{\hyperlink{struct__fbg_a509aa5f8f0a94d8313bb4da777aa64bc}{new\+\_\+height}}
+\begin{DoxyCompactList}\small\item\em Requested new display height (resize event) \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_a64b16363bc48d1e19141df2e242930a9}\label{struct__fbg_a64b16363bc48d1e19141df2e242930a9}} 
+int16\+\_\+t \mbox{\hyperlink{struct__fbg_a64b16363bc48d1e19141df2e242930a9}{fps}}
+\begin{DoxyCompactList}\small\item\em Current F\+PS. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_af447e6ed58d893989c8dad075807a79b}\label{struct__fbg_af447e6ed58d893989c8dad075807a79b}} 
+char \mbox{\hyperlink{struct__fbg_af447e6ed58d893989c8dad075807a79b}{fps\+\_\+char}} \mbox{[}10\mbox{]}
+\begin{DoxyCompactList}\small\item\em Current F\+PS as a string. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_a07d7bb827a7595c956fe22c2d65bba33}\label{struct__fbg_a07d7bb827a7595c956fe22c2d65bba33}} 
+struct timeval \mbox{\hyperlink{struct__fbg_a07d7bb827a7595c956fe22c2d65bba33}{fps\+\_\+start}}
+\begin{DoxyCompactList}\small\item\em First frame time for the current second. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_ade17a45bbc82bef326857c2837cdf66c}\label{struct__fbg_ade17a45bbc82bef326857c2837cdf66c}} 
+struct timeval \mbox{\hyperlink{struct__fbg_ade17a45bbc82bef326857c2837cdf66c}{fps\+\_\+stop}}
+\begin{DoxyCompactList}\small\item\em Last frame time for the current second. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_aa3ef83f919d12e680f8c64006b441454}\label{struct__fbg_aa3ef83f919d12e680f8c64006b441454}} 
+int \mbox{\hyperlink{struct__fbg_aa3ef83f919d12e680f8c64006b441454}{frame}}
+\begin{DoxyCompactList}\small\item\em Frame counter for the current second. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_a5844c5bf4789117cbc0c972ff160b338}\label{struct__fbg_a5844c5bf4789117cbc0c972ff160b338}} 
+int \mbox{\hyperlink{struct__fbg_a5844c5bf4789117cbc0c972ff160b338}{bgr}}
+\begin{DoxyCompactList}\small\item\em Flag indicating a B\+GR framebuffer. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_aef07a92ae059ea2a43653f4d0c5d928e}\label{struct__fbg_aef07a92ae059ea2a43653f4d0c5d928e}} 
+void($\ast$ \mbox{\hyperlink{struct__fbg_aef07a92ae059ea2a43653f4d0c5d928e}{backend\+\_\+resize}} )(struct \mbox{\hyperlink{struct__fbg}{\+\_\+fbg}} $\ast$fbg, unsigned int \mbox{\hyperlink{struct__fbg_a95859bd418a5cfff155cdb1421d295ef}{new\+\_\+width}}, unsigned int \mbox{\hyperlink{struct__fbg_a509aa5f8f0a94d8313bb4da777aa64bc}{new\+\_\+height}})
+\begin{DoxyCompactList}\small\item\em Backend resize function. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_a68add70dac4b055809c1bcab1e65b18d}\label{struct__fbg_a68add70dac4b055809c1bcab1e65b18d}} 
+void($\ast$ \mbox{\hyperlink{struct__fbg_a68add70dac4b055809c1bcab1e65b18d}{user\+\_\+resize}} )(struct \mbox{\hyperlink{struct__fbg}{\+\_\+fbg}} $\ast$fbg, unsigned int \mbox{\hyperlink{struct__fbg_a95859bd418a5cfff155cdb1421d295ef}{new\+\_\+width}}, unsigned int \mbox{\hyperlink{struct__fbg_a509aa5f8f0a94d8313bb4da777aa64bc}{new\+\_\+height}})
+\begin{DoxyCompactList}\small\item\em User-\/defined resize function. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_a3f2ad2eb06555cdbe2d18f541231cb37}\label{struct__fbg_a3f2ad2eb06555cdbe2d18f541231cb37}} 
+void($\ast$ \mbox{\hyperlink{struct__fbg_a3f2ad2eb06555cdbe2d18f541231cb37}{user\+\_\+flip}} )(struct \mbox{\hyperlink{struct__fbg}{\+\_\+fbg}} $\ast$fbg)
+\begin{DoxyCompactList}\small\item\em User-\/defined flip function. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_ac66a762877982c6f381a7cfd54a8f17e}\label{struct__fbg_ac66a762877982c6f381a7cfd54a8f17e}} 
+void($\ast$ \mbox{\hyperlink{struct__fbg_ac66a762877982c6f381a7cfd54a8f17e}{user\+\_\+draw}} )(struct \mbox{\hyperlink{struct__fbg}{\+\_\+fbg}} $\ast$fbg)
+\begin{DoxyCompactList}\small\item\em User-\/defined draw function. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_a88d48b502672cfb8bd2c94ea3feac8d0}\label{struct__fbg_a88d48b502672cfb8bd2c94ea3feac8d0}} 
+void($\ast$ \mbox{\hyperlink{struct__fbg_a88d48b502672cfb8bd2c94ea3feac8d0}{user\+\_\+free}} )(struct \mbox{\hyperlink{struct__fbg}{\+\_\+fbg}} $\ast$fbg)
+\begin{DoxyCompactList}\small\item\em User-\/defined free function. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{struct__fbg_ae3ecac18abee9dedabacaca9bb063bde}\label{struct__fbg_ae3ecac18abee9dedabacaca9bb063bde}} 
+void $\ast$ \mbox{\hyperlink{struct__fbg_ae3ecac18abee9dedabacaca9bb063bde}{user\+\_\+context}}
+\begin{DoxyCompactList}\small\item\em User-\/defined context structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+FB Graphics context data structure. 
+
+Hold all data related to a F\+BG context 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{struct__fbg_a907e7fc97965b972c17114c885e53735}\label{struct__fbg_a907e7fc97965b972c17114c885e53735}} 
+\index{\_fbg@{\_fbg}!back\_buffer@{back\_buffer}}
+\index{back\_buffer@{back\_buffer}!\_fbg@{\_fbg}}
+\doxysubsubsection{\texorpdfstring{back\_buffer}{back\_buffer}}
+{\footnotesize\ttfamily unsigned char$\ast$ \+\_\+fbg\+::back\+\_\+buffer}
+
+
+
+Back buffer. 
+
+All FB Graphics functions draw into this buffer. \mbox{\Hypertarget{struct__fbg_a72868d703236aaabb7a5031703a6bbd8}\label{struct__fbg_a72868d703236aaabb7a5031703a6bbd8}} 
+\index{\_fbg@{\_fbg}!current\_font@{current\_font}}
+\index{current\_font@{current\_font}!\_fbg@{\_fbg}}
+\doxysubsubsection{\texorpdfstring{current\_font}{current\_font}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{struct__fbg__font}{\+\_\+fbg\+\_\+font}} \+\_\+fbg\+::current\+\_\+font}
+
+
+
+Current font. 
+
+No fonts is loaded by default and the first loaded font will be assigned automatically as the current font. \mbox{\Hypertarget{struct__fbg_ad3cac82bd9448a4020a4e08621f5269a}\label{struct__fbg_ad3cac82bd9448a4020a4e08621f5269a}} 
+\index{\_fbg@{\_fbg}!fill\_color@{fill\_color}}
+\index{fill\_color@{fill\_color}!\_fbg@{\_fbg}}
+\doxysubsubsection{\texorpdfstring{fill\_color}{fill\_color}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{struct__fbg__rgb}{\+\_\+fbg\+\_\+rgb}} \+\_\+fbg\+::fill\+\_\+color}
+
+
+
+Current fill color. 
+
+Default to black. \mbox{\Hypertarget{struct__fbg_a870987786121c51135f20b630d731abd}\label{struct__fbg_a870987786121c51135f20b630d731abd}} 
+\index{\_fbg@{\_fbg}!text\_alpha@{text\_alpha}}
+\index{text\_alpha@{text\_alpha}!\_fbg@{\_fbg}}
+\doxysubsubsection{\texorpdfstring{text\_alpha}{text\_alpha}}
+{\footnotesize\ttfamily int \+\_\+fbg\+::text\+\_\+alpha}
+
+
+
+Text background alpha value. 
+
+Default to transparent. \mbox{\Hypertarget{struct__fbg_afd34a8de5a853e915bd101f11d44cf67}\label{struct__fbg_afd34a8de5a853e915bd101f11d44cf67}} 
+\index{\_fbg@{\_fbg}!text\_background@{text\_background}}
+\index{text\_background@{text\_background}!\_fbg@{\_fbg}}
+\doxysubsubsection{\texorpdfstring{text\_background}{text\_background}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{struct__fbg__rgb}{\+\_\+fbg\+\_\+rgb}} \+\_\+fbg\+::text\+\_\+background}
+
+
+
+Current text background color (based on colorkey value) 
+
+Default to black. \mbox{\Hypertarget{struct__fbg_a4abb858439598b09790ec6d5d8326bb2}\label{struct__fbg_a4abb858439598b09790ec6d5d8326bb2}} 
+\index{\_fbg@{\_fbg}!text\_color@{text\_color}}
+\index{text\_color@{text\_color}!\_fbg@{\_fbg}}
+\doxysubsubsection{\texorpdfstring{text\_color}{text\_color}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{struct__fbg__rgb}{\+\_\+fbg\+\_\+rgb}} \+\_\+fbg\+::text\+\_\+color}
+
+
+
+Current text color. 
+
+Default to white. \mbox{\Hypertarget{struct__fbg_a06e65293cf0b48e70d76d63f5de453e6}\label{struct__fbg_a06e65293cf0b48e70d76d63f5de453e6}} 
+\index{\_fbg@{\_fbg}!text\_colorkey@{text\_colorkey}}
+\index{text\_colorkey@{text\_colorkey}!\_fbg@{\_fbg}}
+\doxysubsubsection{\texorpdfstring{text\_colorkey}{text\_colorkey}}
+{\footnotesize\ttfamily unsigned char \+\_\+fbg\+::text\+\_\+colorkey}
+
+
+
+Current text color key. 
+
+Default to black. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/andrzej/\+Programowanie/\+S\+W\+I\+S/\+W\+S2812-\/panel-\/driver/external/module/app\+\_\+src/external/fbg/src/fbgraphics.\+h\end{DoxyCompactItemize}

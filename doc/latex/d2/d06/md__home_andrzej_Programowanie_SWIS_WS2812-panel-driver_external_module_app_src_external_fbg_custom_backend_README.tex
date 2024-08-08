@@ -1,0 +1,133 @@
+\hypertarget{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md0}{}\doxysection{Open\+G\+L E\+S 2.\+0}\label{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md0}
+F\+BG Open\+GL ES 2.\+0 rendering backend with GL utilities, similar to the G\+L\+FW backend.
+
+Support rendering through fbdev (tested on Nano PI Fire 3 board) and / or dispmanx on Raspberry PI.
+
+On Nano PI Fire 3 with fbdev we get 20 fps @ 720p without paralellism and 28 fps @ 720p with 7 threads (and the main thread doing nothing but S\+I\+MD buffers copy / blitting), compared to 24 fps @ 720p with paralellism but without Open\+GL ES 2, main bottleneck with Open\+GL ES 2 is due to C\+PU -\/$>$ G\+PU buffer transfer (through {\ttfamily gl\+Tex\+Sub\+Image2D}),\hypertarget{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md1}{}\doxysubsection{Compiling}\label{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md1}
+See examples {\ttfamily makefile} {\ttfamily rpies2} / {\ttfamily fbdeves2} rule to compile
+
+On Raspberry PI you must define {\ttfamily F\+B\+G\+\_\+\+R\+PI} when compiling, this will enable the use of dispmanx which has some advantages over fbdev.\hypertarget{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md2}{}\doxysubsection{Examples}\label{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md2}
+See {\ttfamily opengl\+\_\+es2\+\_\+example.\+c}
+
+See {\ttfamily opengl\+\_\+es2\+\_\+parallel.\+c}\hypertarget{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md3}{}\doxysection{dispmanx}\label{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md3}
+F\+BG dispmanx double buffering rendering backend, allow fast blitting of the software buffers by using Video Core IV G\+PU (as used in Raspberry PI)
+
+Note \+: All drawing is still done in software, dispmanx is just used for fast C\+PU -\/$>$ G\+PU buffer transfer aka blitting... the single core example run at full fps at 1920x1080.
+
+Good F\+BG Parallelism performances is tricky because F\+BG mix the fragments buffer on the main C\+PU and at 1080p with 3 threads there is alot of pixels to mix so you get 2 fps at 1080p... the parallel example use another approach by using dispmanx compositing and output at 8 fps at 1920x1080 (and 30 fps at 720p) with 3 threads by doing all the compositing with dispmanx layers, this has some disadvantages since you are more restricted in compositing operations.
+
+Another way to optimize this without doing dispmanx compositing is to simply integrate a simple S\+I\+MD / Neon library like \href{http://ermig1979.github.io/Simd/index.html}{\texttt{ this one}} and let it mix the buffers, i have achieved 15 fps @ 1080p (instead of 2 fps when doing the compositing on C\+PU without Neon!!!) for the parallel example (with L\+F\+DS and 12 fps without) by replacing the mixing function body by one line of code \+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{void} fbg\_mixing(\textcolor{keyword}{struct} \mbox{\hyperlink{struct__fbg}{\_fbg}} *fbg, \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{char} *buffer, \textcolor{keywordtype}{int} task\_id) \{}
+\DoxyCodeLine{    SimdOperationBinary8u(buffer, fbg-\/>\mbox{\hyperlink{struct__fbg_a1d3c76643e4ee424f4d17e27991d5e2e}{width}} * fbg-\/>\mbox{\hyperlink{struct__fbg_a1db77a2ef506723a575644dbc1cfb747}{components}}, fbg-\/>\mbox{\hyperlink{struct__fbg_a907e7fc97965b972c17114c885e53735}{back\_buffer}}, fbg-\/>\mbox{\hyperlink{struct__fbg_a1d3c76643e4ee424f4d17e27991d5e2e}{width}} * fbg-\/>\mbox{\hyperlink{struct__fbg_a1db77a2ef506723a575644dbc1cfb747}{components}}, fbg-\/>\mbox{\hyperlink{struct__fbg_a1d3c76643e4ee424f4d17e27991d5e2e}{width}}, fbg-\/>\mbox{\hyperlink{struct__fbg_a3a3bd409e71d020fa77f69a541d832f8}{height}}, fbg-\/>\mbox{\hyperlink{struct__fbg_a1db77a2ef506723a575644dbc1cfb747}{components}}, fbg-\/>\mbox{\hyperlink{struct__fbg_a907e7fc97965b972c17114c885e53735}{back\_buffer}}, fbg-\/>\mbox{\hyperlink{struct__fbg_a1d3c76643e4ee424f4d17e27991d5e2e}{width}} * fbg-\/>\mbox{\hyperlink{struct__fbg_a1db77a2ef506723a575644dbc1cfb747}{components}}, SimdOperationBinary8uSaturatedAddition);}
+\DoxyCodeLine{\}}
+\end{DoxyCode}
+
+
+Another way and probably the fastest way (with S\+I\+MD compositing) to do efficient paralellim is to use M\+M\+AL / Open\+Max so that F\+BG do zero copy transfer to G\+PU, you just have to define {\ttfamily F\+B\+G\+\_\+\+M\+M\+AL} when compiling, it only use dispmanx to get the display resolution, the only disadvantage of that method is that {\itshape screen tearing may happen because there is no true V\+S\+Y\+NC yet}.
+
+There is also a pure pthread parallelism example, see {\ttfamily dispmanx\+\_\+pure\+\_\+parallel.\+c}, each threads are tasked to push specific pixels, it doesn\textquotesingle{}t need to mix buffers, it only use a pthread barrier to keep everything in sync. It run at 20 fps @ 1080p doing a fullscreen color clear, 50 fps @ 1080p without barrier and 60 fps @ 720p. (720p is probably the best compromise resolution / efficiency on R\+PI)
+
+Note \+: Examples may have some room for more optimizations, especially in respect to R\+PI C\+PU caches.\hypertarget{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md4}{}\doxysubsection{Compiling}\label{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md4}
+See examples {\ttfamily makefile} {\ttfamily dispman} rule to compile\hypertarget{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md5}{}\doxysubsection{Examples}\label{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md5}
+See {\ttfamily dispmanx\+\_\+example.\+c}
+
+See {\ttfamily dispmanx\+\_\+pure\+\_\+parallel.\+c}
+
+See {\ttfamily dispmanx\+\_\+parallel.\+c}\hypertarget{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md6}{}\doxysection{G\+BA}\label{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md6}
+Very simple Game Boy Advance backend written as a proof of concept to target low memory hardware. It is slow due to 24/32 bpp -\/$>$ 16 bpp conversion upon fbg\+\_\+draw() calls.\hypertarget{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md7}{}\doxysubsection{Compiling}\label{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md7}
+There is no makefile provided to compile this example but this can be used as a base (devkitpro / devkitarm) \+: \href{https://github.com/JamieDStewart/GBA_VSCode_Basic}{\texttt{ G\+B\+A\+\_\+\+V\+S\+Code\+\_\+\+Basic}}
+
+Note \+: May need to define {\ttfamily -\/D\+W\+I\+T\+H\+O\+U\+T\+\_\+\+P\+NG -\/D\+W\+I\+T\+H\+O\+U\+T\+\_\+\+J\+P\+EG} when compiling, {\ttfamily -\/lm} should also be linked.\hypertarget{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md8}{}\doxysubsection{Examples}\label{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md8}
+see {\ttfamily gba\+\_\+example.\+c}\hypertarget{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md9}{}\doxysubsection{Documentation}\label{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md9}
+See the FB Graphics documentation.\hypertarget{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md10}{}\doxysection{G\+L\+FW}\label{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md10}
+F\+BG Open\+GL 3.\+x+ rendering backend with GL utilities, multi-\/platform, use the \href{https://www.glfw.org/}{\texttt{ G\+L\+FW}} and \href{http://glew.sourceforge.net/}{\texttt{ G\+L\+EW}} library.
+
+{\bfseries{How it work}} \+: An Open\+GL texture is updated in real-\/time with a FB Graphics context content, as such all FB Graphics draw calls work but are handled by the C\+PU and the resulting frame buffer is handled by the G\+PU, you are free to call any Open\+GL calls and mix software rendered graphics with accelerated graphics.
+
+It is also possible to modify the way the F\+BG display buffer is rendered through a shader, see the advanced example where the software rendered background is actually the F\+BG buffer with a fragment shader applied to it.
+
+{\ttfamily fbg\+\_\+glfw\+Setup} accept a \href{https://en.wikipedia.org/wiki/Supersampling}{\texttt{ S\+S\+AA}} parameter (last one) which will increase the FB Graphics context resolution by the specified factor (anti-\/aliasing amount) and downscale the context upon rendering, this is a cheap solution (albeit slow) to \href{https://en.wikipedia.org/wiki/Anti-aliasing}{\texttt{ anti-\/aliasing}} and removing jaggies. When using the S\+S\+AA parameter {\ttfamily fbg-\/$>$width} and {\ttfamily fbg-\/$>$height} refer to the internal upscaled F\+BG context, not the window size. To get the window size you must then use\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{struct }\mbox{\hyperlink{struct__fbg__glfw__context}{\_fbg\_glfw\_context}} *glfw\_context = fbg-\/>\mbox{\hyperlink{struct__fbg_ae3ecac18abee9dedabacaca9bb063bde}{user\_context}};}
+\DoxyCodeLine{\textcolor{comment}{// use glfw\_context-\/>width or glfw\_context-\/>height to get display size}}
+\end{DoxyCode}
+
+
+Note\+: The S\+S\+AA parameter only increase the F\+BG context resolution, as such the anti-\/aliasing will be applied on the F\+BG context, not the Open\+GL context.\hypertarget{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md11}{}\doxysubsection{Lua example}\label{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md11}
+The Lua example is an advanced sample which use the \href{https://www.lua.org/}{\texttt{ Lua}} scripting language (through \href{http://luajit.org/}{\texttt{ Lua\+J\+IT}}) to provide a sort of multithreaded Processing-\/like (much much less featured) environment with J\+IT to build FB Graphics graphical sketches from a Lua script without the need to compile any C code.
+
+This use 8 cores, all threads (F\+BG fragments) have their own Lua state and call the Lua draw() function at each frames.
+
+See {\ttfamily sketch.\+lua} and {\ttfamily glfw\+\_\+lua.\+c}
+
+It require the Lua\+J\+IT library.\hypertarget{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md12}{}\doxysubsection{Basic usage}\label{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md12}
+Just call {\ttfamily fbg\+\_\+glfw\+Setup} then any FB Graphics calls can be used.
+
+{\ttfamily fbg\+\_\+glfw\+Clear} can also be useful (a wrapper to gl\+Clear)
+
+{\ttfamily fbg\+\_\+glfw\+Should\+Close} can be used to know when the window is closed.\hypertarget{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md13}{}\doxysubsection{Advanced usage}\label{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md13}
+This backend has a lightweight Open\+GL library which ease some of the most cumbersome things when starting Open\+GL projects such as V\+B\+O/\+V\+A\+O/\+F\+BO creations, shaders loading (from files or strings), textures creation from F\+BG images, etc.
+
+It also has built-\/in Open\+GL debugging when {\ttfamily D\+E\+B\+UG} is defined.
+
+The {\ttfamily glfw\+\_\+example\+\_\+advanced.\+c} demonstrate nearly all features and mix 2D graphics (F\+BG) with 3D graphics.
+
+\hypertarget{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md14}{}\doxysubsection{Simple example}\label{md__home_andrzej_Programowanie_SWIS_WS2812-panel-driver_external_module_app_src_external_fbg_custom_backend_README_autotoc_md14}
+Draw a red rectangle (handled by C\+PU) bouncing off the screen borders, see {\ttfamily glfw\+\_\+example} and its {\ttfamily makefile}\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <sys/stat.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <signal.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <stdlib.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <math.h>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include "glfw/fbg\_glfw.h"}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int} keep\_running = 1;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{void} int\_handler(\textcolor{keywordtype}{int} dummy) \{}
+\DoxyCodeLine{    keep\_running = 0;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char}* argv[]) \{}
+\DoxyCodeLine{    \textcolor{keyword}{struct }\mbox{\hyperlink{struct__fbg}{\_fbg}} *fbg = fbg\_glfwSetup(800, 600, 3, \textcolor{stringliteral}{"glfw example"}, 0, 0);}
+\DoxyCodeLine{    \textcolor{keywordflow}{if} (fbg == NULL) \{}
+\DoxyCodeLine{        \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{    \textcolor{keywordtype}{float} x = 0, y = 0, velx = 3.4, vely = 3.425;}
+\DoxyCodeLine{}
+\DoxyCodeLine{    signal(SIGINT, int\_handler);}
+\DoxyCodeLine{}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{}
+\DoxyCodeLine{        fbg\_glfwClear();}
+\DoxyCodeLine{        }
+\DoxyCodeLine{        fbg\_clear(fbg, 0);}
+\DoxyCodeLine{}
+\DoxyCodeLine{        fbg\_rect(fbg, x, y, 40, 40, 255, 0, 0);}
+\DoxyCodeLine{}
+\DoxyCodeLine{        fbg\_draw(fbg);}
+\DoxyCodeLine{        fbg\_flip(fbg);}
+\DoxyCodeLine{}
+\DoxyCodeLine{        x += velx;}
+\DoxyCodeLine{        y += vely;}
+\DoxyCodeLine{}
+\DoxyCodeLine{        \textcolor{keywordflow}{if} (x <= 0 || x > fbg-\/>\mbox{\hyperlink{struct__fbg_a1d3c76643e4ee424f4d17e27991d5e2e}{width}} -\/ 40) \{}
+\DoxyCodeLine{            velx = -\/velx;}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{        \textcolor{keywordflow}{if} (y <= 0 || y > fbg-\/>\mbox{\hyperlink{struct__fbg_a3a3bd409e71d020fa77f69a541d832f8}{height}} -\/ 40) \{}
+\DoxyCodeLine{            vely = -\/vely;}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (keep\_running \&\& !fbg\_glfwShouldClose(fbg));}
+\DoxyCodeLine{}
+\DoxyCodeLine{    fbg\_close(fbg);}
+\DoxyCodeLine{\}}
+\end{DoxyCode}
+ 
