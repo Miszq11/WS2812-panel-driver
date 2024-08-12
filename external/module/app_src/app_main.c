@@ -16,6 +16,13 @@ void int_handler(int dummy) {
     keep_running = 0;
 }
 
+/**
+ * 
+ * @brief Function for printing buffered values
+ * 
+ * @param[in] fbg frame buffer structure, defined in external library 
+ */
+
 void printBuff(struct _fbg *fbg) {
     for(int y = 0; y < fbg->height; y++) {
         for(int x = 0; x < fbg->width; x++) {
@@ -28,6 +35,11 @@ void printBuff(struct _fbg *fbg) {
     }
 }
 
+/**
+ * @brief Function prints out app manual
+ * 
+ */
+
 void printHelp() {
     printf("Missing program argument! \
     \n\tThis app should be called with path to framebuffer\
@@ -37,6 +49,17 @@ void printHelp() {
     \n\tRun app (example): WS2812_app /dev/fb1\
     \n\tlist all framebuffers with: ls /dev/fb*\n");
 }
+
+/**
+ * @brief Displays simple animation. In this version the animation is a pixel moving through the LED panel.
+ * The r, g and b parameters are inverted to GRB
+ * 
+ * @param fbg frame buffer structure, defined in external library  
+ * @param fbdev_context fbdev wrapper data structure
+ * @param r green colour value for RGB space
+ * @param g red colour value for RGB space
+ * @param b blue colour value for RGB space
+ */
 
 void animate_pixel(struct _fbg *fbg, struct _fbg_fbdev_context *fbdev_context, unsigned char r, unsigned char g, unsigned char b) {
     unsigned long dummy;
@@ -52,6 +75,14 @@ void animate_pixel(struct _fbg *fbg, struct _fbg_fbdev_context *fbdev_context, u
             usleep(50000);
     }
 }
+
+/**
+ * @brief The main function. Tests the application and displays set of colours and animation on WS2812 LED panel.
+ * 
+ * @param argc Argument count
+ * @param argv Argument vector
+ * @return int 
+ */
 
 int main(int argc, char* argv[]) {
     if(argc < 2) {
