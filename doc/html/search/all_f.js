@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['resource_5ftype_105',['resource_type',['../df/d3c/struct__fbg__dispmanx__context.html#a88cb809e4e2653c6925824ebd5a66149',1,'_fbg_dispmanx_context']]]
+  ['x_5fpanel_5flen_88',['x_panel_len',['../d7/dae/ws2812__mod_8c.html#a87c008953bf79122f6eb53274f3ed4a5',1,'ws2812_mod.c']]]
 ];

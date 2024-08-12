@@ -1,13 +1,9 @@
 var searchData=
 [
-  ['line_5flength_81',['line_length',['../d5/d3d/struct__fbg.html#af8a1ee8d7004e6f2193f2a3ed98f8ce8',1,'_fbg']]],
-  ['lodepngcolormode_82',['LodePNGColorMode',['../d3/df7/structLodePNGColorMode.html',1,'']]],
-  ['lodepngcolorprofile_83',['LodePNGColorProfile',['../d9/d97/structLodePNGColorProfile.html',1,'']]],
-  ['lodepngcompresssettings_84',['LodePNGCompressSettings',['../d7/df2/structLodePNGCompressSettings.html',1,'']]],
-  ['lodepngdecodersettings_85',['LodePNGDecoderSettings',['../d6/dd8/structLodePNGDecoderSettings.html',1,'']]],
-  ['lodepngdecompresssettings_86',['LodePNGDecompressSettings',['../d0/d79/structLodePNGDecompressSettings.html',1,'']]],
-  ['lodepngencodersettings_87',['LodePNGEncoderSettings',['../dc/d15/structLodePNGEncoderSettings.html',1,'']]],
-  ['lodepnginfo_88',['LodePNGInfo',['../d0/dd6/structLodePNGInfo.html',1,'']]],
-  ['lodepngstate_89',['LodePNGState',['../d1/d02/structLodePNGState.html',1,'']]],
-  ['lodepngtime_90',['LodePNGTime',['../d9/da9/structLodePNGTime.html',1,'']]]
+  ['print_5ferr_32',['PRINT_ERR',['../d3/d51/debug__ctrl_8h.html#ab855ec3e51f03a9b2640cc523b00ecb7',1,'debug_ctrl.h']]],
+  ['print_5ferr_5ffa_33',['PRINT_ERR_FA',['../d3/d51/debug__ctrl_8h.html#afe07b2362ec57f49018003349c398f56',1,'debug_ctrl.h']]],
+  ['print_5fgood_34',['PRINT_GOOD',['../d3/d51/debug__ctrl_8h.html#a9af734ec295439584de4dfe1fbb4d999',1,'debug_ctrl.h']]],
+  ['print_5flog_35',['PRINT_LOG',['../d3/d51/debug__ctrl_8h.html#a6d5fc64279e8203c73b748965a3d26b5',1,'debug_ctrl.h']]],
+  ['printbuff_36',['printBuff',['../db/d57/app__main_8c.html#ac7f212d587a0fb776c8afa5e0a933bf7',1,'app_main.c']]],
+  ['printhelp_37',['printHelp',['../db/d57/app__main_8c.html#a0d20b69b0ad703df78459e1033d5c1d4',1,'app_main.c']]]
 ];

@@ -70,17 +70,17 @@ $(function() {
 <div class="title">debug_ctrl.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef WS2812_DEBUG_CTRL_H</span></div>
+<a href="../../d3/d51/debug__ctrl_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef WS2812_DEBUG_CTRL_H</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define WS2812_DEBUG_CTRL_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;linux/printk.h&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#define WS2812_DEBUG</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="../../d3/d51/debug__ctrl_8h.html#ac69f81138b033eab0dfd3ce0b77273ea">    5</a></span>&#160;<span class="preprocessor">#define WS2812_DEBUG</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">  #ifdef WS2812_DEBUG</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">    #define PRINT_LOG(frmt, ...) printk(&quot;[LOG_WS2812]: &quot; frmt, __VA_ARGS__)</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">    #define PRINT_ERR(frmt, ...) printk(&quot;\033[1;31m[ERR_WS2812]:\033[0m &quot; frmt, __VA_ARGS__)</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">    #define PRINT_ERR_FA(frmt, ...) printk(&quot;\033[1;31m[CRITICAL ERR_WS2812]:\033[0m &quot; frmt, __VA_ARGS__)</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">    #define PRINT_GOOD(frmt, ...) printk(&quot;\033[1;32m[INFO GOOD_WS2812]:\033[0m &quot; frmt, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="../../d3/d51/debug__ctrl_8h.html#a6d5fc64279e8203c73b748965a3d26b5">    8</a></span>&#160;<span class="preprocessor">    #define PRINT_LOG(frmt, ...) printk(&quot;[LOG_WS2812]: &quot; frmt, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="../../d3/d51/debug__ctrl_8h.html#ab855ec3e51f03a9b2640cc523b00ecb7">    9</a></span>&#160;<span class="preprocessor">    #define PRINT_ERR(frmt, ...) printk(&quot;\033[1;31m[ERR_WS2812]:\033[0m &quot; frmt, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="../../d3/d51/debug__ctrl_8h.html#afe07b2362ec57f49018003349c398f56">   10</a></span>&#160;<span class="preprocessor">    #define PRINT_ERR_FA(frmt, ...) printk(&quot;\033[1;31m[CRITICAL ERR_WS2812]:\033[0m &quot; frmt, __VA_ARGS__)</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="../../d3/d51/debug__ctrl_8h.html#a9af734ec295439584de4dfe1fbb4d999">   11</a></span>&#160;<span class="preprocessor">    #define PRINT_GOOD(frmt, ...) printk(&quot;\033[1;32m[INFO GOOD_WS2812]:\033[0m &quot; frmt, __VA_ARGS__)</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">  #endif</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">  #ifndef WS2812_DEBUG</span></div>

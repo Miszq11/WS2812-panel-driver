@@ -1,0 +1,81 @@
+\hypertarget{ws2812__spi_8c}{}\doxysection{/home/andrzej/\+Programowanie/\+S\+W\+I\+S/\+W\+S2812-\/panel-\/driver/external/module/module\+\_\+src/ws2812\+\_\+spi.c File Reference}
+\label{ws2812__spi_8c}\index{/home/andrzej/Programowanie/SWIS/WS2812-\/panel-\/driver/external/module/module\_src/ws2812\_spi.c@{/home/andrzej/Programowanie/SWIS/WS2812-\/panel-\/driver/external/module/module\_src/ws2812\_spi.c}}
+{\ttfamily \#include $<$linux/printk.\+h$>$}\newline
+{\ttfamily \#include $<$linux/module.\+h$>$}\newline
+{\ttfamily \#include $<$linux/fb.\+h$>$}\newline
+{\ttfamily \#include $<$linux/export.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}ws2812.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}asm-\/generic/errno-\/base.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}asm/memory.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}asm/page.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}asm/string.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}linux/gfp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}linux/irqflags.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}linux/kern\+\_\+levels.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}linux/kernel.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}linux/mm.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}linux/moduleparam.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}linux/platform\+\_\+device.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}linux/slab.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}linux/spi/spi.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}linux/stddef.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}linux/types.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}linux/vmalloc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}linux/workqueue.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}module\+\_\+config.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}debug\+\_\+ctrl.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}vdso/bits.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{ws2812__spi_8c_ad94b36675e7eb067ea3ce6ff9e244a44}{M\+O\+D\+U\+L\+E\+\_\+\+L\+I\+C\+E\+N\+SE}} (\char`\"{}G\+PL\char`\"{})
+\item 
+\mbox{\hyperlink{ws2812__spi_8c_a1e65263bc6e7393a94abf1c519c5feb3}{M\+O\+D\+U\+L\+E\+\_\+\+A\+U\+T\+H\+OR}} (\char`\"{}Przemyslaw Zeranski\char`\"{})
+\item 
+\mbox{\hyperlink{ws2812__spi_8c_a131697bad03946993d1eee21e9f673ad}{M\+O\+D\+U\+L\+E\+\_\+\+D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}} (\char`\"{}W\+S2812 stip driver (dts version) over S\+P\+I. Based on non-\/dts version.\char`\"{})
+\item 
+\mbox{\hyperlink{ws2812__spi_8c_a73707fa719be56e1e4d2ca94ff7fee51}{M\+O\+D\+U\+L\+E\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+T\+A\+B\+LE}} (of, W\+S2812\+\_\+dt\+\_\+match\+\_\+id)
+\item 
+\mbox{\hyperlink{ws2812__spi_8c_afc0cea3b1842f07c9238b883f5053762}{M\+O\+D\+U\+L\+E\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+T\+A\+B\+LE}} (spi, W\+S2812\+\_\+dt\+\_\+spi\+\_\+id)
+\item 
+\mbox{\hyperlink{ws2812__spi_8c_a57cd0264eab8046c2422c533eda3d84f}{module\+\_\+spi\+\_\+driver}} (W\+S2812\+\_\+spi\+\_\+driver)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{ws2812__spi_8c_a1e65263bc6e7393a94abf1c519c5feb3}\label{ws2812__spi_8c_a1e65263bc6e7393a94abf1c519c5feb3}} 
+\index{ws2812\_spi.c@{ws2812\_spi.c}!MODULE\_AUTHOR@{MODULE\_AUTHOR}}
+\index{MODULE\_AUTHOR@{MODULE\_AUTHOR}!ws2812\_spi.c@{ws2812\_spi.c}}
+\doxysubsubsection{\texorpdfstring{MODULE\_AUTHOR()}{MODULE\_AUTHOR()}}
+{\footnotesize\ttfamily M\+O\+D\+U\+L\+E\+\_\+\+A\+U\+T\+H\+OR (\begin{DoxyParamCaption}\item[{\char`\"{}Przemyslaw Zeranski\char`\"{}}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{ws2812__spi_8c_a131697bad03946993d1eee21e9f673ad}\label{ws2812__spi_8c_a131697bad03946993d1eee21e9f673ad}} 
+\index{ws2812\_spi.c@{ws2812\_spi.c}!MODULE\_DESCRIPTION@{MODULE\_DESCRIPTION}}
+\index{MODULE\_DESCRIPTION@{MODULE\_DESCRIPTION}!ws2812\_spi.c@{ws2812\_spi.c}}
+\doxysubsubsection{\texorpdfstring{MODULE\_DESCRIPTION()}{MODULE\_DESCRIPTION()}}
+{\footnotesize\ttfamily M\+O\+D\+U\+L\+E\+\_\+\+D\+E\+S\+C\+R\+I\+P\+T\+I\+ON (\begin{DoxyParamCaption}\item[{\char`\"{}W\+S2812 stip driver (dts version) over S\+P\+I. Based on non-\/dts version.\char`\"{}}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{ws2812__spi_8c_a73707fa719be56e1e4d2ca94ff7fee51}\label{ws2812__spi_8c_a73707fa719be56e1e4d2ca94ff7fee51}} 
+\index{ws2812\_spi.c@{ws2812\_spi.c}!MODULE\_DEVICE\_TABLE@{MODULE\_DEVICE\_TABLE}}
+\index{MODULE\_DEVICE\_TABLE@{MODULE\_DEVICE\_TABLE}!ws2812\_spi.c@{ws2812\_spi.c}}
+\doxysubsubsection{\texorpdfstring{MODULE\_DEVICE\_TABLE()}{MODULE\_DEVICE\_TABLE()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily M\+O\+D\+U\+L\+E\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+T\+A\+B\+LE (\begin{DoxyParamCaption}\item[{of}]{,  }\item[{W\+S2812\+\_\+dt\+\_\+match\+\_\+id}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{ws2812__spi_8c_afc0cea3b1842f07c9238b883f5053762}\label{ws2812__spi_8c_afc0cea3b1842f07c9238b883f5053762}} 
+\index{ws2812\_spi.c@{ws2812\_spi.c}!MODULE\_DEVICE\_TABLE@{MODULE\_DEVICE\_TABLE}}
+\index{MODULE\_DEVICE\_TABLE@{MODULE\_DEVICE\_TABLE}!ws2812\_spi.c@{ws2812\_spi.c}}
+\doxysubsubsection{\texorpdfstring{MODULE\_DEVICE\_TABLE()}{MODULE\_DEVICE\_TABLE()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily M\+O\+D\+U\+L\+E\+\_\+\+D\+E\+V\+I\+C\+E\+\_\+\+T\+A\+B\+LE (\begin{DoxyParamCaption}\item[{spi}]{,  }\item[{W\+S2812\+\_\+dt\+\_\+spi\+\_\+id}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{ws2812__spi_8c_ad94b36675e7eb067ea3ce6ff9e244a44}\label{ws2812__spi_8c_ad94b36675e7eb067ea3ce6ff9e244a44}} 
+\index{ws2812\_spi.c@{ws2812\_spi.c}!MODULE\_LICENSE@{MODULE\_LICENSE}}
+\index{MODULE\_LICENSE@{MODULE\_LICENSE}!ws2812\_spi.c@{ws2812\_spi.c}}
+\doxysubsubsection{\texorpdfstring{MODULE\_LICENSE()}{MODULE\_LICENSE()}}
+{\footnotesize\ttfamily M\+O\+D\+U\+L\+E\+\_\+\+L\+I\+C\+E\+N\+SE (\begin{DoxyParamCaption}\item[{\char`\"{}G\+PL\char`\"{}}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{ws2812__spi_8c_a57cd0264eab8046c2422c533eda3d84f}\label{ws2812__spi_8c_a57cd0264eab8046c2422c533eda3d84f}} 
+\index{ws2812\_spi.c@{ws2812\_spi.c}!module\_spi\_driver@{module\_spi\_driver}}
+\index{module\_spi\_driver@{module\_spi\_driver}!ws2812\_spi.c@{ws2812\_spi.c}}
+\doxysubsubsection{\texorpdfstring{module\_spi\_driver()}{module\_spi\_driver()}}
+{\footnotesize\ttfamily module\+\_\+spi\+\_\+driver (\begin{DoxyParamCaption}\item[{W\+S2812\+\_\+spi\+\_\+driver}]{ }\end{DoxyParamCaption})}
+

@@ -1,0 +1,114 @@
+\hypertarget{SPI__mod_8c}{}\doxysection{/home/andrzej/\+Programowanie/\+S\+W\+I\+S/\+W\+S2812-\/panel-\/driver/external/module/module\+\_\+src/\+S\+P\+I\+\_\+mod.c File Reference}
+\label{SPI__mod_8c}\index{/home/andrzej/Programowanie/SWIS/WS2812-\/panel-\/driver/external/module/module\_src/SPI\_mod.c@{/home/andrzej/Programowanie/SWIS/WS2812-\/panel-\/driver/external/module/module\_src/SPI\_mod.c}}
+{\ttfamily \#include \char`\"{}S\+P\+I\+\_\+mod\+\_\+lib.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}def\+\_\+msg.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{SPI__mod_8c_a34f4204503af5451792c9e139f655abe}{M\+Y\+\_\+\+B\+U\+S\+\_\+\+N\+UM}}~0
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{SPI__mod_8c_ad94b36675e7eb067ea3ce6ff9e244a44}{M\+O\+D\+U\+L\+E\+\_\+\+L\+I\+C\+E\+N\+SE}} (\char`\"{}G\+PL\char`\"{})
+\item 
+\mbox{\hyperlink{SPI__mod_8c_a6b6bbdc577529247938377bd3379c859}{M\+O\+D\+U\+L\+E\+\_\+\+A\+U\+T\+H\+OR}} (\char`\"{}PZ\char`\"{})
+\item 
+\mbox{\hyperlink{SPI__mod_8c_a07dc6bb60151f57fce87e1ed3c4d3f8d}{M\+O\+D\+U\+L\+E\+\_\+\+D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}} (\char`\"{}S\+PI translator\char`\"{})
+\item 
+void \mbox{\hyperlink{SPI__mod_8c_ac89aadeed83d36a3aa2648b05b978394}{dma\+\_\+transfer\+\_\+completed}} (void $\ast$param)
+\item 
+int \mbox{\hyperlink{SPI__mod_8c_ad133a4c86b4bc5ced1f4a4f38ec8e156}{W\+S2812\+\_\+write}} (u8 $\ast$data, size\+\_\+t len)
+\item 
+int \mbox{\hyperlink{SPI__mod_8c_ad98d2d1cd45da88abd1428ee99ddbc6a}{W\+S2812\+\_\+write\+\_\+\+D\+MA}} (u8 $\ast$data, dma\+\_\+addr\+\_\+t tx\+\_\+dma\+\_\+addr, uint16\+\_\+t dma\+\_\+len)
+\item 
+\mbox{\hyperlink{SPI__mod_8c_abc26546db50b83c14dc737b0d9075d66}{module\+\_\+init}} (Module\+Init)
+\item 
+\mbox{\hyperlink{SPI__mod_8c_a0a26c88755d5440a863bfea4099a395e}{module\+\_\+exit}} (Module\+Exit)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct spi\+\_\+board\+\_\+info \mbox{\hyperlink{SPI__mod_8c_a4b10ffb6f8c627777b235e9404636e31}{W\+S2812\+\_\+board\+\_\+info}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{SPI__mod_8c_a34f4204503af5451792c9e139f655abe}\label{SPI__mod_8c_a34f4204503af5451792c9e139f655abe}} 
+\index{SPI\_mod.c@{SPI\_mod.c}!MY\_BUS\_NUM@{MY\_BUS\_NUM}}
+\index{MY\_BUS\_NUM@{MY\_BUS\_NUM}!SPI\_mod.c@{SPI\_mod.c}}
+\doxysubsubsection{\texorpdfstring{MY\_BUS\_NUM}{MY\_BUS\_NUM}}
+{\footnotesize\ttfamily \#define M\+Y\+\_\+\+B\+U\+S\+\_\+\+N\+UM~0}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{SPI__mod_8c_ac89aadeed83d36a3aa2648b05b978394}\label{SPI__mod_8c_ac89aadeed83d36a3aa2648b05b978394}} 
+\index{SPI\_mod.c@{SPI\_mod.c}!dma\_transfer\_completed@{dma\_transfer\_completed}}
+\index{dma\_transfer\_completed@{dma\_transfer\_completed}!SPI\_mod.c@{SPI\_mod.c}}
+\doxysubsubsection{\texorpdfstring{dma\_transfer\_completed()}{dma\_transfer\_completed()}}
+{\footnotesize\ttfamily void dma\+\_\+transfer\+\_\+completed (\begin{DoxyParamCaption}\item[{void $\ast$}]{param }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{SPI__mod_8c_a6b6bbdc577529247938377bd3379c859}\label{SPI__mod_8c_a6b6bbdc577529247938377bd3379c859}} 
+\index{SPI\_mod.c@{SPI\_mod.c}!MODULE\_AUTHOR@{MODULE\_AUTHOR}}
+\index{MODULE\_AUTHOR@{MODULE\_AUTHOR}!SPI\_mod.c@{SPI\_mod.c}}
+\doxysubsubsection{\texorpdfstring{MODULE\_AUTHOR()}{MODULE\_AUTHOR()}}
+{\footnotesize\ttfamily M\+O\+D\+U\+L\+E\+\_\+\+A\+U\+T\+H\+OR (\begin{DoxyParamCaption}\item[{\char`\"{}PZ\char`\"{}}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{SPI__mod_8c_a07dc6bb60151f57fce87e1ed3c4d3f8d}\label{SPI__mod_8c_a07dc6bb60151f57fce87e1ed3c4d3f8d}} 
+\index{SPI\_mod.c@{SPI\_mod.c}!MODULE\_DESCRIPTION@{MODULE\_DESCRIPTION}}
+\index{MODULE\_DESCRIPTION@{MODULE\_DESCRIPTION}!SPI\_mod.c@{SPI\_mod.c}}
+\doxysubsubsection{\texorpdfstring{MODULE\_DESCRIPTION()}{MODULE\_DESCRIPTION()}}
+{\footnotesize\ttfamily M\+O\+D\+U\+L\+E\+\_\+\+D\+E\+S\+C\+R\+I\+P\+T\+I\+ON (\begin{DoxyParamCaption}\item[{\char`\"{}S\+PI translator\char`\"{}}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{SPI__mod_8c_a0a26c88755d5440a863bfea4099a395e}\label{SPI__mod_8c_a0a26c88755d5440a863bfea4099a395e}} 
+\index{SPI\_mod.c@{SPI\_mod.c}!module\_exit@{module\_exit}}
+\index{module\_exit@{module\_exit}!SPI\_mod.c@{SPI\_mod.c}}
+\doxysubsubsection{\texorpdfstring{module\_exit()}{module\_exit()}}
+{\footnotesize\ttfamily module\+\_\+exit (\begin{DoxyParamCaption}\item[{Module\+Exit}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{SPI__mod_8c_abc26546db50b83c14dc737b0d9075d66}\label{SPI__mod_8c_abc26546db50b83c14dc737b0d9075d66}} 
+\index{SPI\_mod.c@{SPI\_mod.c}!module\_init@{module\_init}}
+\index{module\_init@{module\_init}!SPI\_mod.c@{SPI\_mod.c}}
+\doxysubsubsection{\texorpdfstring{module\_init()}{module\_init()}}
+{\footnotesize\ttfamily module\+\_\+init (\begin{DoxyParamCaption}\item[{Module\+Init}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{SPI__mod_8c_ad94b36675e7eb067ea3ce6ff9e244a44}\label{SPI__mod_8c_ad94b36675e7eb067ea3ce6ff9e244a44}} 
+\index{SPI\_mod.c@{SPI\_mod.c}!MODULE\_LICENSE@{MODULE\_LICENSE}}
+\index{MODULE\_LICENSE@{MODULE\_LICENSE}!SPI\_mod.c@{SPI\_mod.c}}
+\doxysubsubsection{\texorpdfstring{MODULE\_LICENSE()}{MODULE\_LICENSE()}}
+{\footnotesize\ttfamily M\+O\+D\+U\+L\+E\+\_\+\+L\+I\+C\+E\+N\+SE (\begin{DoxyParamCaption}\item[{\char`\"{}G\+PL\char`\"{}}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{SPI__mod_8c_ad133a4c86b4bc5ced1f4a4f38ec8e156}\label{SPI__mod_8c_ad133a4c86b4bc5ced1f4a4f38ec8e156}} 
+\index{SPI\_mod.c@{SPI\_mod.c}!WS2812\_write@{WS2812\_write}}
+\index{WS2812\_write@{WS2812\_write}!SPI\_mod.c@{SPI\_mod.c}}
+\doxysubsubsection{\texorpdfstring{WS2812\_write()}{WS2812\_write()}}
+{\footnotesize\ttfamily int W\+S2812\+\_\+write (\begin{DoxyParamCaption}\item[{u8 $\ast$}]{data,  }\item[{size\+\_\+t}]{len }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{SPI__mod_8c_ad98d2d1cd45da88abd1428ee99ddbc6a}\label{SPI__mod_8c_ad98d2d1cd45da88abd1428ee99ddbc6a}} 
+\index{SPI\_mod.c@{SPI\_mod.c}!WS2812\_write\_DMA@{WS2812\_write\_DMA}}
+\index{WS2812\_write\_DMA@{WS2812\_write\_DMA}!SPI\_mod.c@{SPI\_mod.c}}
+\doxysubsubsection{\texorpdfstring{WS2812\_write\_DMA()}{WS2812\_write\_DMA()}}
+{\footnotesize\ttfamily int W\+S2812\+\_\+write\+\_\+\+D\+MA (\begin{DoxyParamCaption}\item[{u8 $\ast$}]{data,  }\item[{dma\+\_\+addr\+\_\+t}]{tx\+\_\+dma\+\_\+addr,  }\item[{uint16\+\_\+t}]{dma\+\_\+len }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{SPI__mod_8c_a4b10ffb6f8c627777b235e9404636e31}\label{SPI__mod_8c_a4b10ffb6f8c627777b235e9404636e31}} 
+\index{SPI\_mod.c@{SPI\_mod.c}!WS2812\_board\_info@{WS2812\_board\_info}}
+\index{WS2812\_board\_info@{WS2812\_board\_info}!SPI\_mod.c@{SPI\_mod.c}}
+\doxysubsubsection{\texorpdfstring{WS2812\_board\_info}{WS2812\_board\_info}}
+{\footnotesize\ttfamily struct spi\+\_\+board\+\_\+info W\+S2812\+\_\+board\+\_\+info}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= }
+\DoxyCodeLine{\{}
+\DoxyCodeLine{  .modalias     = \textcolor{stringliteral}{"WS2812-\/board"},}
+\DoxyCodeLine{  .max\_speed\_hz = 10000000,              }
+\DoxyCodeLine{  .bus\_num      = \mbox{\hyperlink{SPI__mod_8c_a34f4204503af5451792c9e139f655abe}{MY\_BUS\_NUM}},          }
+\DoxyCodeLine{  .chip\_select  = 0,                    }
+\DoxyCodeLine{  .mode         = SPI\_MODE\_0            }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

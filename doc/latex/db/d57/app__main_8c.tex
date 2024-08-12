@@ -1,0 +1,142 @@
+\hypertarget{app__main_8c}{}\doxysection{/home/andrzej/\+Programowanie/\+S\+W\+I\+S/\+W\+S2812-\/panel-\/driver/external/module/app\+\_\+src/app\+\_\+main.c File Reference}
+\label{app__main_8c}\index{/home/andrzej/Programowanie/SWIS/WS2812-\/panel-\/driver/external/module/app\_src/app\_main.c@{/home/andrzej/Programowanie/SWIS/WS2812-\/panel-\/driver/external/module/app\_src/app\_main.c}}
+
+
+Function for printing buffered values.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$sys/ioctl.\+h$>$}\newline
+{\ttfamily \#include $<$sys/stat.\+h$>$}\newline
+{\ttfamily \#include $<$signal.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}fbgraphics.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}fbg\+\_\+fbdev.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{app__main_8c_a4429a657e1a4cf746b5948da6944d69d}{W\+S\+\_\+\+I\+O\+\_\+\+D\+U\+M\+MY}}~\+\_\+\+IO(\textquotesingle{}x\textquotesingle{}, 1)
+\item 
+\#define \mbox{\hyperlink{app__main_8c_a7db90648edded61aae225dfa48652ce8}{W\+S\+\_\+\+I\+O\+\_\+\+P\+R\+O\+C\+E\+S\+S\+\_\+\+A\+N\+D\+\_\+\+S\+E\+ND}}~\+\_\+\+IO(\textquotesingle{}x\textquotesingle{}, 2)
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{app__main_8c_a9e1874568e9a77889a1bf51abbaaa5b0}{int\+\_\+handler}} (int dummy)
+\item 
+void \mbox{\hyperlink{app__main_8c_ac7f212d587a0fb776c8afa5e0a933bf7}{print\+Buff}} (struct \+\_\+fbg $\ast$fbg)
+\item 
+void \mbox{\hyperlink{app__main_8c_a0d20b69b0ad703df78459e1033d5c1d4}{print\+Help}} ()
+\begin{DoxyCompactList}\small\item\em Function prints out app manual. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{app__main_8c_a68b20996d2152584356b2bd8ec729079}{animate\+\_\+pixel}} (struct \+\_\+fbg $\ast$fbg, struct \+\_\+fbg\+\_\+fbdev\+\_\+context $\ast$fbdev\+\_\+context, unsigned char r, unsigned char g, unsigned char b)
+\begin{DoxyCompactList}\small\item\em Displays simple animation. In this version the animation is a pixel moving through the L\+ED panel. The r, g and b parameters are inverted to G\+RB. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{app__main_8c_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em The main function. Tests the application and displays set of colours and animation on W\+S2812 L\+ED panel. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{app__main_8c_adab48fd845b19d6ca0b8a07b95bdbc62}{keep\+\_\+running}} = 1
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Function for printing buffered values. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em fbg} & frame buffer structure, defined in external library \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{app__main_8c_a4429a657e1a4cf746b5948da6944d69d}\label{app__main_8c_a4429a657e1a4cf746b5948da6944d69d}} 
+\index{app\_main.c@{app\_main.c}!WS\_IO\_DUMMY@{WS\_IO\_DUMMY}}
+\index{WS\_IO\_DUMMY@{WS\_IO\_DUMMY}!app\_main.c@{app\_main.c}}
+\doxysubsubsection{\texorpdfstring{WS\_IO\_DUMMY}{WS\_IO\_DUMMY}}
+{\footnotesize\ttfamily \#define W\+S\+\_\+\+I\+O\+\_\+\+D\+U\+M\+MY~\+\_\+\+IO(\textquotesingle{}x\textquotesingle{}, 1)}
+
+\mbox{\Hypertarget{app__main_8c_a7db90648edded61aae225dfa48652ce8}\label{app__main_8c_a7db90648edded61aae225dfa48652ce8}} 
+\index{app\_main.c@{app\_main.c}!WS\_IO\_PROCESS\_AND\_SEND@{WS\_IO\_PROCESS\_AND\_SEND}}
+\index{WS\_IO\_PROCESS\_AND\_SEND@{WS\_IO\_PROCESS\_AND\_SEND}!app\_main.c@{app\_main.c}}
+\doxysubsubsection{\texorpdfstring{WS\_IO\_PROCESS\_AND\_SEND}{WS\_IO\_PROCESS\_AND\_SEND}}
+{\footnotesize\ttfamily \#define W\+S\+\_\+\+I\+O\+\_\+\+P\+R\+O\+C\+E\+S\+S\+\_\+\+A\+N\+D\+\_\+\+S\+E\+ND~\+\_\+\+IO(\textquotesingle{}x\textquotesingle{}, 2)}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{app__main_8c_a68b20996d2152584356b2bd8ec729079}\label{app__main_8c_a68b20996d2152584356b2bd8ec729079}} 
+\index{app\_main.c@{app\_main.c}!animate\_pixel@{animate\_pixel}}
+\index{animate\_pixel@{animate\_pixel}!app\_main.c@{app\_main.c}}
+\doxysubsubsection{\texorpdfstring{animate\_pixel()}{animate\_pixel()}}
+{\footnotesize\ttfamily void animate\+\_\+pixel (\begin{DoxyParamCaption}\item[{struct \+\_\+fbg $\ast$}]{fbg,  }\item[{struct \+\_\+fbg\+\_\+fbdev\+\_\+context $\ast$}]{fbdev\+\_\+context,  }\item[{unsigned char}]{r,  }\item[{unsigned char}]{g,  }\item[{unsigned char}]{b }\end{DoxyParamCaption})}
+
+
+
+Displays simple animation. In this version the animation is a pixel moving through the L\+ED panel. The r, g and b parameters are inverted to G\+RB. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fbg} & frame buffer structure, defined in external library ~\newline
+ \\
+\hline
+{\em fbdev\+\_\+context} & fbdev wrapper data structure \\
+\hline
+{\em r} & green colour value for R\+GB space \\
+\hline
+{\em g} & red colour value for R\+GB space \\
+\hline
+{\em b} & blue colour value for R\+GB space \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{app__main_8c_a9e1874568e9a77889a1bf51abbaaa5b0}\label{app__main_8c_a9e1874568e9a77889a1bf51abbaaa5b0}} 
+\index{app\_main.c@{app\_main.c}!int\_handler@{int\_handler}}
+\index{int\_handler@{int\_handler}!app\_main.c@{app\_main.c}}
+\doxysubsubsection{\texorpdfstring{int\_handler()}{int\_handler()}}
+{\footnotesize\ttfamily void int\+\_\+handler (\begin{DoxyParamCaption}\item[{int}]{dummy }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{app__main_8c_a0ddf1224851353fc92bfbff6f499fa97}\label{app__main_8c_a0ddf1224851353fc92bfbff6f499fa97}} 
+\index{app\_main.c@{app\_main.c}!main@{main}}
+\index{main@{main}!app\_main.c@{app\_main.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+The main function. Tests the application and displays set of colours and animation on W\+S2812 L\+ED panel. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & Argument count \\
+\hline
+{\em argv} & Argument vector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
+\mbox{\Hypertarget{app__main_8c_ac7f212d587a0fb776c8afa5e0a933bf7}\label{app__main_8c_ac7f212d587a0fb776c8afa5e0a933bf7}} 
+\index{app\_main.c@{app\_main.c}!printBuff@{printBuff}}
+\index{printBuff@{printBuff}!app\_main.c@{app\_main.c}}
+\doxysubsubsection{\texorpdfstring{printBuff()}{printBuff()}}
+{\footnotesize\ttfamily void print\+Buff (\begin{DoxyParamCaption}\item[{struct \+\_\+fbg $\ast$}]{fbg }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{app__main_8c_a0d20b69b0ad703df78459e1033d5c1d4}\label{app__main_8c_a0d20b69b0ad703df78459e1033d5c1d4}} 
+\index{app\_main.c@{app\_main.c}!printHelp@{printHelp}}
+\index{printHelp@{printHelp}!app\_main.c@{app\_main.c}}
+\doxysubsubsection{\texorpdfstring{printHelp()}{printHelp()}}
+{\footnotesize\ttfamily void print\+Help (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Function prints out app manual. 
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{app__main_8c_adab48fd845b19d6ca0b8a07b95bdbc62}\label{app__main_8c_adab48fd845b19d6ca0b8a07b95bdbc62}} 
+\index{app\_main.c@{app\_main.c}!keep\_running@{keep\_running}}
+\index{keep\_running@{keep\_running}!app\_main.c@{app\_main.c}}
+\doxysubsubsection{\texorpdfstring{keep\_running}{keep\_running}}
+{\footnotesize\ttfamily int keep\+\_\+running = 1}
+

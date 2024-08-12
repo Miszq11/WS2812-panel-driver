@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['illum_5fmode_227',['illum_mode',['../dd/dfc/structcwobj__mat.html#a7b5aab82686b59c72f858419965c001e',1,'cwobj_mat']]],
-  ['indice_228',['indice',['../df/d1c/structcwobj__geo.html#af7d996f0d50859fdd029cf1e722abe2c',1,'cwobj_geo']]],
-  ['indice_5fn_229',['indice_n',['../df/d1c/structcwobj__geo.html#a60f196a74b9b5c7296c6649d991086d4',1,'cwobj_geo']]],
-  ['initialize_5fbuffers_230',['initialize_buffers',['../d5/d3d/struct__fbg.html#ac9a25b7b2700bee151d8f9dc3e586487',1,'_fbg']]],
-  ['ior_231',['ior',['../dd/dfc/structcwobj__mat.html#aebe4f5745d4c13c58ae528907e9f9975',1,'cwobj_mat']]]
+  ['spi_5fbuffer_146',['spi_buffer',['../da/d27/structWS2812__module__info.html#a853f5a21b62dc41a9e1b442479409d53',1,'WS2812_module_info']]],
+  ['spi_5fbuffer_5fsize_147',['spi_buffer_size',['../da/d27/structWS2812__module__info.html#aab6fda70a14b9dc37f9669ba114b1299',1,'WS2812_module_info']]],
+  ['spi_5fdev_148',['spi_dev',['../d6/d0b/structws2812__spi__mod__priv.html#ab5f3e58ab20a884f9a85f94fdbfb727a',1,'ws2812_spi_mod_priv']]],
+  ['spi_5fdevice_5finfo_149',['spi_device_info',['../da/d27/structWS2812__module__info.html#affc5884edeed5ecaa73fad3aae54c055',1,'WS2812_module_info']]],
+  ['spi_5ftransfer_5fcontinous_150',['spi_transfer_continous',['../da/d27/structWS2812__module__info.html#a8926b136dfe8270d3421122bd47d2bd1',1,'WS2812_module_info']]],
+  ['spi_5ftransfer_5fin_5fprogress_151',['spi_transfer_in_progress',['../da/d27/structWS2812__module__info.html#aaac15ff41ad24079e1aa33930ddaa166',1,'WS2812_module_info']]]
 ];
