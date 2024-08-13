@@ -38,11 +38,10 @@ MODULE_DESCRIPTION("WS2812 stip driver (dts version) over SPI. Based on non-dts 
  * @param dev pointer to a device struct 
  * @return int 
  */
-
-
+/*
 int WS2812_probe(struct device *dev){
 
 return 0;
-}
-EXPORT_SYMBOL_GPL(WS2812_probe);
+}*/
+//EXPORT_SYMBOL_GPL(WS2812_probe);
 

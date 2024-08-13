@@ -38,7 +38,7 @@ struct ws2812_spi_mod_priv{
     // name, speed, reg???
 };
 
-int WS2812_probe(struct device *dev);
+//int WS2812_probe(struct device *dev);
 
 
 #endif 
