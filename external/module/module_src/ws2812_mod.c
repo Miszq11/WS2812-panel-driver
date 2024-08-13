@@ -68,7 +68,7 @@ int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg);
 static void WS2812_convert_work_fun(struct work_struct* work_str);
 int WS2812_work_init(struct WS2812_module_info* info);
 int WS2812_spi_init(struct WS2812_module_info* info);
-struct WS2812_module_info* frame_buffer_init(void);
+struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info);
 
 void WS2812_uninit_framebuffer(struct WS2812_module_info* info);
 void WS2812_uninit_work(struct WS2812_module_info* info);
@@ -93,10 +93,10 @@ static const struct fb_ops WS2812_fb_ops = {
   .fb_ioctl = WS_fb_ioctl,
 };
 
-struct WS2812_module_info* frame_buffer_init(void /* for now? */) {
-    //out of the tree module starting?
+struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info) {
+  //out of the tree module starting?
   struct fb_info *info;
-  struct WS2812_module_info *mod_info;
+  //struct WS2812_module_info *mod_info;
   int ret = -ENOMEM;
   unsigned pixel_buffor_len;
 
@@ -104,14 +104,15 @@ struct WS2812_module_info* frame_buffer_init(void /* for now? */) {
     \n\tcolor_bits = %u \n\tg_offset = %u \n\tr_offset = %u \n\tb_offset = %u \n",
     x_panel_len, y_panel_len, /*colors,*/ color_bits, g_offset, r_offset, b_offset);
 
-  if(!(info = framebuffer_alloc(sizeof(struct WS2812_module_info), NULL))) {
+  if(!(info = framebuffer_alloc(sizeof(struct WS2812_module_info*), NULL))) {
     PRINT_ERR_FA("frame buffer allocation failed! (private data struc size %u)\n", sizeof(struct WS2812_module_info));
     goto err_framebuffer_alloc;
   }
+
   PRINT_LOG("framebuffer alloc'ed\n", NULL);
   //set the address of module assigned private data
-  mod_info = info->par; // all module info contained in fb private data
   mod_info->info = info;
+  info->par = mod_info;
 
   // ALLOCATE PIXEL BUFFOR
   pixel_buffor_len = x_panel_len*y_panel_len*(color_bits*3/8);
@@ -345,7 +346,9 @@ static void WS2712_spi_completion(void* arg) {
 }
 
 static int __init WS2812_init(void) {
-  module_info = frame_buffer_init();
+  module_info = vmalloc(sizeof(struct WS2812_module_info));
+
+  frame_buffer_init(module_info);
   if(!module_info)
     return module_errno;
 
