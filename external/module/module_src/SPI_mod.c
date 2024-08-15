@@ -1,4 +1,15 @@
-#include "SPI_mod_lib.h"
+#include <linux/module.h>
+#include <linux/init.h>
+#include <linux/spi/spi.h>
+#include <linux/delay.h>
+#include <linux/ioctl.h>
+#include <linux/spi/spidev.h>
+#include <linux/errno.h>
+#include <linux/completion.h>
+#include <linux/slab.h>
+#include <linux/dmaengine.h>
+#include <linux/dma-mapping.h>
+
 #include "def_msg.h"
 
 
@@ -10,16 +21,16 @@ MODULE_DESCRIPTION("SPI translator");
 #define MY_BUS_NUM 0
 static struct spi_device *WS2812_panel;
 
-struct spi_board_info WS2812_board_info = 
+struct spi_board_info WS2812_board_info =
 {
   .modalias     = "WS2812-board",
-  .max_speed_hz = 10000000,              
-  .bus_num      = MY_BUS_NUM,          
-  .chip_select  = 0,                    
-  .mode         = SPI_MODE_0            
+  .max_speed_hz = 10000000,
+  .bus_num      = MY_BUS_NUM,
+  .chip_select  = 0,
+  .mode         = SPI_MODE_0
 };
 
-void dma_transfer_completed(void *param) 
+void dma_transfer_completed(void *param)
 {
 	struct completion *cmp = (struct completion *) param;
 	complete(cmp);
@@ -30,7 +41,7 @@ int WS2812_write(u8 *data, size_t len){
 	int ret_val = -1;
 
 	if(WS2812_panel){
-    struct spi_transfer  tr = 
+    struct spi_transfer  tr =
     {
       .tx_buf  = data,
       .rx_buf = NULL,
@@ -55,7 +66,7 @@ int WS2812_write_DMA(u8 *data, dma_addr_t tx_dma_addr, uint16_t dma_len){
 	int ret_val = -1;
 
 	if(WS2812_panel){
-    struct spi_transfer  tr = 
+    struct spi_transfer  tr =
     {
       .tx_dma  = tx_dma_addr,
 	  .tx_buf = data,
@@ -94,8 +105,8 @@ static int __init ModuleInit(void) {
 	int ret_val = 0;
 	u8 test[] = {0x10,0x10};
 	struct spi_master *master;
-	
-		//Parameters for SPI device 
+
+		//Parameters for SPI device
 	struct spi_board_info spi_device_info = {
 		.modalias = "WS2812_panel",
 		.max_speed_hz = 10000000,
@@ -104,9 +115,9 @@ static int __init ModuleInit(void) {
 		.mode = 0,
 	};
 
-	//struct spi_message WS2812_message = {	
+	//struct spi_message WS2812_message = {
 	//};
-	
+
 		printk("my_dma_memcpy - Init\n");
 
 	dma_cap_zero(mask);
@@ -127,17 +138,17 @@ static int __init ModuleInit(void) {
 
 
 
-	// Get access to spi bus 
+	// Get access to spi bus
 	master = spi_busnum_to_master(MY_BUS_NUM);
 	master -> max_transfer_size = NULL;
 	//master -> spi_message = *WS2812_message;
-	// Check if we could get the master 
+	// Check if we could get the master
 	if(!master) {
 		printk("There is no spi bus with Nr. %d\n", MY_BUS_NUM);
 		return -1;
 	}
 
-	// Create new SPI device 
+	// Create new SPI device
 	WS2812_panel = spi_new_device(master, &spi_device_info);
 	if(!WS2812_panel) {
 		printk("Could not create device!\n");
@@ -146,7 +157,7 @@ static int __init ModuleInit(void) {
 
 	WS2812_panel -> bits_per_word = 8;
 
-	//Setup the bus for device's parameters 
+	//Setup the bus for device's parameters
 	if(spi_setup(WS2812_panel) != 0){
 		printk("Could not change bus setup!\n");
 		spi_unregister_device(WS2812_panel);
@@ -186,7 +197,7 @@ static int __init ModuleInit(void) {
 
 	free:
 	dma_free_coherent(chan->device->dev, dma_len, src_buf, src_addr);
-	
+
 
 	dma_release_channel(chan);
 	return 0;
@@ -197,7 +208,7 @@ static int __init ModuleInit(void) {
 static void __exit ModuleExit(void) {
 	if(WS2812_panel)
 		spi_unregister_device(WS2812_panel);
-		
+
 	printk("Goodbye, Kernel\n");
 }
 

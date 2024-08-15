@@ -4,8 +4,6 @@
 #include <linux/export.h>
 
 // CLEAN HEADERS BELOW!
-#include "asm-generic/errno-base.h"
-#include "asm/memory.h"
 #include "asm/page.h"
 #include "asm/string.h"
 #include "linux/fb.h"
@@ -15,7 +13,6 @@
 #include "linux/kernel.h"
 #include "linux/mm.h"
 #include "linux/moduleparam.h"
-#include "linux/platform_device.h"
 #include "linux/slab.h"
 #include "linux/spi/spi.h"
 #include "linux/stddef.h"
