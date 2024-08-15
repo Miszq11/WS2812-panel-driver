@@ -4,30 +4,12 @@
 #include <linux/export.h>
 
 #include "ws2812.h"
-#include "SPI_mod_lib.h"
 #include "def_msg.h"
-// CLEAN HEADERS BELOW!
-#include "asm-generic/errno-base.h"
-#include "asm/memory.h"
-#include "asm/page.h"
-#include "asm/string.h"
+
 #include "linux/fb.h"
 #include "linux/gfp.h"
-#include "linux/irqflags.h"
-#include "linux/kern_levels.h"
-#include "linux/kernel.h"
-#include "linux/mm.h"
-#include "linux/moduleparam.h"
-#include "linux/platform_device.h"
-#include "linux/slab.h"
 #include "linux/spi/spi.h"
-#include "linux/stddef.h"
-#include "linux/types.h"
-#include "linux/vmalloc.h"
-#include "linux/workqueue.h"
-#include "module_config.h"
-#include "debug_ctrl.h"
-#include "vdso/bits.h"
+
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Przemyslaw Zeranski");
@@ -47,13 +29,13 @@ struct spi_board_info spi_device_info = {
 
 static struct spi_device *WS2812_panel;
 
-struct spi_board_info WS2812_board_info = 
+struct spi_board_info WS2812_board_info =
 {
   .modalias     = "WS2812-board",
-  .max_speed_hz = 10000000,              
-  .bus_num      = MY_BUS_NUM,          
-  .chip_select  = 0,                    
-  .mode         = SPI_MODE_0            
+  .max_speed_hz = 10000000,
+  .bus_num      = MY_BUS_NUM,
+  .chip_select  = 0,
+  .mode         = SPI_MODE_0
 };
 
 
@@ -84,11 +66,11 @@ MODULE_DEVICE_TABLE(spi, WS2812_dt_spi_id);
 static int WS2812_spi_probe(struct spi_device *spi){
   printk("Starting probe function\n");
   int ret = 0;
-  
+
   struct device *dev;
   struct fb_ops *fb_dev;
   struct ws2812_spi_mod_priv *ws2812_spi_mod;
-	
+
 
   fb_dev = devm_kzalloc(&spi->dev, sizeof(*fb_dev),GFP_KERNEL);
   if(!fb_dev)
@@ -114,8 +96,8 @@ static int WS2812_spi_probe(struct spi_device *spi){
     return -1;
   }
 
-printk("Sending short default message with size: %d\n",sizeof(short_msg));
-	if(spi_write(WS2812_panel, short_msg, sizeof(short_msg)/sizeof(u8))==0){
+printk("Sending short default message with size: %d\n",sizeof(def_msg));
+	if(spi_write(spi, def_msg, sizeof(def_msg)/sizeof(u8))==0){
 		printk("Def short msg sent, sucess!\n");
 	}else{
 		printk("FAIL!\n");
