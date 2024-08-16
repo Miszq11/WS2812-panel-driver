@@ -51,4 +51,20 @@ static const struct fb_fix_screeninfo WS_fb_fix = {
 };
 
 
+int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg);
+
+
+int WS2812_work_init(struct WS2812_module_info* info);
+int WS2812_spi_init(struct WS2812_module_info* info);
+struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info);
+
+void WS2812_uninit_framebuffer(struct WS2812_module_info* info);
+void WS2812_uninit_work(struct WS2812_module_info* info);
+void WS2812_uninit_spi(struct WS2812_module_info* info);
+
+
+void WS2812_spi_setup_message(struct WS2812_module_info* info);
+void WS2812_spi_transfer_begin(struct WS2812_module_info* info);
+
+
 #endif //WS2812_CONFIG_H

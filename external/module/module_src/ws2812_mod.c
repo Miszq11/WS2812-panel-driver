@@ -60,20 +60,15 @@ static int WS2812_init(void);
 static void WS2812_uninit(void);
 
 static int WS2812_map(struct fb_info* info, struct vm_area_struct* vma);
-int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg);
 
 static void WS2812_convert_work_fun(struct work_struct* work_str);
-int WS2812_work_init(struct WS2812_module_info* info);
-int WS2812_spi_init(struct WS2812_module_info* info);
-struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info);
-
-void WS2812_uninit_framebuffer(struct WS2812_module_info* info);
-void WS2812_uninit_work(struct WS2812_module_info* info);
-void WS2812_uninit_spi(struct WS2812_module_info* info);
 
 static void WS2712_spi_completion(void* arg);
-void WS2812_spi_setup_message(struct WS2812_module_info* info);
-void WS2812_spi_transfer_begin(struct WS2812_module_info* info);
+
+/**
+ * @brief Framebuffer structure
+ *
+ */
 
 static const struct fb_ops WS2812_fb_ops = {
   .owner = THIS_MODULE,
@@ -89,6 +84,13 @@ static const struct fb_ops WS2812_fb_ops = {
   // should we use that to update display?
   .fb_ioctl = WS_fb_ioctl,
 };
+
+/**
+ * @brief frame buffer initialization function, returns NULL on success
+ *
+ * @param mod_info module info struct
+ * @return struct WS2812_module_info* returns NULL on success
+ */
 
 struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info) {
   //out of the tree module starting?
@@ -165,6 +167,13 @@ struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info
   return NULL;
 }
 
+/**
+ * @brief SPI initalization function
+ *
+ * @param info Module info struct
+ * @return int Returns 0 on success
+ */
+
 int WS2812_spi_init(struct WS2812_module_info* info) {
   //fill the info structure
   // info->spi_device_info.modalias = "WS"
@@ -207,6 +216,13 @@ int WS2812_spi_init(struct WS2812_module_info* info) {
   return 0;
 }
 
+
+/**
+ * @brief Function for allocating memory for the SPI buffer
+ *
+ * @param info Module info struct
+ * @return int Returns 0 on success
+ */
 int WS2812_work_init(struct WS2812_module_info* info) {
   int ret = 0;
 
@@ -306,6 +322,12 @@ static void WS2812_convert_work_fun(struct work_struct* work_str) {
     queue_work(priv->convert_workqueue, &priv->WS2812_work);
 }
 
+/**
+ * @brief Prints out SPI initialization messages
+ *
+ * @param info Module info struct
+ */
+
 void WS2812_spi_setup_message(struct WS2812_module_info* info) {
   spi_message_init(&(info->WS2812_message));
   info->WS2812_message.complete = WS2712_spi_completion;
@@ -319,6 +341,12 @@ void WS2812_spi_setup_message(struct WS2812_module_info* info) {
 
   spi_message_add_tail(&info->WS2812_xfer, &info->WS2812_message);
 }
+
+/**
+ * @brief Starts the SPI message transfer, prints out errors if they occur
+ *
+ * @param info Module info struct
+ */
 
 void WS2812_spi_transfer_begin(struct WS2812_module_info* info) {
   //build message
@@ -334,6 +362,12 @@ void WS2812_spi_transfer_begin(struct WS2812_module_info* info) {
   }
 }
 
+/**
+ * @brief Function prints out message on transfer success
+ *
+ * @param arg
+ */
+
 static void WS2712_spi_completion(void* arg) {
   struct WS2812_module_info *info = arg; // idk mby might be needed
   PRINT_GOOD("SPI Transfer completed and was %s with status %d (xfered: %dBytes/ %d All Bytes)!\n",
@@ -341,6 +375,12 @@ static void WS2712_spi_completion(void* arg) {
       info->WS2812_message.status, info->WS2812_message.frame_length, info->WS2812_message.actual_length);
   info->spi_transfer_in_progress = false;
 }
+
+/**
+ * @brief Module initalization function
+ *
+ * @return int Returns 0 on success
+ */
 
 static int __init WS2812_init(void) {
   module_info = vmalloc(sizeof(struct WS2812_module_info));
@@ -368,6 +408,12 @@ static int __init WS2812_init(void) {
   return module_errno;
 }
 
+/**
+ * @brief Framebuffer unitialization function
+ *
+ * @param info Module info struct
+ */
+
 void WS2812_uninit_framebuffer(struct WS2812_module_info* info) {
   unregister_framebuffer(module_info->info);
   if(module_info->fb_virt)
@@ -379,6 +425,12 @@ void WS2812_uninit_framebuffer(struct WS2812_module_info* info) {
   framebuffer_release(module_info->info);
 }
 
+/**
+ * @brief Removes work queue from memory
+ *
+ * @param info
+ */
+
 void WS2812_uninit_work(struct WS2812_module_info* info) {
   flush_workqueue(module_info->convert_workqueue);
   destroy_workqueue(module_info->convert_workqueue);
@@ -388,6 +440,11 @@ void WS2812_uninit_spi(struct WS2812_module_info* info) {
   if(info->WS2812_spi_dev)
     spi_unregister_device(info->WS2812_spi_dev);
 }
+
+/**
+ * @brief Module unitialization function
+ *
+ */
 
 static void __exit WS2812_uninit(void) {
   if(!module_info) {
@@ -400,6 +457,15 @@ static void __exit WS2812_uninit(void) {
 
   printk("Goodbye from WS2812 module\n");
 }
+
+
+/**
+ * @brief Allocates memory map
+ *
+ * @param info Frame buffer informations
+ * @param vma Memory map informations
+ * @return int Returns 0 on success
+ */
 
 static int WS2812_map(struct fb_info* info, struct vm_area_struct* vma) {
   //TODO: test any vma->vm_ops for detecting any R/W operation?
@@ -423,6 +489,15 @@ static int WS2812_map(struct fb_info* info, struct vm_area_struct* vma) {
   kfree(pages);
   return ret;
 }
+
+/**
+ * @brief Prints out information about current pixel values
+ *
+ * @param info Frame buffer informations
+ * @param cmd Command
+ * @param arg Argument
+ * @return int
+ */
 
 int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg) {
   size_t x=0, y=0;
