@@ -100,36 +100,9 @@
 	status = "disabled";
 };
 
+
 &spi4 {
     pinctrl-names = "default";
-    pinctrl-0 = <&spi4_pins_a>;
-	status = "okay";
-
-	spidev0: spidev@0{
-		compatible = "spidev";
-		reg = <0>;
-		spi-max-frequency = <10000000>;
-	};
-
-    WS2812_panel: WS2812_panel@1{
-        compatible = "WS2812_panel";
-        reg = <1>;
-        spi-max-frequency = <10000000>;
-    };
-
-	    fragment@0 {
-        target = <&WS2812_panel>;
-		reg = <1>;
-        __overlay__ {
-            status = "disabled";
-        };
-    };
-
-};
-
-&spi4 {
-    //pinctrl-names = "default", "sleep";
-	pinctrl-names = "default";
     pinctrl-0 = <&spi4_pins_b>;
 	//pinctrl-1 = <&spi4_eepy_pins>;
 	status = "okay";
@@ -138,11 +111,11 @@
 
     WS2812_panel: WS2812_panel@1{
         compatible = "WS2812_panel";
-        reg = <1>;
+        reg = <0>;
         spi-max-frequency = <10000000>;
+		status = "okay";
     };
 
- 
 };
 
 /* One should create spi4_pins_b in stm32mp15-pinctrl.dtsi
@@ -161,7 +134,7 @@ because spi4_pins_a doesnt align with hardware
 			bias-disable;
 		};
 	};
-	
+
 	spi4_eepy_pins: spi4-sleep-0 {
 		pins {
 			pinmux = <STM32_PINMUX('E', 12, ANALOG)>, /* SPI4_SCK */
@@ -170,7 +143,7 @@ because spi4_pins_a doesnt align with hardware
 		};
 	};
 
-setting reg = <0> in device causes error with conflicting 
+setting reg = <0> in device causes error with conflicting
 chip select usage (spi: chipselect 0 already in use),
 setting reg = <1> fixes that
 
