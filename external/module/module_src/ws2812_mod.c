@@ -166,7 +166,7 @@ struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info
   module_errno = ret;
   return NULL;
 }
-
+EXPORT_SYMBOL(frame_buffer_init);
 /**
  * @brief SPI initalization function
  *
@@ -215,7 +215,7 @@ int WS2812_spi_init(struct WS2812_module_info* info) {
 
   return 0;
 }
-
+EXPORT_SYMBOL(WS2812_spi_init);
 
 /**
  * @brief Function for allocating memory for the SPI buffer
@@ -258,6 +258,7 @@ int WS2812_work_init(struct WS2812_module_info* info) {
   module_errno = ret;
   return ret;
 }
+EXPORT_SYMBOL(WS2812_work_init);
 
 static void WS2812_convert_work_fun(struct work_struct* work_str) {
   struct WS2812_module_info *priv = container_of(work_str, struct WS2812_module_info, WS2812_work);
@@ -543,8 +544,8 @@ int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg) {
 //   PRINT_LOG("imageblit Called\n", NULL);
 // }
 
-module_init(WS2812_init);
-module_exit(WS2812_uninit);
+//module_init(WS2812_init);
+//module_exit(WS2812_uninit);
 
 // INTREE initialisation
 // Think about splitting those files...
