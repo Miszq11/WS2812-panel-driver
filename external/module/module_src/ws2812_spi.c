@@ -3,48 +3,53 @@
 #include <linux/fb.h>
 #include <linux/export.h>
 #include <linux/device.h>
-
+#include <linux/init.h>
+#include <linux/mod_devicetable.h>
+#include <linux/of.h>
 
 #include "linux/dev_printk.h"
+#include "linux/kernel.h"
 #include "linux/mm_types.h"
+#include "linux/of.h"
+#include "linux/overflow.h"
+#include "linux/property.h"
 #include "linux/vmalloc.h"
 #include "linux/workqueue.h"
 #include "module_config.h"
 #include "def_msg.h"
-
-
 #include "linux/fb.h"
 #include "linux/gfp.h"
 #include "linux/spi/spi.h"
+#include <linux/string.h>
+#include "linux/kern_levels.h"
+#include "linux/stddef.h"
 
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Przemyslaw Zeranski");
 MODULE_DESCRIPTION("WS2812 stip driver (dts version) over SPI. Based on non-dts version.");
 
-#define MY_BUS_NUM 4
+#define MY_BUS_NUM 0
 
 static int WS2812_spi_probe(struct spi_device *spi);
 static int WS2812_remove(struct spi_device *spi);
 
 struct spi_master *master;
 
-
-
 /**
  * @brief SPI device info struct, contains device informations
  *
  */
-
+/*
 struct spi_board_info spi_device_info = {
-	.modalias = "WS2812-panel",
+	.modalias = "ws2812-panel",
 	.max_speed_hz = 10000000,
 	.bus_num = MY_BUS_NUM,
 	.chip_select = 0,
-	.mode = 0,
+	.mode = 2,
 };
-
-static struct spi_device *WS2812_panel;
+*/
+//static struct spi_device *WS2812_panel;
 
 /**
  * @brief SPI board info struct, contains board informations
@@ -53,13 +58,13 @@ static struct spi_device *WS2812_panel;
 
 struct spi_board_info WS2812_board_info =
 {
-  .modalias     = "WS2812-board",
+  .modalias     = "ws2812-board",
   .max_speed_hz = 10000000,
   .bus_num      = MY_BUS_NUM,
   .chip_select  = 1,
-  .mode         = SPI_MODE_0
+  .mode         = SPI_MODE_2
 };
-
+//spi_register_board_info(spi_board_info, ARRAY_SIZE(WS2812_board_info));
 
 /*****************************************/
 /*************** SPI layer ***************/
@@ -73,8 +78,7 @@ static struct WS2812_module_info *ws2812_spi_mod;
 //! Structure for device names
 static struct of_device_id WS2812_dt_match_id[] ={
   {
-    .compatible = "swis,ws281-panel",
-  },
+    .compatible = "swis,ws2812-panel", },
   {}
 };
 MODULE_DEVICE_TABLE(of, WS2812_dt_match_id);
@@ -82,6 +86,8 @@ MODULE_DEVICE_TABLE(of, WS2812_dt_match_id);
 //! Structure for device id
 static const struct spi_device_id WS2812_dt_spi_id[] = {
 	{.name="ws2812-panel",0},
+  {.name="ws2812-panel",1},
+  {.name="ws2812-panel",2},
 	{ }
 };
 MODULE_DEVICE_TABLE(spi, WS2812_dt_spi_id);
@@ -97,78 +103,41 @@ MODULE_DEVICE_TABLE(spi, WS2812_dt_spi_id);
  */
 static int WS2812_spi_probe(struct spi_device *spi){
   int ret = 0;
-  printk(KERN_INFO "Probing my_device with SPI ID: %s\n", spi->modalias);
-  pr_info("Probe function started %d\n",ret);
+  struct device *dev = &spi->dev;
+  struct WS2812_module_info *info;
+  int num = device_get_child_node_count(dev);
 
   printk(KERN_ERR "Probing my_device with SPI ID: %s\n", spi->modalias);
-  pr_err("Probe function started %d\n",ret);
-  struct fb_info *info;
-  //struct WS2812_module_info *ws2812_spi_mod;
-  //struct spi_device spi;
-  ws2812_spi_mod = kmalloc(sizeof(struct WS2812_module_info),GFP_KERNEL);
+  pr_info("Child dev num: %d\n",num);
 
-  ws2812_spi_mod->WS2812_spi_dev = devm_kzalloc(&spi->dev, sizeof(struct spi_device),GFP_KERNEL);
-  if(!ws2812_spi_mod->WS2812_spi_dev)
-    return -ENOMEM;
+  info = devm_kzalloc(dev, sizeof(struct WS2812_module_info), GFP_KERNEL);
+  if(info)
+    pr_info("devm success",NULL);
   else
-    printk("devm_kzalloc success\n");
-
-/*
-  ws2812_spi_mod->WS2812_spi_master = devm_kzalloc(&master->dev, sizeof(struct spi_master),GFP_KERNEL);
-  if(!ws2812_spi_mod)
-    return -ENOMEM;
-  else
-    printk("devm_kzalloc success\n");
-*/
-
-  //ws2812_spi_mod->WS2812_spi_dev->bits_per_word = 8;
-/*
-	ws2812_spi_mod->WS2812_spi_master = spi_busnum_to_master(MY_BUS_NUM);
-	ws2812_spi_mod->WS2812_spi_master -> max_transfer_size = NULL;
-
-	if(!ws2812_spi_mod->WS2812_spi_master) {
-		printk("There is no spi bus with Nr. %d\n", MY_BUS_NUM);
-		return -1;
-	}else{
-    printk("There is spi bus registered with Nr. %d\n", MY_BUS_NUM);
-  }
-*/
-  frame_buffer_init(ws2812_spi_mod);
-  if(!ws2812_spi_mod){
-    printk("FB init error \n");
     return -1;
-  }else{
-    printk("FB init good \n");
-  }
 
-  if(WS2812_work_init(ws2812_spi_mod)==0){
-    printk("Work init done \n");
-  }else {
-    printk("Work init error \n");
-    return -1;
-  }
+  info->WS2812_spi_dev = spi;
+  pr_info("spi modalias: %s\n",info->WS2812_spi_dev->modalias);
+  pr_info("spi dev master bus num: %d\n", info->WS2812_spi_dev->master->bus_num);
+  //pr_info("spi master bus num: %d\n", info->WS2812_spi_master->bus_num);
+  info -> spi_transfer_continous = false;
+  info -> spi_transfer_in_progress = false;
 
-  if(WS2812_spi_init(ws2812_spi_mod)==0){
-    printk("SPI init done \n");
-  }else {
-    printk("SPI init error \n");
-    return -1;
-  }
-/*
-  if(spi_setup(ws2812_spi_mod->WS2812_spi_dev)==0){
-    printk("SPI setup success\n");
-  }else{
-    printk("SPI setup error\n");
-    return -1;
-  }
 
-printk("Sending short default message with size: %d\n",sizeof(short_msg));
-	if(spi_write(ws2812_spi_mod->WS2812_spi_dev, short_msg, sizeof(short_msg)/sizeof(u8))==0){
-		printk("Def short msg sent, sucess!\n");
-	}else{
-		printk("FAIL!\n");
-	}
-*/
+  frame_buffer_init(info);
+
+
+  if(WS2812_work_init(info)) {
+    //goto framebuffer_initialized;
+    pr_info("work init done success\n");
+  }
+pr_info("work init done \n");
+   // work_initialized:
+   // WS2812_uninit_work(info);
+   // framebuffer_initialized:
+   // WS2812_uninit_framebuffer(info);
+
+
 return ret;
 }
 
@@ -191,15 +160,16 @@ return ret;
  */
 static struct spi_driver WS2812_spi_driver = {
   .driver = {
-    .name = "WS2812-panel",
+    .name = "ws2812-panel",
     //.owner = THIS_MODULE,
     //.of_match_table = WS2812_dt_spi_id,
     .of_match_table = WS2812_dt_match_id,
   },
-  .id_table = WS2812_dt_spi_id,
   .probe = WS2812_spi_probe,
+  .id_table = WS2812_dt_spi_id,
   .remove = WS2812_remove,
 };
+
 module_spi_driver(WS2812_spi_driver);
 
 

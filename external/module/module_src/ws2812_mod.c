@@ -215,7 +215,7 @@ int WS2812_spi_init(struct WS2812_module_info* info) {
 
   return 0;
 }
-EXPORT_SYMBOL(WS2812_spi_init);
+//EXPORT_SYMBOL(WS2812_spi_init);
 
 /**
  * @brief Function for allocating memory for the SPI buffer
@@ -424,8 +424,9 @@ void WS2812_uninit_framebuffer(struct WS2812_module_info* info) {
   if(module_info->spi_buffer)
     vfree(module_info->spi_buffer);
   framebuffer_release(module_info->info);
-}
 
+}
+EXPORT_SYMBOL(WS2812_uninit_framebuffer);
 /**
  * @brief Removes work queue from memory
  *
@@ -436,12 +437,13 @@ void WS2812_uninit_work(struct WS2812_module_info* info) {
   flush_workqueue(module_info->convert_workqueue);
   destroy_workqueue(module_info->convert_workqueue);
 }
+EXPORT_SYMBOL(WS2812_uninit_work);
 
 void WS2812_uninit_spi(struct WS2812_module_info* info) {
   if(info->WS2812_spi_dev)
     spi_unregister_device(info->WS2812_spi_dev);
 }
-
+EXPORT_SYMBOL(WS2812_uninit_spi);
 /**
  * @brief Module unitialization function
  *
