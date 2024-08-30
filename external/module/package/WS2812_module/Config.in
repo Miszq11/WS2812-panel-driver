@@ -1,4 +1,5 @@
-
+comment "You need to enable BR2_LINUX_KERNEL for WS2812 module to work"
+	depends on !BR2_LINUX_KERNEL
 menuconfig BR2_PACKAGE_WS2812_MODULE
     bool "module for ws2812 communication support"
     depends on BR2_LINUX_KERNEL
@@ -6,28 +7,19 @@ menuconfig BR2_PACKAGE_WS2812_MODULE
       WS2812 Panel module support
 
       see: datasheet of WS2812 led.
-comment "This module requires Linux kernel to be built"
-    depends on !BR2_LINUX_KERNEL
-
-if BR2_PACKAGE_WS2812_MODULE
-config BR2_PACKAGE_WS2812_MODULE_COMMON_SRCS
-  bool "include common source files"
-  help
-		option will include all necessary source files into build
+depends on BR2_LINUX_KERNEL
 
 config BR2_PACKAGE_WS2812_MODULE_NO_DTS
-	bool "compile module wersion with no dts startup"
-  default y if BR2_PACKAGE_WS2812_MODULE
-	select BR2_PACKAGE_WS2812_MODULE_COMMON_SRCS
-	help
-		this option will compile ws2812_mod module, that will hard lock it self
-		to spi1 ch 0
+		bool "compile module wersion with no dts startup"
+		help
+			this option will compile ws2812_mod module, that will hard lock it self
+			to spi1 ch 0
+depends on BR2_PACKAGE_WS2812_MODULE
 
 config BR2_PACKAGE_WS2812_MODULE_DTS
-	bool "compile module version with dts startup"
-  default y if BR2_PACKAGE_WS2812_MODULE
-	select BR2_PACKAGE_WS2812_MODULE_COMMON_SRCS
-	help
-		this option will compile ws2812_spi module, that should fireup after
-		matching dts entry with key "swis,ws2812-panel"
-endif
+		bool "compile module version with dts startup"
+		help
+			this option will compile ws2812_spi module, that should fireup after
+			matching dts entry with key "swis,ws2812-panel"
+depends on BR2_PACKAGE_WS2812_MODULE
+

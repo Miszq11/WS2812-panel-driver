@@ -2,3 +2,4 @@ config BR2_PACKAGE_WS2812_APP
     bool "ws2812_APP"
     help
       WS2812 test app for testing WS2812 module working
+
