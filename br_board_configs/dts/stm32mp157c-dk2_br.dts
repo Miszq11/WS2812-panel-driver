@@ -119,6 +119,12 @@
         compatible = "swis,ws2812-panel";
         reg = <1>;
         spi-max-frequency = <10000000>;
+				panel,x-visible-len = <8>;
+				panel,y-visible-len = <8>;
+				panel,color-bits = <8>;
+				panel,green-bit-offset = <0>;
+				panel,red-bit-offset = <8>;
+				panel,blue-bit-offset = <16>;
 		status = "okay";
     };
 };

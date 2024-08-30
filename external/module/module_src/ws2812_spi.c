@@ -7,27 +7,17 @@
 #include <linux/mod_devicetable.h>
 #include <linux/of.h>
 
-#include "linux/dev_printk.h"
-#include "linux/kernel.h"
-#include "linux/mm_types.h"
-#include "linux/of.h"
-#include "linux/overflow.h"
 #include "linux/property.h"
-#include "linux/vmalloc.h"
-#include "linux/workqueue.h"
 #include "module_config.h"
-#include "def_msg.h"
-#include "linux/fb.h"
 #include "linux/gfp.h"
 #include "linux/spi/spi.h"
 #include <linux/string.h>
 #include "linux/kern_levels.h"
 #include "linux/stddef.h"
 
+#define ELSE_RETURN_ERR else return -1;
 
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Przemyslaw Zeranski");
-MODULE_DESCRIPTION("WS2812 stip driver (dts version) over SPI. Based on non-dts version.");
+#include "ws2812_common.h"
 
 #define MY_BUS_NUM 0
 
@@ -71,9 +61,6 @@ struct spi_board_info WS2812_board_info =
 /*****************************************/
 
 
-static struct WS2812_module_info *ws2812_spi_mod;
-
-
 
 //! Structure for device names
 static struct of_device_id WS2812_dt_match_id[] ={
@@ -92,7 +79,19 @@ static const struct spi_device_id WS2812_dt_spi_id[] = {
 };
 MODULE_DEVICE_TABLE(spi, WS2812_dt_spi_id);
 
+/**
+ * @brief Framebuffer structure
+ *
+ */
 
+static const struct fb_ops WS2812_fb_ops = {
+  .owner = THIS_MODULE,
+  .fb_fillrect = cfb_fillrect,
+  .fb_copyarea = cfb_copyarea,
+  .fb_imageblit = cfb_imageblit,
+  .fb_mmap = WS2812_map,
+  .fb_ioctl = WS_fb_ioctl,
+};
 
 
 /**
@@ -105,14 +104,38 @@ static int WS2812_spi_probe(struct spi_device *spi){
   int ret = 0;
   struct device *dev = &spi->dev;
   struct WS2812_module_info *info;
+  struct fb_init_values fb_init_values = {0};
+  u32 of_val32 = 0;
+  u16 of_val16 = 0;
   int num = device_get_child_node_count(dev);
+
+  fb_init_values.prep_fb_ops = &WS2812_fb_ops;
+  if(of_property_read_u32(dev->of_node, "panel,x-visible-len", &of_val32) > 0) {
+    fb_init_values.x_panel_length = of_val32;
+  } ELSE_RETURN_ERR
+  if(of_property_read_u32(dev->of_node, "panel,y-visible-len", &of_val32) > 0) {
+    fb_init_values.y_panel_length = of_val32;
+  } ELSE_RETURN_ERR
+
+  if(of_property_read_u16(dev->of_node, "panel,color-bits", &of_val16) > 0) {
+    fb_init_values.color_bits = of_val16;
+  } ELSE_RETURN_ERR
+  if(of_property_read_u16(dev->of_node, "panel,green-bit-offset", &of_val16) > 0) {
+    fb_init_values.green_offset = of_val16;
+  } ELSE_RETURN_ERR
+  if(of_property_read_u16(dev->of_node, "panel,red-bit-offset", &of_val16) > 0) {
+    fb_init_values.red_offset = of_val16;
+  } ELSE_RETURN_ERR
+  if(of_property_read_u16(dev->of_node, "panel,blue-bit-offset", &of_val16) > 0) {
+    fb_init_values.blue_offset = of_val16;
+  } ELSE_RETURN_ERR
 
   printk(KERN_ERR "Probing my_device with SPI ID: %s\n", spi->modalias);
   pr_info("Child dev num: %d\n",num);
 
   info = devm_kzalloc(dev, sizeof(struct WS2812_module_info), GFP_KERNEL);
   if(info)
-    pr_info("devm success",NULL);
+    pr_info("devm success");
   else
     return -1;
 
@@ -124,7 +147,7 @@ static int WS2812_spi_probe(struct spi_device *spi){
   info -> spi_transfer_in_progress = false;
 
 
-  frame_buffer_init(info);
+  frame_buffer_init(info, &fb_init_values);
 
 
   if(WS2812_work_init(info)) {
@@ -172,7 +195,6 @@ static struct spi_driver WS2812_spi_driver = {
 
 module_spi_driver(WS2812_spi_driver);
 
-
-
-
-
+MODULE_AUTHOR("Przemyslaw Zeranski");
+MODULE_LICENSE("GPL");
+MODULE_DESCRIPTION("WS2812 stip driver (dts version) over SPI. Based on non-dts version.");
