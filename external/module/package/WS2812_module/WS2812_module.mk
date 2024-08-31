@@ -15,5 +15,10 @@ else
 	WS2812_MODULE_MODULE_MAKE_OPTS += WS2812_MAKE_DTS_VERSION=NO
 endif
 
+define WS2812_MODULE_INSTALL_TARGET_CMDS
+	$(if $(BR2_PACKAGE_WS2812_INITD_INSTALL), $(INSTALL) -D -m 0755 $(@D)/startup_script/S50ws2812_module_startup $(TARGET_DIR)/etc/init.d, )
+endef
+
+
 $(eval $(kernel-module))
 $(eval $(generic-package))
