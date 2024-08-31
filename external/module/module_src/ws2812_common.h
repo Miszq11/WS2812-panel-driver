@@ -8,14 +8,25 @@
 #define WS_IO_DUMMY _IO('x', 1)
 #define WS_IO_PROCESS_AND_SEND _IO('x', 2)
 #define WS2812_WORKQUEUE_NAME "WS2812_simple_module"
+#define BITS_PER_WORD 16
 
-#define WS2812_SPI_TRUE 0b11111100 /* check that!*/
+#if BITS_PER_WORD == 8
+#define WS2812_SPI_TRUE  0b11111100 /* check that!*/
 #define WS2812_SPI_FALSE 0b11000000 /* check that as well!*/
-
-#define WS2812_SPI_BUS_NUM 0
 #define WS2812_SPI_MAX_SPEED_HZ 10000000
 #define WS2812_SPI_TARGET_HZ 8000000
 #define WS2812_ZERO_PAADING_SIZE 50*WS2812_SPI_TARGET_HZ/8000000+10
+#endif
+
+#if BITS_PER_WORD == 16
+#define WS2812_SPI_TRUE  0b1111111111000000 /* check that!*/
+#define WS2812_SPI_FALSE 0b1111100000000000 /* check that as well!*/
+#define WS2812_SPI_MAX_SPEED_HZ 32000000
+#define WS2812_SPI_TARGET_HZ 15000000
+#define WS2812_ZERO_PAADING_SIZE 50*WS2812_SPI_TARGET_HZ/16000000+10
+#endif
+
+#define WS2812_SPI_BUS_NUM 0
 
 struct fb_init_values {
   unsigned x_panel_length, y_panel_length;

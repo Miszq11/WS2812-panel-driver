@@ -106,10 +106,9 @@
 	status = "disabled";
 };
 
-&spi4 {
+&spi2 {
     pinctrl-names = "default";
-    pinctrl-0 = <&spi4_pins_b>;
-	//pinctrl-1 = <&spi4_eepy_pins>;
+    pinctrl-0 = <&spi2_pins_b>;
 	status = "okay";
 	cs-gpio = <&gpiog 3 0>, <&gpioe 1 0>, <&gpiof 3 0>;
 	#address-cells = <1>;
@@ -118,13 +117,13 @@
     WS2812_panel: WS2812_panel@1{
         compatible = "swis,ws2812-panel";
         reg = <1>;
-        spi-max-frequency = <10000000>;
-				panel,x-visible-len = <8>;
-				panel,y-visible-len = <8>;
-				panel,color-bits = <8>;
-				panel,green-bit-offset = <0>;
-				panel,red-bit-offset = <8>;
-				panel,blue-bit-offset = <16>;
+        spi-max-frequency = <32000000>;
+		panel,x-visible-len = <8>;
+		panel,y-visible-len = <8>;
+		panel,color-bits = <8>;
+		panel,green-bit-offset = <0>;
+		panel,red-bit-offset = <8>;
+		panel,blue-bit-offset = <16>;
 		status = "okay";
     };
 };
@@ -145,11 +144,18 @@ because spi4_pins_a doesnt align with hardware
 		};
 	};
 
-	spi4_eepy_pins: spi4-sleep-0 {
-		pins {
-			pinmux = <STM32_PINMUX('E', 12, ANALOG)>, /* SPI4_SCK */
-				 	<STM32_PINMUX('E', 14, ANALOG)>,  /* SPI4_MOSI ARD_D11 Connector*/
-					<STM32_PINMUX('E', 13, ANALOG)>; /* SPI4_MISO */
+	spi2_pins_b: spi2-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('B', 10, AF5)>, /* SPI1_SCK */
+				 <STM32_PINMUX('C', 3, AF5)>; /* SPI2_MOSI ADC1_IN13 connector on CN17*/
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <1>;
+		};
+
+		pins2 {
+			pinmux = <STM32_PINMUX('I', 2, AF5)>; /* SPI1_MISO */
+			bias-disable;
 		};
 	};
 

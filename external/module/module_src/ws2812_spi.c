@@ -50,7 +50,7 @@ struct spi_board_info spi_device_info = {
 struct spi_board_info WS2812_board_info =
 {
   .modalias     = "ws2812-board",
-  .max_speed_hz = 10000000,
+  .max_speed_hz = WS2812_SPI_MAX_SPEED_HZ,
   .bus_num      = MY_BUS_NUM,
   .chip_select  = 1,
   .mode         = SPI_MODE_2
@@ -148,13 +148,15 @@ static int WS2812_spi_probe(struct spi_device *spi){
     return -1;
 
   info->WS2812_spi_dev = spi;
-  //PRINT_LOG("spi modalias: %s\n",info->WS2812_spi_dev->modalias);
+  info->WS2812_spi_dev->bits_per_word = BITS_PER_WORD;
+
   PRINT_LOG("spi dev master bus num: %d\n", info->WS2812_spi_dev->master->bus_num);
+  PRINT_LOG("spi dev bits per word: %d\n", info->WS2812_spi_dev->bits_per_word);
 
   info -> spi_transfer_continous = false;
   info -> spi_transfer_in_progress = false;
 
-  if(!frame_buffer_init(info, &fb_init_values)){
+  if(frame_buffer_init(info, &fb_init_values)){
     PRINT_LOG("fb init done success\n");
   } else goto framebuffer_initialized;
 

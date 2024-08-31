@@ -16,7 +16,7 @@ struct WS2812_module_info {
   u8 *work_buffer_input;
   size_t work_buffer_input_size;
   //work buffer output -- SPI input
-  u8 *spi_buffer;
+  u16 *spi_buffer;
   size_t spi_buffer_size; // should be 8 times bigger than fb_virt_size!
   struct fb_info* info;
   struct work_struct WS2812_work;

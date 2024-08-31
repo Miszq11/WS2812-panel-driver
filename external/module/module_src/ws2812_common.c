@@ -117,7 +117,7 @@ int WS2812_work_init(struct WS2812_module_info* info) {
   }
 
   // initialise work output buffer;
-  info->spi_buffer_size = 8*info->fb_virt_size + WS2812_ZERO_PAADING_SIZE;
+  info->spi_buffer_size = BITS_PER_WORD*info->fb_virt_size + WS2812_ZERO_PAADING_SIZE;
   if(!(info->spi_buffer = vmalloc(info->spi_buffer_size))) {
     PRINT_ERR_FA("vmalloc (spi_buffer) failed");
     ret = -ENOMEM;
@@ -357,8 +357,9 @@ void WS2812_spi_setup_message(struct WS2812_module_info* info) {
   info->WS2812_message.context = info;
   info->WS2812_xfer.tx_buf = info->spi_buffer;
   info->WS2812_xfer.rx_buf = NULL;
-  info->WS2812_xfer.speed_hz = 8000000;
+  info->WS2812_xfer.speed_hz = WS2812_SPI_TARGET_HZ;
   info->WS2812_xfer.bits_per_word = info->WS2812_spi_dev->bits_per_word;
+  //info->WS2812_xfer.bits_per_word = BITS_PER_WORD;
   info->WS2812_xfer.len = info->spi_buffer_size;
 
   spi_message_add_tail(&info->WS2812_xfer, &info->WS2812_message);
