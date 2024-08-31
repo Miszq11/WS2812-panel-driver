@@ -109,29 +109,37 @@ static int WS2812_spi_probe(struct spi_device *spi){
   u16 of_val16 = 0;
   int num = device_get_child_node_count(dev);
 
-  fb_init_values.prep_fb_ops = &WS2812_fb_ops;
-  if(of_property_read_u32(dev->of_node, "panel,x-visible-len", &of_val32) > 0) {
-    fb_init_values.x_panel_length = of_val32;
-  } ELSE_RETURN_ERR
-  if(of_property_read_u32(dev->of_node, "panel,y-visible-len", &of_val32) > 0) {
-    fb_init_values.y_panel_length = of_val32;
-  } ELSE_RETURN_ERR
-
-  if(of_property_read_u16(dev->of_node, "panel,color-bits", &of_val16) > 0) {
-    fb_init_values.color_bits = of_val16;
-  } ELSE_RETURN_ERR
-  if(of_property_read_u16(dev->of_node, "panel,green-bit-offset", &of_val16) > 0) {
-    fb_init_values.green_offset = of_val16;
-  } ELSE_RETURN_ERR
-  if(of_property_read_u16(dev->of_node, "panel,red-bit-offset", &of_val16) > 0) {
-    fb_init_values.red_offset = of_val16;
-  } ELSE_RETURN_ERR
-  if(of_property_read_u16(dev->of_node, "panel,blue-bit-offset", &of_val16) > 0) {
-    fb_init_values.blue_offset = of_val16;
-  } ELSE_RETURN_ERR
-
   printk(KERN_ERR "Probing my_device with SPI ID: %s\n", spi->modalias);
-  pr_info("Child dev num: %d\n",num);
+
+  fb_init_values.prep_fb_ops = &WS2812_fb_ops;
+  if(of_property_read_u32(dev->of_node, "panel,x-visible-len", &of_val32) >= 0) {
+    fb_init_values.x_panel_length = of_val32;
+    //pr_info("read val x len: %u\n",fb_init_values.x_panel_length);
+  } ELSE_RETURN_ERR
+
+  if(of_property_read_u32(dev->of_node, "panel,y-visible-len", &of_val32) >= 0) {
+    fb_init_values.y_panel_length = of_val32;
+    //pr_info("read val y len: %u\n",fb_init_values.y_panel_length);
+  } ELSE_RETURN_ERR
+
+  if(of_property_read_u32(dev->of_node, "panel,color-bits", &of_val32) >= 0) {
+    fb_init_values.color_bits = of_val32;
+    //pr_info("read val colour bits: %u\n",fb_init_values.color_bits);
+  } ELSE_RETURN_ERR
+  if(of_property_read_u32(dev->of_node, "panel,green-bit-offset", &of_val32) >=0) {
+    fb_init_values.green_offset = of_val32;
+    //pr_info("read val green offset: %u\n",fb_init_values.green_offset);
+  } ELSE_RETURN_ERR
+  if(of_property_read_u32(dev->of_node, "panel,red-bit-offset", &of_val32) >= 0) {
+    fb_init_values.red_offset = of_val32;
+    //pr_info("read val red offset: %u\n",fb_init_values.red_offset);
+  } ELSE_RETURN_ERR
+  if(of_property_read_u32(dev->of_node, "panel,blue-bit-offset", &of_val32) >= 0) {
+    fb_init_values.blue_offset = of_val32;
+   // pr_info("read val blue offset: %u\n",fb_init_values.blue_offset);
+  } ELSE_RETURN_ERR
+
+
 
   info = devm_kzalloc(dev, sizeof(struct WS2812_module_info), GFP_KERNEL);
   if(info)
@@ -140,26 +148,19 @@ static int WS2812_spi_probe(struct spi_device *spi){
     return -1;
 
   info->WS2812_spi_dev = spi;
-  pr_info("spi modalias: %s\n",info->WS2812_spi_dev->modalias);
+  //pr_info("spi modalias: %s\n",info->WS2812_spi_dev->modalias);
   pr_info("spi dev master bus num: %d\n", info->WS2812_spi_dev->master->bus_num);
-  //pr_info("spi master bus num: %d\n", info->WS2812_spi_master->bus_num);
+
   info -> spi_transfer_continous = false;
   info -> spi_transfer_in_progress = false;
 
+  if(frame_buffer_init(info, &fb_init_values)==NULL){
+    pr_info("fb init done success\n");
+  }
 
-  frame_buffer_init(info, &fb_init_values);
-
-
-  if(WS2812_work_init(info)) {
-    //goto framebuffer_initialized;
+  if(WS2812_work_init(info)==0) {
     pr_info("work init done success\n");
   }
-pr_info("work init done \n");
-   // work_initialized:
-   // WS2812_uninit_work(info);
-   // framebuffer_initialized:
-   // WS2812_uninit_framebuffer(info);
-
 
 return ret;
 }

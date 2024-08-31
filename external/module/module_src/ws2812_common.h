@@ -19,7 +19,7 @@
 
 struct fb_init_values {
   unsigned x_panel_length, y_panel_length;
-  unsigned short color_bits,
+  unsigned color_bits,
       green_offset, red_offset, blue_offset;
   const struct fb_ops* prep_fb_ops;
 };
