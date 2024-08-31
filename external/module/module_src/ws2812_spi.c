@@ -7,6 +7,7 @@
 #include <linux/mod_devicetable.h>
 #include <linux/of.h>
 
+#include "debug_ctrl.h"
 #include "linux/property.h"
 #include "module_config.h"
 #include "linux/gfp.h"
@@ -101,7 +102,6 @@ static const struct fb_ops WS2812_fb_ops = {
  * @return int
  */
 static int WS2812_spi_probe(struct spi_device *spi){
-  int ret = 0;
   struct device *dev = &spi->dev;
   struct WS2812_module_info *info;
   struct fb_init_values fb_init_values = {0};
@@ -114,55 +114,64 @@ static int WS2812_spi_probe(struct spi_device *spi){
   fb_init_values.prep_fb_ops = &WS2812_fb_ops;
   if(of_property_read_u32(dev->of_node, "panel,x-visible-len", &of_val32) >= 0) {
     fb_init_values.x_panel_length = of_val32;
-    //pr_info("read val x len: %u\n",fb_init_values.x_panel_length);
+    //PRINT_LOG("read val x len: %u\n",fb_init_values.x_panel_length);
   } ELSE_RETURN_ERR
 
   if(of_property_read_u32(dev->of_node, "panel,y-visible-len", &of_val32) >= 0) {
     fb_init_values.y_panel_length = of_val32;
-    //pr_info("read val y len: %u\n",fb_init_values.y_panel_length);
+    //PRINT_LOG("read val y len: %u\n",fb_init_values.y_panel_length);
   } ELSE_RETURN_ERR
 
   if(of_property_read_u32(dev->of_node, "panel,color-bits", &of_val32) >= 0) {
     fb_init_values.color_bits = of_val32;
-    //pr_info("read val colour bits: %u\n",fb_init_values.color_bits);
+    //PRINT_LOG("read val colour bits: %u\n",fb_init_values.color_bits);
   } ELSE_RETURN_ERR
   if(of_property_read_u32(dev->of_node, "panel,green-bit-offset", &of_val32) >=0) {
     fb_init_values.green_offset = of_val32;
-    //pr_info("read val green offset: %u\n",fb_init_values.green_offset);
+    //PRINT_LOG("read val green offset: %u\n",fb_init_values.green_offset);
   } ELSE_RETURN_ERR
   if(of_property_read_u32(dev->of_node, "panel,red-bit-offset", &of_val32) >= 0) {
     fb_init_values.red_offset = of_val32;
-    //pr_info("read val red offset: %u\n",fb_init_values.red_offset);
+    //PRINT_LOG("read val red offset: %u\n",fb_init_values.red_offset);
   } ELSE_RETURN_ERR
   if(of_property_read_u32(dev->of_node, "panel,blue-bit-offset", &of_val32) >= 0) {
     fb_init_values.blue_offset = of_val32;
-   // pr_info("read val blue offset: %u\n",fb_init_values.blue_offset);
+   // PRINT_LOG("read val blue offset: %u\n",fb_init_values.blue_offset);
   } ELSE_RETURN_ERR
 
 
 
   info = devm_kzalloc(dev, sizeof(struct WS2812_module_info), GFP_KERNEL);
   if(info)
-    pr_info("devm success");
+    PRINT_LOG("devm success");
   else
     return -1;
 
   info->WS2812_spi_dev = spi;
-  //pr_info("spi modalias: %s\n",info->WS2812_spi_dev->modalias);
-  pr_info("spi dev master bus num: %d\n", info->WS2812_spi_dev->master->bus_num);
+  //PRINT_LOG("spi modalias: %s\n",info->WS2812_spi_dev->modalias);
+  PRINT_LOG("spi dev master bus num: %d\n", info->WS2812_spi_dev->master->bus_num);
 
   info -> spi_transfer_continous = false;
   info -> spi_transfer_in_progress = false;
 
-  if(frame_buffer_init(info, &fb_init_values)==NULL){
-    pr_info("fb init done success\n");
-  }
+  if(!frame_buffer_init(info, &fb_init_values)){
+    PRINT_LOG("fb init done success\n");
+  } else goto framebuffer_initialized;
 
   if(WS2812_work_init(info)==0) {
-    pr_info("work init done success\n");
-  }
+    PRINT_LOG("work init done success\n");
+  } else goto work_initialized;
 
-return ret;
+  WS2812_spi_setup_message(info);
+
+  return 0;
+
+work_initialized:
+  WS2812_uninit_work(info);
+framebuffer_initialized:
+  WS2812_uninit_framebuffer(info);
+  PRINT_ERR_FA("Critical error returning %d from driver\n", module_errno);
+  return module_errno;
 }
 
 /**

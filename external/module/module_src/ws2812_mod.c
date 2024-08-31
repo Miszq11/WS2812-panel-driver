@@ -36,7 +36,6 @@ struct WS2812_module_info *module_info = NULL;
 static int WS2812_init(void);
 static void WS2812_uninit(void);
 
-static void WS2712_spi_completion(void* arg);
 int WS2812_spi_init(struct WS2812_module_info* info);
 
 /**
@@ -89,13 +88,13 @@ int WS2812_spi_init(struct WS2812_module_info* info) {
   memcpy(&(info->spi_device_info), &dummy_spi, sizeof(struct spi_board_info));
   info->WS2812_spi_dev = spi_new_device(info->WS2812_spi_master, &(info->spi_device_info));
   if(!info->WS2812_spi_dev) {
-    PRINT_ERR_FA("Cannot create spi_device\n", NULL);
+    PRINT_ERR_FA("Cannot create spi_device\n");
     return (module_errno = -ENODEV);
   }
   info->WS2812_spi_dev->bits_per_word = color_bits;
 
   if((ret = spi_setup(info->WS2812_spi_dev))) {
-    PRINT_ERR_FA("Cannot setup spi device\n", NULL);
+    PRINT_ERR_FA("Cannot setup spi device\n");
     spi_unregister_device(info->WS2812_spi_dev);
     return (module_errno = ret);
   }
@@ -105,40 +104,6 @@ int WS2812_spi_init(struct WS2812_module_info* info) {
   info->spi_transfer_continous = run_continously;
 
   return 0;
-}
-
-/**
- * @brief Prints out SPI initialization messages
- *
- * @param info Module info struct
- */
-
-void WS2812_spi_setup_message(struct WS2812_module_info* info) {
-  spi_message_init(&(info->WS2812_message));
-  info->WS2812_message.complete = WS2712_spi_completion;
-  info->WS2812_message.context = info;
-
-  info->WS2812_xfer.tx_buf = info->spi_buffer;
-  info->WS2812_xfer.rx_buf = NULL;
-  info->WS2812_xfer.speed_hz = 8000000;
-  info->WS2812_xfer.bits_per_word = info->WS2812_spi_dev->bits_per_word;
-  info->WS2812_xfer.len = info->spi_buffer_size;
-
-  spi_message_add_tail(&info->WS2812_xfer, &info->WS2812_message);
-}
-
-/**
- * @brief Function prints out message on transfer success
- *
- * @param arg
- */
-
-static void WS2712_spi_completion(void* arg) {
-  struct WS2812_module_info *info = arg; // idk mby might be needed
-  PRINT_GOOD("SPI Transfer completed and was %s with status %d (xfered: %dBytes/ %d All Bytes)!\n",
-      (info->WS2812_message.status)?"\033[1;31mUNSUCCESFULL:\033[0m":"\033[1;32mSUCCESFULL:\033[0m",
-      info->WS2812_message.status, info->WS2812_message.frame_length, info->WS2812_message.actual_length);
-  info->spi_transfer_in_progress = false;
 }
 
 /**
@@ -163,7 +128,7 @@ static int __init WS2812_init(void) {
 
   ret = frame_buffer_init(module_info, &fb_init_vals);
   if(!ret) {
-    PRINT_LOG("ERROR after frame buffer init", NULL);
+    PRINT_LOG("ERROR after frame buffer init");
     return module_errno;
   }
 
@@ -176,12 +141,12 @@ static int __init WS2812_init(void) {
   }
 
   WS2812_spi_setup_message(module_info);
-  PRINT_LOG("WS2812 has succesfully initialise module\n", NULL);
+  PRINT_LOG("WS2812 has succesfully initialise module\n");
   return 0;
 
-  work_initialized:
+work_initialized:
   WS2812_uninit_work(module_info);
-  framebuffer_initialized:
+framebuffer_initialized:
   WS2812_uninit_framebuffer(module_info);
   PRINT_ERR("Module exit (code %d)!\n", module_errno);
   return module_errno;
@@ -194,7 +159,7 @@ static int __init WS2812_init(void) {
 
 static void __exit WS2812_uninit(void) {
   if(!module_info) {
-    PRINT_LOG("module_info is NULL. Module didn't initialise correctly?\n", NULL);
+    PRINT_LOG("module_info is NULL. Module didn't initialise correctly?\n");
     return;
   }
   WS2812_uninit_spi(module_info);
@@ -205,15 +170,15 @@ static void __exit WS2812_uninit(void) {
 }
 
 // static void fb_fillrect(struct fb_info* info, const struct fb_fillrect* area) {
-//   PRINT_LOG("fillrect Called\n", NULL);
+//   PRINT_LOG("fillrect Called\n");
 // }
 
 // static void fb_copyarea(struct fb_info* info, const struct fb_copyarea* area) {
-//   PRINT_LOG("copyarea Called\n", NULL);
+//   PRINT_LOG("copyarea Called\n");
 // }
 
 // static void fb_imageblit(struct fb_info* info, const struct fb_image* area) {
-//   PRINT_LOG("imageblit Called\n", NULL);
+//   PRINT_LOG("imageblit Called\n");
 // }
 
 module_init(WS2812_init);

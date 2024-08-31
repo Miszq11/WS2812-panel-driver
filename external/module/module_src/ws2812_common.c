@@ -2,22 +2,20 @@
 #include "linux/export.h"
 #include "linux/init.h"
 #include "linux/module.h"
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat-extra-args"
-#pragma GCC diagnostic ignored "-Wformat"
+#include "linux/vmalloc.h"
 #include "ws2812_common.h"
 #include "debug_ctrl.h"
-//#pragma GCC diagnostic pop
 
 #include "linux/fb.h"  // IWYU pragma: keep
 
 static void WS2812_convert_work_fun(struct work_struct* work_str);
+static void WS2712_spi_completion(void* arg);
 
 /**
  * @brief frame buffer initialization function, returns NULL on success
  *
  * @param mod_info module info struct
- * @return struct WS2812_module_info* returns NULL on success
+ * @return struct WS2812_module_info* returns Not NULL Addr on success
  */
 
 struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info, struct fb_init_values* fb_init) {
@@ -38,7 +36,7 @@ struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info
     goto err_framebuffer_alloc;
   }
 
-  PRINT_LOG("framebuffer alloc'ed\n", NULL);
+  PRINT_LOG("framebuffer alloc'ed\n");
   //set the address of module assigned private data
   mod_info->info = info;
   info->par = mod_info;
@@ -60,7 +58,7 @@ struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info
   info->fix.smem_len = pixel_buffor_len;
   info->fix.smem_start = virt_to_phys(mod_info->fb_virt);
 
-  PRINT_LOG("fb_virt at %px, smem_start at: %px\n", mod_info->fb_virt, info->fix.smem_start);
+  PRINT_LOG("fb_virt at %px, smem_start at: %px\n", mod_info->fb_virt, (void *)(info->fix.smem_start));
 
   info->var.xres = fb_init->x_panel_length;
   info->var.yres = fb_init->y_panel_length;
@@ -83,7 +81,7 @@ struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info
 
   ret = register_framebuffer(info);
   if(ret < 0){
-    PRINT_ERR_FA("Framebuffer register failed!", NULL);
+    PRINT_ERR_FA("Framebuffer register failed!");
     goto err_fb_register;
   }
   return mod_info;
@@ -96,7 +94,7 @@ struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info
     vfree(mod_info->fb_virt);
 
   err_framebuffer_alloc:
-  PRINT_ERR_FA("WS2812 module did not initialise\n", NULL);
+  PRINT_ERR_FA("WS2812 module did not initialise\n");
   module_errno = ret;
   return NULL;
 }
@@ -113,7 +111,7 @@ int WS2812_work_init(struct WS2812_module_info* info) {
 
   info->work_buffer_input = vmalloc(info->fb_virt_size);
   if(!info->work_buffer_input) {
-    PRINT_ERR_FA("vmalloc (work_buffer_input) failed", NULL);
+    PRINT_ERR_FA("vmalloc (work_buffer_input) failed");
     ret = -ENOMEM;
     goto vmalloc_err;
   }
@@ -121,7 +119,7 @@ int WS2812_work_init(struct WS2812_module_info* info) {
   // initialise work output buffer;
   info->spi_buffer_size = 8*info->fb_virt_size + WS2812_ZERO_PAADING_SIZE;
   if(!(info->spi_buffer = vmalloc(info->spi_buffer_size))) {
-    PRINT_ERR_FA("vmalloc (spi_buffer) failed", NULL);
+    PRINT_ERR_FA("vmalloc (spi_buffer) failed");
     ret = -ENOMEM;
     goto vmalloc_err;
   }
@@ -138,8 +136,11 @@ int WS2812_work_init(struct WS2812_module_info* info) {
     goto work_queue_error;
   }
 
-  work_queue_error:
-  vmalloc_err:
+  return 0;
+
+work_queue_error:
+  vfree(info->work_buffer_input);
+vmalloc_err:
   return (module_errno = ret);
 }
 EXPORT_SYMBOL_GPL(WS2812_work_init);
@@ -179,10 +180,10 @@ EXPORT_SYMBOL_GPL(WS2812_map);
 static void WS2812_convert_work_fun(struct work_struct* work_str) {
   struct WS2812_module_info *priv = container_of(work_str, struct WS2812_module_info, WS2812_work);
   int x, y, color;
-  unsigned long flags;
+  //unsigned long flags;
 
   if(!memcpy(priv->work_buffer_input, priv->fb_virt, priv->fb_virt_size)) {
-    PRINT_ERR_FA("Work failed due to memcpy failure!\n", NULL);
+    PRINT_ERR_FA("Work failed due to memcpy failure!\n");
     return;
   }
 
@@ -274,7 +275,7 @@ int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg) {
       queue_work(priv->convert_workqueue, &(priv->WS2812_work));
       break;
     default:
-      PRINT_LOG("Unknown IOCTL? cmd: 0x%px arg: 0x%px\n", cmd, arg);
+      PRINT_LOG("Unknown IOCTL? cmd: 0x%px arg: 0x%px\n", (void *)cmd, (void *)arg);
       break;
   }
   return 0;
@@ -290,7 +291,7 @@ EXPORT_SYMBOL_GPL(WS_fb_ioctl);
 void WS2812_spi_transfer_begin(struct WS2812_module_info* info) {
   //build message
   if(info->spi_transfer_in_progress) {
-    PRINT_LOG("previous message still in progress! ABORTING\n", NULL);
+    PRINT_LOG("previous message still in progress! ABORTING\n");
     return;
   }
 
@@ -338,6 +339,50 @@ void WS2812_uninit_spi(struct WS2812_module_info* info) {
 }
 EXPORT_SYMBOL_GPL(WS2812_uninit_spi);
 
+/**
+ * @brief Initialisez SPI message and sets all it fields.
+ *        Xfer structure is also initialized here to
+ *        match required info.
+ *
+ *        SPI message is used as a main method to transfer
+ *        data contained in associated fb buffer
+ *        \see int WS2812_work_init(struct WS2812_module_info* info)
+ *
+ * @param info Module info struct
+ */
+
+void WS2812_spi_setup_message(struct WS2812_module_info* info) {
+  spi_message_init(&(info->WS2812_message));
+  info->WS2812_message.complete = WS2712_spi_completion;
+  info->WS2812_message.context = info;
+  info->WS2812_xfer.tx_buf = info->spi_buffer;
+  info->WS2812_xfer.rx_buf = NULL;
+  info->WS2812_xfer.speed_hz = 8000000;
+  info->WS2812_xfer.bits_per_word = info->WS2812_spi_dev->bits_per_word;
+  info->WS2812_xfer.len = info->spi_buffer_size;
+
+  spi_message_add_tail(&info->WS2812_xfer, &info->WS2812_message);
+}
+EXPORT_SYMBOL_GPL(WS2812_spi_setup_message);
+
+/**
+ * @brief Callback on SPI transfer completion.
+ *        It resets internal structure flag (spi_transfer_in_progress)
+ *        indicating that new transfer may begin.
+ *        \see struct WS2812_module_info
+ *
+ * @param arg Address of WS2812_module_info structure.
+ */
+
+static void WS2712_spi_completion(void* arg) {
+  struct WS2812_module_info *info = arg; // idk mby might be needed
+  PRINT_GOOD("SPI Transfer completed and was %s with status %d (xfered: %dBytes/ %d All Bytes)!\n",
+      (info->WS2812_message.status)?"\033[1;31mUNSUCCESFULL:\033[0m":"\033[1;32mSUCCESFULL:\033[0m",
+      info->WS2812_message.status, info->WS2812_message.frame_length, info->WS2812_message.actual_length);
+  info->spi_transfer_in_progress = false;
+}
+
+/// @private
 static int __init common_init_info(void) {
   printk("Common code carrier module init\n");
   return 0;
