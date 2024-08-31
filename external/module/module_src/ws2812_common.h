@@ -17,7 +17,6 @@
 #define WS2812_SPI_TARGET_HZ 8000000
 #define WS2812_ZERO_PAADING_SIZE 50*WS2812_SPI_TARGET_HZ/8000000+10
 
-
 struct fb_init_values {
   unsigned x_panel_length, y_panel_length;
   unsigned short color_bits,
@@ -25,7 +24,7 @@ struct fb_init_values {
   const struct fb_ops* prep_fb_ops;
 };
 
-static int module_errno = 0;
+int module_errno = 0;
 bool run_continously = false;
 
 int WS2812_work_init(struct WS2812_module_info* info);
@@ -38,6 +37,7 @@ void WS2812_uninit_spi(struct WS2812_module_info* info);
 void WS2812_spi_setup_message(struct WS2812_module_info* info);
 void WS2812_spi_transfer_begin(struct WS2812_module_info* info);
 
-static int WS2812_map(struct fb_info* info, struct vm_area_struct* vma);
+int WS2812_map(struct fb_info* info, struct vm_area_struct* vma);
+int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg);
 
 #endif

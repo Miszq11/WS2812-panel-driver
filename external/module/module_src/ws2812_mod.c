@@ -82,7 +82,7 @@ int WS2812_spi_init(struct WS2812_module_info* info) {
   info->WS2812_spi_master = spi_busnum_to_master(WS2812_SPI_BUS_NUM);
   if(!info->WS2812_spi_master) {
     PRINT_ERR_FA("Cannot get spi_master (no bus %d?)\n", WS2812_SPI_BUS_NUM);
-    return -ENODEV;
+    return (module_errno = -ENODEV);
   }
 
   //spooky scary
@@ -90,15 +90,14 @@ int WS2812_spi_init(struct WS2812_module_info* info) {
   info->WS2812_spi_dev = spi_new_device(info->WS2812_spi_master, &(info->spi_device_info));
   if(!info->WS2812_spi_dev) {
     PRINT_ERR_FA("Cannot create spi_device\n", NULL);
-    return -ENODEV;
+    return (module_errno = -ENODEV);
   }
   info->WS2812_spi_dev->bits_per_word = color_bits;
 
   if((ret = spi_setup(info->WS2812_spi_dev))) {
     PRINT_ERR_FA("Cannot setup spi device\n", NULL);
     spi_unregister_device(info->WS2812_spi_dev);
-    module_errno = ret;
-    return ret;
+    return (module_errno = ret);
   }
 
   // some driver specific data
@@ -158,12 +157,15 @@ static int __init WS2812_init(void) {
     .blue_offset = b_offset,
     .prep_fb_ops = &WS2812_fb_ops,
   };
+  struct WS2812_module_info* ret = NULL;
 
   module_info = vmalloc(sizeof(struct WS2812_module_info));
 
-  frame_buffer_init(module_info, &fb_init_vals);
-  if(!module_info)
+  ret = frame_buffer_init(module_info, &fb_init_vals);
+  if(!ret) {
+    PRINT_LOG("ERROR after frame buffer init", NULL);
     return module_errno;
+  }
 
   if(WS2812_work_init(module_info)) {
     goto framebuffer_initialized;
@@ -178,9 +180,10 @@ static int __init WS2812_init(void) {
   return 0;
 
   work_initialized:
-    WS2812_uninit_work(module_info);
+  WS2812_uninit_work(module_info);
   framebuffer_initialized:
-    WS2812_uninit_framebuffer(module_info);
+  WS2812_uninit_framebuffer(module_info);
+  PRINT_ERR("Module exit (code %d)!\n", module_errno);
   return module_errno;
 }
 

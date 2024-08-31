@@ -1,4 +1,7 @@
 
+#include "linux/export.h"
+#include "linux/init.h"
+#include "linux/module.h"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-extra-args"
 #pragma GCC diagnostic ignored "-Wformat"
@@ -97,6 +100,7 @@ struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info
   module_errno = ret;
   return NULL;
 }
+EXPORT_SYMBOL_GPL(frame_buffer_init);
 
 /**
  * @brief Function for allocating memory for the SPI buffer
@@ -136,9 +140,9 @@ int WS2812_work_init(struct WS2812_module_info* info) {
 
   work_queue_error:
   vmalloc_err:
-  module_errno = ret;
-  return ret;
+  return (module_errno = ret);
 }
+EXPORT_SYMBOL_GPL(WS2812_work_init);
 
 /**
  * @brief Allocates memory map
@@ -148,7 +152,7 @@ int WS2812_work_init(struct WS2812_module_info* info) {
  * @return int Returns 0 on success
  */
 
-static int WS2812_map(struct fb_info* info, struct vm_area_struct* vma) {
+int WS2812_map(struct fb_info* info, struct vm_area_struct* vma) {
   //TODO: test any vma->vm_ops for detecting any R/W operation?
   //This is gonna be fun
   struct WS2812_module_info* priv = info->par;
@@ -170,6 +174,7 @@ static int WS2812_map(struct fb_info* info, struct vm_area_struct* vma) {
   kfree(pages);
   return ret;
 }
+EXPORT_SYMBOL_GPL(WS2812_map);
 
 static void WS2812_convert_work_fun(struct work_struct* work_str) {
   struct WS2812_module_info *priv = container_of(work_str, struct WS2812_module_info, WS2812_work);
@@ -274,6 +279,7 @@ int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg) {
   }
   return 0;
 }
+EXPORT_SYMBOL_GPL(WS_fb_ioctl);
 
 /**
  * @brief Starts the SPI message transfer, prints out errors if they occur
@@ -312,6 +318,7 @@ void WS2812_uninit_framebuffer(struct WS2812_module_info* info) {
   framebuffer_release(info->info);
 
 }
+EXPORT_SYMBOL_GPL(WS2812_uninit_framebuffer);
 
 /**
  * @brief Removes work queue from memory
@@ -323,11 +330,18 @@ void WS2812_uninit_work(struct WS2812_module_info* info) {
   flush_workqueue(info->convert_workqueue);
   destroy_workqueue(info->convert_workqueue);
 }
-
+EXPORT_SYMBOL_GPL(WS2812_uninit_work);
 
 void WS2812_uninit_spi(struct WS2812_module_info* info) {
   if(info->WS2812_spi_dev)
     spi_unregister_device(info->WS2812_spi_dev);
 }
+EXPORT_SYMBOL_GPL(WS2812_uninit_spi);
 
+static int __init common_init_info(void) {
+  printk("Common code carrier module init\n");
+  return 0;
+}
+
+module_init(common_init_info)
 MODULE_LICENSE("GPL");

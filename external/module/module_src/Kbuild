@@ -1,10 +1,12 @@
+obj-m += ws2812_common.o
+
 ifeq ($(WS2812_MAKE_NO_DTS_VERSION),YES)
 	obj-m += ws2812_mod.o
-	ws2812_mod-y := ws2812_common.o
+# ws2812_mod-y := ws2812_common.o
 endif
 
 ifeq ($(WS2812_MAKE_DTS_VERSION),YES)
 	obj-m += ws2812_spi.o
-	ws2812_spi-y := ws2812_common.o
+#	ws2812_spi-y := ws2812_common.o
 endif
 

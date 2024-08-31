@@ -46,7 +46,4 @@ static const struct fb_fix_screeninfo WS_fb_fix = {
 };
 
 
-int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg);
-
-
 #endif //WS2812_CONFIG_H
