@@ -25,45 +25,11 @@
 static int WS2812_spi_probe(struct spi_device *spi);
 static int WS2812_remove(struct spi_device *spi);
 
-struct spi_master *master;
 
 /**
- * @brief SPI device info struct, contains device informations
+ * @brief Structure for compatible SPI device name in Device Tree (DT)
  *
  */
-/*
-struct spi_board_info spi_device_info = {
-	.modalias = "ws2812-panel",
-	.max_speed_hz = 10000000,
-	.bus_num = MY_BUS_NUM,
-	.chip_select = 0,
-	.mode = 2,
-};
-*/
-//static struct spi_device *WS2812_panel;
-
-/**
- * @brief SPI board info struct, contains board informations
- *
- */
-
-struct spi_board_info WS2812_board_info =
-{
-  .modalias     = "ws2812-board",
-  .max_speed_hz = WS2812_SPI_MAX_SPEED_HZ,
-  .bus_num      = MY_BUS_NUM,
-  .chip_select  = 1,
-  .mode         = SPI_MODE_2
-};
-//spi_register_board_info(spi_board_info, ARRAY_SIZE(WS2812_board_info));
-
-/*****************************************/
-/*************** SPI layer ***************/
-/*****************************************/
-
-
-
-//! Structure for device names
 static struct of_device_id WS2812_dt_match_id[] ={
   {
     .compatible = "swis,ws2812-panel", },
@@ -71,7 +37,10 @@ static struct of_device_id WS2812_dt_match_id[] ={
 };
 MODULE_DEVICE_TABLE(of, WS2812_dt_match_id);
 
-//! Structure for device id
+/**
+ * @brief Structure for DT names of SPI device IDs
+ *
+ */
 static const struct spi_device_id WS2812_dt_spi_id[] = {
 	{.name="ws2812-panel",0},
   {.name="ws2812-panel",1},
@@ -98,7 +67,7 @@ static const struct fb_ops WS2812_fb_ops = {
 /**
  * @brief Probe function, runs at driver initialization
  *
- * @param mod_info
+ * @param spi SPI device structure
  * @return int
  */
 static int WS2812_spi_probe(struct spi_device *spi){
@@ -106,8 +75,6 @@ static int WS2812_spi_probe(struct spi_device *spi){
   struct WS2812_module_info *info;
   struct fb_init_values fb_init_values = {0};
   u32 of_val32 = 0;
-  u16 of_val16 = 0;
-  int num = device_get_child_node_count(dev);
 
   printk(KERN_ERR "Probing my_device with SPI ID: %s\n", spi->modalias);
 
@@ -196,8 +163,6 @@ return ret;
 static struct spi_driver WS2812_spi_driver = {
   .driver = {
     .name = "ws2812-panel",
-    //.owner = THIS_MODULE,
-    //.of_match_table = WS2812_dt_spi_id,
     .of_match_table = WS2812_dt_match_id,
   },
   .probe = WS2812_spi_probe,

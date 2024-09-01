@@ -17,10 +17,10 @@ void int_handler(int dummy) {
 }
 
 /**
- * 
+ *
  * @brief Function for printing buffered values
- * 
- * @param[in] fbg frame buffer structure, defined in external library 
+ *
+ * @param[in] fbg frame buffer structure, defined in external library
  */
 
 void printBuff(struct _fbg *fbg) {
@@ -37,7 +37,7 @@ void printBuff(struct _fbg *fbg) {
 
 /**
  * @brief Function prints out app manual
- * 
+ *
  */
 
 void printHelp() {
@@ -53,8 +53,8 @@ void printHelp() {
 /**
  * @brief Displays simple animation. In this version the animation is a pixel moving through the LED panel.
  * The r, g and b parameters are inverted to GRB
- * 
- * @param fbg frame buffer structure, defined in external library  
+ *
+ * @param fbg frame buffer structure, defined in external library
  * @param fbdev_context fbdev wrapper data structure
  * @param r green colour value for RGB space
  * @param g red colour value for RGB space
@@ -72,16 +72,16 @@ void animate_pixel(struct _fbg *fbg, struct _fbg_fbdev_context *fbdev_context, u
             fbg_clear(fbg, 0);
             fbg_pixel(fbg, x, y, r, g,b);
             fbg_flip(fbg);
-            usleep(50000);
+            usleep(500000);
     }
 }
 
 /**
  * @brief The main function. Tests the application and displays set of colours and animation on WS2812 LED panel.
- * 
+ *
  * @param argc Argument count
  * @param argv Argument vector
- * @return int 
+ * @return int
  */
 
 int main(int argc, char* argv[]) {
