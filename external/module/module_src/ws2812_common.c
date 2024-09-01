@@ -45,7 +45,9 @@ struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info
   info->par = mod_info;
 
   /// - allocation of framebuffer pixel bufor
-  pixel_buffor_len = fb_init->x_panel_length*fb_init->y_panel_length*(fb_init->color_bits*3/8);
+  pixel_buffor_len = fb_init->x_panel_length*fb_init->y_panel_length*(fb_init->color_bits);
+  pixel_buffor_len = pixel_buffor_len*3/8 + ((pixel_buffor_len%8) ? 1 : 0);
+
   mod_info->fb_virt = (u8*) vmalloc(pixel_buffor_len); // TODO: fix for panel shifting!
   if(!mod_info->fb_virt)  {
     PRINT_ERR_FA("fb_virt alloc failed with %u\n", (unsigned)(mod_info->fb_virt));
@@ -124,7 +126,7 @@ int WS2812_work_init(struct WS2812_module_info* info) {
   }
 
   /// - Allocation of work output buffer
-  info->spi_buffer_size = BITS_PER_WORD*info->fb_virt_size + WS2812_ZERO_PAADING_SIZE;
+  info->spi_buffer_size = (8*info->fb_virt_size + WS2812_ZERO_PAADING_SIZE)*sizeof(WS2812_SPI_BUFF_TYPE);
   if(!(info->spi_buffer = vmalloc(info->spi_buffer_size))) {
     PRINT_ERR_FA("vmalloc (spi_buffer) failed");
     ret = -ENOMEM;

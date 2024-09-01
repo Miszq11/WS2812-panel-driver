@@ -1,42 +1,11 @@
 #ifndef WS2812_COMMON_H
 #define WS2812_COMMON_H
 
-#include "linux/fb.h"
+#include "linux/fb.h" // IWYU pragma: keep
 #include "module_config.h"
 
-//IOCTL CODES
-/// @brief Test ioctl code
-#define WS_IO_DUMMY _IO('x', 1)
-/// @brief Process pixel buffor and start spitransfer ioctl code
-#define WS_IO_PROCESS_AND_SEND _IO('x', 2)
-/// @brief Process workqueue name
-#define WS2812_WORKQUEUE_NAME "WS2812_simple_module"
-#define BITS_PER_WORD 16
 
-#if BITS_PER_WORD == 8
-/// @brief True value of one bit in spi transfer
-#define WS2812_SPI_TRUE 0b11111100
-/// @brief False value of one bit in spi transfer
-#define WS2812_SPI_FALSE 0b11000000
-
-#define WS2812_SPI_BUS_NUM 0
-#define WS2812_SPI_MAX_SPEED_HZ 10000000
-#define WS2812_SPI_TARGET_HZ 8000000
-#define WS2812_ZERO_PAADING_SIZE 50*WS2812_SPI_TARGET_HZ/8000000+10
-#endif
-
-#if BITS_PER_WORD == 16
-/// @brief True value of one bit in spi transfer
-#define WS2812_SPI_TRUE  0b0111111111000000
-/// @brief False value of one bit in spi transfer
-#define WS2812_SPI_FALSE 0b0111100000000000
-#define WS2812_SPI_MAX_SPEED_HZ 32000000
-#define WS2812_SPI_TARGET_HZ 15000000
-#define WS2812_ZERO_PAADING_SIZE 50*WS2812_SPI_TARGET_HZ/16000000+10
-#endif
-
-#define WS2812_SPI_BUS_NUM 0
-
+#ifdef __KERNEL__
 /**
  *  @brief structure holding values for framebuffer initialisation
  *    It adds layer of abstraction for different ways of starting the modue
@@ -45,9 +14,13 @@
  *  \see static int WS2812_spi_probe(struct spi_device *spi)
  */
 struct fb_init_values {
+  /// @brief panel real size: x-pixels by y-pixels
   unsigned x_panel_length, y_panel_length;
-  unsigned color_bits,
-      green_offset, red_offset, blue_offset;
+  /// @brief bitcount of one color
+  unsigned color_bits;
+  /// @brief offset of colors in word
+  unsigned green_offset, red_offset, blue_offset;
+  /// @brief combined structure of fb_ops (may differ in every module, thats why it is here)
   const struct fb_ops* prep_fb_ops;
 };
 
@@ -66,5 +39,6 @@ void WS2812_spi_transfer_begin(struct WS2812_module_info* info);
 
 int WS2812_map(struct fb_info* info, struct vm_area_struct* vma);
 int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg);
+#endif //__KERNEL__
 
-#endif
+#endif //WS2812_COMMON_H
