@@ -29,4 +29,7 @@ config BR2_PACKAGE_WS2812_INITD_INSTALL
 		help
 			This option will enable dropping the ws2712_module_startup into
 			/etc/init.d/ directory on target
-depends on BR2_PACKAGE_WS2812_MODULE
+depends on BR2_PACKAGE_WS2812_MODULE && BR2_INIT_BUSYBOX
+
+comment "init.s script for automatic module startup requires BUSY_BOX"
+	depends on BR2_PACKAGE_WS2812_MODULE && !BR2_INIT_BUSYBOX
