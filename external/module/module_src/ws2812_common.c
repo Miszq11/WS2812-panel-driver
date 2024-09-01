@@ -12,10 +12,12 @@ static void WS2812_convert_work_fun(struct work_struct* work_str);
 static void WS2712_spi_completion(void* arg);
 
 /**
- * @brief frame buffer initialization function, returns NULL on success
+ * @brief frame buffer initialization function
  *
  * @param mod_info module info struct
  * @return struct WS2812_module_info* returns Not NULL Addr on success
+ *
+ *  This function provides:
  */
 
 struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info, struct fb_init_values* fb_init) {
@@ -31,17 +33,18 @@ struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info
     fb_init->color_bits, fb_init->green_offset,
     fb_init->red_offset, fb_init->blue_offset);
 
+  /// - framebuffer alocation
   if(!(info = framebuffer_alloc(sizeof(struct WS2812_module_info*), NULL))) {
     PRINT_ERR_FA("frame buffer allocation failed! (private data struc size %u)\n", sizeof(struct WS2812_module_info));
     goto err_framebuffer_alloc;
   }
 
   PRINT_LOG("framebuffer alloc'ed\n");
-  //set the address of module assigned private data
+  /// - module internal structure address linking
   mod_info->info = info;
   info->par = mod_info;
 
-  // ALLOCATE PIXEL BUFFOR
+  /// - allocation of framebuffer pixel bufor
   pixel_buffor_len = fb_init->x_panel_length*fb_init->y_panel_length*(fb_init->color_bits*3/8);
   mod_info->fb_virt = (u8*) vmalloc(pixel_buffor_len); // TODO: fix for panel shifting!
   if(!mod_info->fb_virt)  {
@@ -50,7 +53,7 @@ struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info
   }
   mod_info->fb_virt_size = pixel_buffor_len;
 
-  // fill the info structure... can be moved to another fun?
+  /// - filling fb_info structure
   info->screen_base = (char __iomem *)mod_info->fb_virt;
   info->fbops = fb_init->prep_fb_ops;
   info->fix = WS_fb_fix;
@@ -79,6 +82,7 @@ struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info
   info->var.transp.offset = 0;
   info->var.activate = FB_ACTIVATE_NOW;
 
+  /// - registration of framebuffer
   ret = register_framebuffer(info);
   if(ret < 0){
     PRINT_ERR_FA("Framebuffer register failed!");
@@ -101,22 +105,25 @@ struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info
 EXPORT_SYMBOL_GPL(frame_buffer_init);
 
 /**
- * @brief Function for allocating memory for the SPI buffer
+ * @brief Function initializing all neccesary facilities for workqueue to work,
  *
  * @param info Module info struct
  * @return int Returns 0 on success
+ *
+ * This function provides:
  */
 int WS2812_work_init(struct WS2812_module_info* info) {
   int ret = 0;
-
+  /// - Allocation of work_buffer for copying pixel data
   info->work_buffer_input = vmalloc(info->fb_virt_size);
+
   if(!info->work_buffer_input) {
     PRINT_ERR_FA("vmalloc (work_buffer_input) failed");
     ret = -ENOMEM;
     goto vmalloc_err;
   }
 
-  // initialise work output buffer;
+  /// - Allocation of work output buffer
   info->spi_buffer_size = BITS_PER_WORD*info->fb_virt_size + WS2812_ZERO_PAADING_SIZE;
   if(!(info->spi_buffer = vmalloc(info->spi_buffer_size))) {
     PRINT_ERR_FA("vmalloc (spi_buffer) failed");
@@ -128,7 +135,7 @@ int WS2812_work_init(struct WS2812_module_info* info) {
   // idk how to check if this fails
   INIT_WORK(&(info->WS2812_work), WS2812_convert_work_fun);
 
-  // create workqueue...
+  /// - creating workqueue
   info->convert_workqueue = create_singlethread_workqueue(WS2812_WORKQUEUE_NAME);
   if(info->convert_workqueue == NULL) {
     PRINT_ERR_FA("Cannot create workqueue named %s\n", WS2812_WORKQUEUE_NAME);
@@ -146,9 +153,10 @@ vmalloc_err:
 EXPORT_SYMBOL_GPL(WS2812_work_init);
 
 /**
- * @brief Allocates memory map
+ * @brief Process map request on owned framebuffer.
+ *        Function maps internal pixel bufor into user-space.
  *
- * @param info Frame buffer informations
+ * @param info Frame buffer info structure
  * @param vma Memory map informations
  * @return int Returns 0 on success
  */
@@ -176,6 +184,19 @@ int WS2812_map(struct fb_info* info, struct vm_area_struct* vma) {
   return ret;
 }
 EXPORT_SYMBOL_GPL(WS2812_map);
+
+/**
+ * @brief Work function that will:
+ *    - copy pixel bufor to work buffor to prevent data races
+ *    - convert every pixel to corresponding codes for spi transfer
+ *    - start spi transfer
+ *
+ *
+ * \see void WS2812_spi_transfer_begin(struct WS2812_module_info* info) - function starting spi transfer
+ *
+ * @param  work_str Structure passed on queued work.
+ *      Struct WS2812_module_info address may be extracted from that
+ */
 
 static void WS2812_convert_work_fun(struct work_struct* work_str) {
   struct WS2812_module_info *priv = container_of(work_str, struct WS2812_module_info, WS2812_work);
@@ -241,12 +262,15 @@ static void WS2812_convert_work_fun(struct work_struct* work_str) {
 }
 
 /**
- * @brief Prints out information about current pixel values
+ * @brief IOCTL code handler
  *
- * @param info Frame buffer informations
- * @param cmd Command
- * @param arg Argument
- * @return int
+ * \see WS_IO_DUMMY - test command
+ * \see WS_IO_PROCESS_AND_SEND - flush to panel command
+ *
+ * @param info Frame buffer info structure
+ * @param cmd IOCTL Command
+ * @param arg IOCTL Argument value
+ * @return status of IOCTL completion
  */
 
 int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg) {
@@ -283,13 +307,13 @@ int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg) {
 EXPORT_SYMBOL_GPL(WS_fb_ioctl);
 
 /**
- * @brief Starts the SPI message transfer, prints out errors if they occur
+ * @brief Starts the asynchronous SPI message transfer, prints out errors if they occur.
+ *        Before starting new transfer it checks if the old one finished
  *
- * @param info Module info struct
+ * @param info calling module data struct
  */
 
 void WS2812_spi_transfer_begin(struct WS2812_module_info* info) {
-  //build message
   if(info->spi_transfer_in_progress) {
     PRINT_LOG("previous message still in progress! ABORTING\n");
     return;
@@ -303,17 +327,17 @@ void WS2812_spi_transfer_begin(struct WS2812_module_info* info) {
 }
 
 /**
- * @brief Framebuffer unitialization function
+ * @brief Framebuffer unitialization function.
+ *        Releases pixel memory, and framebuffer
+ *        structures.
  *
- * @param info Module info struct
+ * @param info calling module data struct
  */
 
 void WS2812_uninit_framebuffer(struct WS2812_module_info* info) {
   unregister_framebuffer(info->info);
   if(info->fb_virt)
     vfree(info->fb_virt);
-  if(info->work_buffer_input)
-    vfree(info->work_buffer_input);
   if(info->spi_buffer)
     vfree(info->spi_buffer);
   framebuffer_release(info->info);
@@ -322,13 +346,15 @@ void WS2812_uninit_framebuffer(struct WS2812_module_info* info) {
 EXPORT_SYMBOL_GPL(WS2812_uninit_framebuffer);
 
 /**
- * @brief Removes work queue from memory
+ * @brief Work and workqueue uninitialisation function
  *
- * @param info
+ * @param info calling module data struct
  */
 
 void WS2812_uninit_work(struct WS2812_module_info* info) {
   flush_workqueue(info->convert_workqueue);
+  if(info->work_buffer_input)
+    vfree(info->work_buffer_input);
   destroy_workqueue(info->convert_workqueue);
 }
 EXPORT_SYMBOL_GPL(WS2812_uninit_work);
@@ -340,15 +366,18 @@ void WS2812_uninit_spi(struct WS2812_module_info* info) {
 EXPORT_SYMBOL_GPL(WS2812_uninit_spi);
 
 /**
- * @brief Initialisez SPI message and sets all it fields.
+ * @brief Initializes SPI message and sets all it fields.
  *        Xfer structure is also initialized here to
  *        match required info.
  *
  *        SPI message is used as a main method to transfer
  *        data contained in associated fb buffer
- *        \see int WS2812_work_init(struct WS2812_module_info* info)
  *
- * @param info Module info struct
+ *        \see int WS2812_work_init(struct WS2812_module_info* info) for Buffer initialization
+ *        \see int WS2812_spi_init(struct WS2812_module_info* info) for SPI setup
+ *
+ *
+ * @param info calling module data struct
  */
 
 void WS2812_spi_setup_message(struct WS2812_module_info* info) {
@@ -372,7 +401,7 @@ EXPORT_SYMBOL_GPL(WS2812_spi_setup_message);
  *        indicating that new transfer may begin.
  *        \see struct WS2812_module_info
  *
- * @param arg Address of WS2812_module_info structure.
+ * @param arg Address of WS2812_module_info structure (calling module data struct).
  */
 
 static void WS2712_spi_completion(void* arg) {

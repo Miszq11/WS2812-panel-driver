@@ -5,22 +5,31 @@
 #include "module_config.h"
 
 //IOCTL CODES
+/// @brief Test ioctl code
 #define WS_IO_DUMMY _IO('x', 1)
+/// @brief Process pixel buffor and start spitransfer ioctl code
 #define WS_IO_PROCESS_AND_SEND _IO('x', 2)
+/// @brief Process workqueue name
 #define WS2812_WORKQUEUE_NAME "WS2812_simple_module"
 #define BITS_PER_WORD 16
 
 #if BITS_PER_WORD == 8
-#define WS2812_SPI_TRUE  0b11111100 /* check that!*/
-#define WS2812_SPI_FALSE 0b11000000 /* check that as well!*/
+/// @brief True value of one bit in spi transfer
+#define WS2812_SPI_TRUE 0b11111100
+/// @brief False value of one bit in spi transfer
+#define WS2812_SPI_FALSE 0b11000000
+
+#define WS2812_SPI_BUS_NUM 0
 #define WS2812_SPI_MAX_SPEED_HZ 10000000
 #define WS2812_SPI_TARGET_HZ 8000000
 #define WS2812_ZERO_PAADING_SIZE 50*WS2812_SPI_TARGET_HZ/8000000+10
 #endif
 
 #if BITS_PER_WORD == 16
-#define WS2812_SPI_TRUE  0b0111111111000000 /* check that!*/
-#define WS2812_SPI_FALSE 0b0111100000000000 /* check that as well!*/
+/// @brief True value of one bit in spi transfer
+#define WS2812_SPI_TRUE  0b0111111111000000
+/// @brief False value of one bit in spi transfer
+#define WS2812_SPI_FALSE 0b0111100000000000
 #define WS2812_SPI_MAX_SPEED_HZ 32000000
 #define WS2812_SPI_TARGET_HZ 15000000
 #define WS2812_ZERO_PAADING_SIZE 50*WS2812_SPI_TARGET_HZ/16000000+10
@@ -28,6 +37,13 @@
 
 #define WS2812_SPI_BUS_NUM 0
 
+/**
+ *  @brief structure holding values for framebuffer initialisation
+ *    It adds layer of abstraction for different ways of starting the modue
+ *
+ *  \see static int __init WS2812_init(void)
+ *  \see static int WS2812_spi_probe(struct spi_device *spi)
+ */
 struct fb_init_values {
   unsigned x_panel_length, y_panel_length;
   unsigned color_bits,
