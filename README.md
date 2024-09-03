@@ -9,11 +9,6 @@ Main objectives are to:
 * utilize framebuffer.
 
 
-Utilized hardware:
-* STM32MP157C-DK2 Development board
-![STM32MP157C-DK2](https://www.st.com/bin/ecommerce/api/image.PF267415.en.feature-description-include-personalized-no-cpn-large.jpg)
-* 8x8 WS2812B LED panel
-![Examplary panel](https://botland.com.pl/img/art/inne/06182_3.jpg)
 
 ## How LED are driven
 
@@ -27,3 +22,13 @@ Word length of 16 bits helped to get timings under controll, because it enabled
 tuning timings with a good precision. Basically SPI was used as an PWM generator
 with 4 bit resolution.
 
+## How it works
+Video of the working display can be found on one of the contributors youtube channel (subscribe!).
+
+[![Watch the video](https://img.youtube.com/vi/VwPaDlaS9uE?si=0EJWLzdlCJsrLGLw/maxresdefault.jpg)](https://youtu.be/VwPaDlaS9uE?si=0EJWLzdlCJsrLGLw)
+
+## Hardware used
+STM32MP157C-DK2 Development board
+![STM32MP157C-DK2](https://docs.zephyrproject.org/2.7.5/_images/en.stm32mp157c-dk2.jpg)
+8x8 WS2812B LED panel
+![Examplary panel](https://botland.com.pl/img/art/inne/06182_3.jpg)
