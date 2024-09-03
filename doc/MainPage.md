@@ -9,6 +9,22 @@ Framebuffer pixel data is beeing processed by
 work function (\ref WS2812_convert_work_fun) in work queue, so processing will not
 take a lot of time in kernel space.
 
+Driver can be initalized in two ways, via probing Device Tree \ref WS2812_spi_probe or via modprobe \ref WS2812_init.
+After proper initalization new frame buffer should appear in /dev/ folder
+for example /dev/fb0. Newly created buffer will be used by an app \ref app_main.c.
+Current version of the app is programmed to display 4 different animations/pictures
+on LED panel:
+-# green square,
+-# red square,
+-# panning animation,
+-# pixel animation.
+
+SPI is utilized as an PWM generator. By setting different amount of ones and
+zeros in transmitted word, we were able to get a timings in specification of
+the LED datasheet. Used 16 bit word size transferred to 4 bit PWM resolution,
+which was used to drive LEDs.
+
+
 \ref module_init
 \htmlonly
 <details open>

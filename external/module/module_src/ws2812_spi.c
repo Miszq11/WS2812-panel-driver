@@ -68,7 +68,8 @@ static const struct fb_ops WS2812_fb_ops = {
 
 
 /**
- * @brief Probe function, runs at driver initialization
+ * @brief Probe function, runs at driver initialization. It reads device information
+ * from device tree and initializes frame buffer with read information.
  *
  * @param spi SPI device structure
  * @return int
@@ -82,8 +83,11 @@ static int WS2812_spi_probe(struct spi_device *spi){
 
   fb_init_values.prep_fb_ops = &WS2812_fb_ops;
 
-  if(!WS2812_fb_parse_dt(dev->of_node, &fb_init_values))
+  if(WS2812_fb_parse_dt(dev->of_node, &fb_init_values)==0){
+    PRINT_LOG("Info from DT was properly parsed\n");
+  }else{
     goto dt_read;
+  }
 
   info = devm_kzalloc(dev, sizeof(struct WS2812_module_info), GFP_KERNEL);
   if(info)
@@ -126,7 +130,7 @@ dt_read:
 /**
  * @brief Remove function, runs when driver is unitialized
  *
- * @param spi
+ * @param spi SPI device structure
  * @return int
  */
 static int WS2812_remove(struct spi_device *spi){
