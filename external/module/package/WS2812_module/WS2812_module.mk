@@ -1,6 +1,7 @@
 WS2812_MODULE_VERSION = 1.0
 WS2812_MODULE_SITE = $(BR2_EXTERNAL_WS2812_panel_PATH)/module_src
 WS2812_MODULE_SITE_METHOD = local
+WS2812_MODULE_INSTALL_STAGING = YES
 WS2812_MODULE_LICENSE = GPL-2.0
 
 ifeq ($(BR2_PACKAGE_WS2812_MODULE_NO_DTS),y)
@@ -15,8 +16,14 @@ else
 	WS2812_MODULE_MODULE_MAKE_OPTS += WS2812_MAKE_DTS_VERSION=NO
 endif
 
+define WS2812_MODULE_INSTALL_STAGING_CMDS
+	$(INSTALL) -D -m 0644 $(@D)/module_config.h $(STAGING_DIR)/usr/include/WS2812_panel.h
+endef
+
 define WS2812_MODULE_INSTALL_TARGET_CMDS
-	$(if $(BR2_PACKAGE_WS2812_INITD_INSTALL), $(INSTALL) -D -m 0755 $(@D)/startup_script/S50ws2812_module_startup $(TARGET_DIR)/etc/init.d, )
+	$(if $(BR2_PACKAGE_WS2812_INITD_INSTALL), $(INSTALL) -D -m 0755 $(@D)/startup_script/ws2812_spi_module_startup $(TARGET_DIR)/etc/init.d/S50ws2812_module_startup, )
+	$(if $(BR2_PACKAGE_WS2812_INITD_INSTALL_TEST), $(INSTALL) -D -m 0755 $(@D)/startup_script/ws2812_test_module_startup $(TARGET_DIR)/etc/init.d/S50ws2812_module_startup, )
+
 endef
 
 

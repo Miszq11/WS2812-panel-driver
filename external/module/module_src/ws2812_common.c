@@ -1,4 +1,4 @@
-
+#include "asm-generic/errno-base.h"
 #include "linux/export.h"
 #include "linux/init.h"
 #include "linux/module.h"
@@ -25,13 +25,25 @@ struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info
   struct fb_info *info;
   //struct WS2812_module_info *mod_info;
   int ret = -ENOMEM;
-  unsigned pixel_buffor_len;
+  unsigned pixel_buffor_len, real_buffor_len;
 
-  PRINT_LOG("Module Init call with params: \n\tx_panel_len = %d \n\ty_panel_len = %d\
-    \n\tcolor_bits = %u \n\tg_offset = %u \n\tr_offset = %u \n\tb_offset = %u \n",
+  PRINT_LOG("Module Init call with params: \
+    \n\tx_panel_len = %d\n\ty_panel_len = %d\
+    \n\tx_virtual_length = %d\ty_virtual_length = %d \
+    \n\tx_pan_step = %d\ty_pan_step = %d\n\tcolor_bits = %u\
+    \n\tg_offset = %u \n\tr_offset = %u \n\tb_offset = %u \n",
     fb_init->x_panel_length, fb_init->y_panel_length, /*colors,*/
+    fb_init->x_virtual_length, fb_init->y_virtual_length,
+    fb_init->x_pan_step, fb_init->y_pan_step,
     fb_init->color_bits, fb_init->green_offset,
     fb_init->red_offset, fb_init->blue_offset);
+
+  if(fb_init->x_panel_length > fb_init->x_virtual_length ||
+      fb_init->y_panel_length > fb_init->y_virtual_length) {
+    PRINT_ERR_FA("virtual dimensions should be equal of bigger than panel dimensions");
+    module_errno = -EINVAL;
+    return NULL;
+  }
 
   /// - framebuffer alocation
   if(!(info = framebuffer_alloc(sizeof(struct WS2812_module_info*), NULL))) {
@@ -45,30 +57,41 @@ struct WS2812_module_info* frame_buffer_init(struct WS2812_module_info* mod_info
   info->par = mod_info;
 
   /// - allocation of framebuffer pixel bufor
-  pixel_buffor_len = fb_init->x_panel_length*fb_init->y_panel_length*(fb_init->color_bits);
+  pixel_buffor_len = fb_init->x_virtual_length*fb_init->y_virtual_length*(fb_init->color_bits);
   pixel_buffor_len = pixel_buffor_len*3/8 + ((pixel_buffor_len%8) ? 1 : 0);
 
   mod_info->fb_virt = (u8*) vmalloc(pixel_buffor_len); // TODO: fix for panel shifting!
   if(!mod_info->fb_virt)  {
+    ret = -ENOMEM;
     PRINT_ERR_FA("fb_virt alloc failed with %u\n", (unsigned)(mod_info->fb_virt));
     goto err_fb_virt_alloc;
   }
+  real_buffor_len = fb_init->x_panel_length*fb_init->y_panel_length*(fb_init->color_bits);
+  real_buffor_len = real_buffor_len*3/8 + ((real_buffor_len%8) ? 1 : 0);
+
   mod_info->fb_virt_size = pixel_buffor_len;
+  mod_info->fb_real_size = real_buffor_len;
 
   /// - filling fb_info structure
   info->screen_base = (char __iomem *)mod_info->fb_virt;
   info->fbops = fb_init->prep_fb_ops;
   info->fix = WS_fb_fix;
-  info->fix.line_length = fb_init->y_panel_length*(fb_init->color_bits*3/8);
+  info->fix.line_length = fb_init->x_panel_length*(fb_init->color_bits*3/8);
   info->fix.smem_len = pixel_buffor_len;
   info->fix.smem_start = virt_to_phys(mod_info->fb_virt);
 
+  PRINT_LOG("fix.line_length = %d, pixel_buf_len = %d, panel_buff_len = %d\n",
+      info->fix.line_length, pixel_buffor_len, real_buffor_len);
   PRINT_LOG("fb_virt at %px, smem_start at: %px\n", mod_info->fb_virt, (void *)(info->fix.smem_start));
 
   info->var.xres = fb_init->x_panel_length;
   info->var.yres = fb_init->y_panel_length;
-  info->var.xres_virtual = fb_init->x_panel_length; // TODO: fix for panel shifting!
-  info->var.yres_virtual = fb_init->y_panel_length; // TODO: fix for panel shifting!
+  info->var.xres_virtual = fb_init->x_virtual_length;
+  info->var.yres_virtual = fb_init->y_virtual_length;
+  info->fix.xpanstep = fb_init->x_pan_step;
+  info->fix.ypanstep = fb_init->y_pan_step;
+  // ywrapping is not supported i suppose?
+  info->var.vmode &= ~FB_VMODE_YWRAP;
   info->var.bits_per_pixel = fb_init->color_bits*3;
 
   info->var.red.length = fb_init->color_bits;
@@ -117,7 +140,7 @@ EXPORT_SYMBOL_GPL(frame_buffer_init);
 int WS2812_work_init(struct WS2812_module_info* info) {
   int ret = 0;
   /// - Allocation of work_buffer for copying pixel data
-  info->work_buffer_input = vmalloc(info->fb_virt_size);
+  info->work_buffer_input = vmalloc(info->fb_real_size);
 
   if(!info->work_buffer_input) {
     PRINT_ERR_FA("vmalloc (work_buffer_input) failed");
@@ -126,7 +149,7 @@ int WS2812_work_init(struct WS2812_module_info* info) {
   }
 
   /// - Allocation of work output buffer
-  info->spi_buffer_size = (8*info->fb_virt_size + WS2812_ZERO_PAADING_SIZE)*sizeof(WS2812_SPI_BUFF_TYPE);
+  info->spi_buffer_size = (8*info->fb_real_size + WS2812_ZERO_PAADING_SIZE)*sizeof(WS2812_SPI_BUFF_TYPE);
   if(!(info->spi_buffer = vmalloc(info->spi_buffer_size))) {
     PRINT_ERR_FA("vmalloc (spi_buffer) failed");
     ret = -ENOMEM;
@@ -202,64 +225,80 @@ EXPORT_SYMBOL_GPL(WS2812_map);
 
 static void WS2812_convert_work_fun(struct work_struct* work_str) {
   struct WS2812_module_info *priv = container_of(work_str, struct WS2812_module_info, WS2812_work);
-  int x, y, color;
-  //unsigned long flags;
+  size_t x, y, color;
+  size_t x_offset = 0, y_offset = 0;
 
-  if(!memcpy(priv->work_buffer_input, priv->fb_virt, priv->fb_virt_size)) {
-    PRINT_ERR_FA("Work failed due to memcpy failure!\n");
-    return;
+  #ifdef NO_DEVICE_TESTING
+  unsigned long flags;
+  #endif
+
+  lock_fb_info(priv->info);
+    x_offset = priv->info->var.xoffset;
+    y_offset = priv->info->var.yoffset;
+  unlock_fb_info(priv->info);
+
+  for(y = 0; y < priv->info->var.yres; y++) {
+    memcpy(
+        (priv->work_buffer_input + y*3*(priv->info->var.xres)),
+        (priv->fb_virt + 3*(x_offset + (y + y_offset)*(priv->info->var.xres_virtual))),
+        priv->info->fix.line_length);
   }
 
-  // DEBUG PRINT (REMOVE later)
-  //local_irq_save(flags);
-  //for(y = 0; y < priv->info->var.yres; y++) {
-  //  for(x = 0; x < priv->info->var.xres; x++) {
-  //    printk(KERN_CONT "(%u, %u, %u) ",
-  //        priv->work_buffer_input[3*(x + y*priv->info->var.xres)],
-  //        priv->work_buffer_input[3*(x + y*priv->info->var.xres) + 1],
-  //        priv->work_buffer_input[3*(x + y*priv->info->var.xres) + 2]);
-  //  }
-  //  printk("");
+  //if(!memcpy(priv->work_buffer_input, priv->fb_virt, priv->fb_virt_size)) {
+  //  PRINT_ERR_FA("Work failed due to memcpy failure!\n");
+  //  return;
   //}
-  //local_irq_restore(flags);
+
+  // DEBUG PRINT (REMOVE later)
+  #ifdef NO_DEVICE_TESTING
+  local_irq_save(flags);
+  printk("x_offset = %d, y_offset = %d\n", x_offset, y_offset);
+  printk("Frame:\n");
+  for(y = 0; y < priv->info->var.yres; y++) {
+    for(x = 0; x < priv->info->var.xres; x++) {
+      printk(KERN_CONT "(%u, %u, %u) ",
+          priv->work_buffer_input[3*(x + y*priv->info->var.xres) + 0],
+          priv->work_buffer_input[3*(x + y*priv->info->var.xres) + 1],
+          priv->work_buffer_input[3*(x + y*priv->info->var.xres) + 2]);
+    }
+    printk("");
+  }
+  local_irq_restore(flags);
+  #endif
 
   for(y = 0; y < priv->info->var.yres; y++) {
     for(x = 0; x < priv->info->var.xres; x++) {
       // I had overwhelming desire to do something stupid
       // ...
       // here I go :)
-      #define WS_SPI_IDX(x, y, color) 24*(x + y*priv->info->var.xres) + 8*color + WS2812_ZERO_PAADING_SIZE
-      #define WS_WORK_IDX(x, y, color) 3*(x + y*priv->info->var.xres) + color
+      #define WS_SPI_IDX(x, y, color) \
+          24*(x + y*priv->info->var.xres) + 8*color + WS2812_ZERO_PAADING_SIZE
+      #define WS_WORK_IDX(x, y, color) \
+          3*(x + y*priv->info->var.xres) + color
 
-      #define WS_CHEAT(x, y, color, bit) priv->spi_buffer[ WS_SPI_IDX(x, y, color) + bit] = \
-        (priv->work_buffer_input[WS_WORK_IDX(x, y, color)] & BIT(7-bit))? WS2812_SPI_TRUE : WS2812_SPI_FALSE
+      #define WS_CONVERT_PIXEL(x, y, color, bit) \
+          priv->spi_buffer[ WS_SPI_IDX(x, y, color) + bit] = \
+          (priv->work_buffer_input[WS_WORK_IDX(x, y, color)] & BIT(7-bit))? WS2812_SPI_TRUE : WS2812_SPI_FALSE
 
-      for(color = 0; color <3 /*hearth for you <3*/; color++) {
-        WS_CHEAT(x, y, color, 0);
-        WS_CHEAT(x, y, color, 1);
-        WS_CHEAT(x, y, color, 2);
-        WS_CHEAT(x, y, color, 3);
-        WS_CHEAT(x, y, color, 4);
-        WS_CHEAT(x, y, color, 5);
-        WS_CHEAT(x, y, color, 6);
-        WS_CHEAT(x, y, color, 7);
+      for(color = 0; color <3 /*<3*/; color++) {
+        WS_CONVERT_PIXEL(x, y, color, 0);
+        WS_CONVERT_PIXEL(x, y, color, 1);
+        WS_CONVERT_PIXEL(x, y, color, 2);
+        WS_CONVERT_PIXEL(x, y, color, 3);
+        WS_CONVERT_PIXEL(x, y, color, 4);
+        WS_CONVERT_PIXEL(x, y, color, 5);
+        WS_CONVERT_PIXEL(x, y, color, 6);
+        WS_CONVERT_PIXEL(x, y, color, 7);
       }
     }
   }
-  // DEBUG PRINT (REMOVE later)
-  // local_irq_save(flags);
-  // for(y=0; y<3; y++){
-  //   for(x=0; x < 8; x++) {
-  //     printk(KERN_CONT "%u", (priv->spi_buffer[8*y+ x] == WS2812_SPI_TRUE)?1:0);
-  //   }
-  //   printk(KERN_CONT " ");
-  // }
-  // local_irq_restore(flags);
-  // printk("");
 
-  WS2812_spi_transfer_begin(priv);
+  #ifndef NO_DEVICE_TESTING
+    WS2812_spi_transfer_begin(priv);
+  #endif
 
-  if(run_continously)
+  // This will deffinitelly fail... change that to delayed work
+  if(run_continously && !priv->spi_transfer_in_progress)
     queue_work(priv->convert_workqueue, &priv->WS2812_work);
 }
 
@@ -389,13 +428,32 @@ void WS2812_spi_setup_message(struct WS2812_module_info* info) {
   info->WS2812_xfer.tx_buf = info->spi_buffer;
   info->WS2812_xfer.rx_buf = NULL;
   info->WS2812_xfer.speed_hz = WS2812_SPI_TARGET_HZ;
+  #ifndef NO_DEVICE_TESTING
   info->WS2812_xfer.bits_per_word = info->WS2812_spi_dev->bits_per_word;
+  #endif
   //info->WS2812_xfer.bits_per_word = BITS_PER_WORD;
   info->WS2812_xfer.len = info->spi_buffer_size;
 
   spi_message_add_tail(&info->WS2812_xfer, &info->WS2812_message);
 }
 EXPORT_SYMBOL_GPL(WS2812_spi_setup_message);
+
+int WS2812_fb_pan_display(struct fb_var_screeninfo* var, struct fb_info* info) {
+  // ypanstep, xpanstep should be the size of y/x_virt_size?
+  //
+  // IOCTL will fail if the pan will force the display to
+  // go over the buffer
+  //
+  // else the wrapping should be done manually with
+  // user declared IOCTL
+  //
+
+  PRINT_GOOD("Display panned\n");
+  PRINT_GOOD("xoffset = %u, yoffset = %u\n", var->xoffset, var->yoffset);
+  // dont have to do anything, internal fb_pan will do most checks for us
+  return 0;
+}
+EXPORT_SYMBOL_GPL(WS2812_fb_pan_display);
 
 /**
  * @brief Callback on SPI transfer completion.

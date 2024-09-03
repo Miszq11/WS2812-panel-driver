@@ -19,6 +19,11 @@
 // MODULE PARAMETERS
 unsigned x_panel_len = 8;
 unsigned y_panel_len = 8;
+unsigned x_virtual_len = 16;
+unsigned y_virtual_len = 8;
+unsigned x_pan_step = 1;
+unsigned y_pan_step = 1;
+
 unsigned short color_bits = 8;
 unsigned short g_offset = 0;
 unsigned short r_offset = 8;
@@ -26,6 +31,10 @@ unsigned short b_offset = 16;
 
 module_param(x_panel_len, uint, 0444); // SETTING IT AS "WORLD-READABLE" for better debugging
 module_param(y_panel_len, uint, 0444);
+module_param(x_virtual_len, uint, 0444);
+module_param(y_virtual_len, uint, 0444);
+module_param(x_pan_step, uint, 0444);
+module_param(y_pan_step, uint, 0444);
 module_param(color_bits, ushort, 0444);
 module_param(g_offset, ushort, 0444);
 module_param(r_offset, ushort, 0444);
@@ -35,6 +44,10 @@ struct WS2812_module_info *module_info = NULL;
 
 static int WS2812_init(void);
 static void WS2812_uninit(void);
+
+static void fb_fillrect(struct fb_info* info, const struct fb_fillrect* area);
+static void fb_copyarea(struct fb_info* info, const struct fb_copyarea* area);
+static void fb_imageblit(struct fb_info* info, const struct fb_image* area);
 
 int WS2812_spi_init(struct WS2812_module_info* info);
 
@@ -49,13 +62,20 @@ static const struct fb_ops WS2812_fb_ops = {
   //.fb_write = fb_sys_write,
   //.fb_fillrect = sys_fillrect, /* obligatory fun (using sys_XX functions for now)*/
   //.fb_copyarea = sys_copyarea, /* obligatory fun (using sys_XX functions for now)*/
-  .fb_fillrect = cfb_fillrect, /* obligatory fun (using sys_XX functions for now)*/
-  .fb_copyarea = cfb_copyarea, /* obligatory fun (using sys_XX functions for now)*/
-  .fb_imageblit = cfb_imageblit, /* obligatory fun (using sys_XX functions for now)*/
+  #ifndef NO_DEVICE_TESTING
+    .fb_fillrect = cfb_fillrect, /* obligatory fun (using sys_XX functions for now)*/
+    .fb_copyarea = cfb_copyarea, /* obligatory fun (using sys_XX functions for now)*/
+    .fb_imageblit = cfb_imageblit, /* obligatory fun (using sys_XX functions for now)*/
+  #else
+    .fb_fillrect = fb_fillrect,
+    .fb_copyarea = fb_copyarea,
+    .fb_imageblit = fb_imageblit,
+  #endif
   .fb_mmap = WS2812_map,
   // FB_WAIT_FOR_VSYNC is called every draw execution
   // should we use that to update display?
   .fb_ioctl = WS_fb_ioctl,
+  .fb_pan_display = WS2812_fb_pan_display
 };
 
 /**
@@ -115,7 +135,11 @@ int WS2812_spi_init(struct WS2812_module_info* info) {
 static int __init WS2812_init(void) {
   struct fb_init_values fb_init_vals = {
     .x_panel_length = x_panel_len,
-    .y_panel_length = x_panel_len,
+    .y_panel_length = y_panel_len,
+    .x_virtual_length = x_virtual_len,
+    .y_virtual_length = y_virtual_len,
+    .x_pan_step = x_pan_step,
+    .y_pan_step = y_pan_step,
     .color_bits = color_bits,
     .green_offset = g_offset,
     .red_offset = r_offset,
@@ -136,9 +160,11 @@ static int __init WS2812_init(void) {
     goto framebuffer_initialized;
   }
 
+  #ifndef NO_DEVICE_TESTING
   if(WS2812_spi_init(module_info)) {
     goto work_initialized;
   }
+  #endif
 
   WS2812_spi_setup_message(module_info);
   PRINT_LOG("WS2812 has succesfully initialise module\n");
@@ -169,17 +195,9 @@ static void __exit WS2812_uninit(void) {
   printk("Goodbye from WS2812 module\n");
 }
 
-// static void fb_fillrect(struct fb_info* info, const struct fb_fillrect* area) {
-//   PRINT_LOG("fillrect Called\n");
-// }
-
-// static void fb_copyarea(struct fb_info* info, const struct fb_copyarea* area) {
-//   PRINT_LOG("copyarea Called\n");
-// }
-
-// static void fb_imageblit(struct fb_info* info, const struct fb_image* area) {
-//   PRINT_LOG("imageblit Called\n");
-// }
+static void fb_fillrect(struct fb_info* info, const struct fb_fillrect* area) {return;}
+static void fb_copyarea(struct fb_info* info, const struct fb_copyarea* area) {return;}
+static void fb_imageblit(struct fb_info* info, const struct fb_image* area) {return;}
 
 module_init(WS2812_init);
 module_exit(WS2812_uninit);

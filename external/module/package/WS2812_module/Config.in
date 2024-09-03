@@ -23,13 +23,32 @@ config BR2_PACKAGE_WS2812_MODULE_DTS
 			matching dts entry with key "swis,ws2812-panel"
 depends on BR2_PACKAGE_WS2812_MODULE
 
-config BR2_PACKAGE_WS2812_INITD_INSTALL
-		bool "install initd script for automatic module startup"
-		default y if BR2_PACKAGE_WS2812_MODULE
-		help
-			This option will enable dropping the ws2712_module_startup into
-			/etc/init.d/ directory on target
-depends on BR2_PACKAGE_WS2812_MODULE && BR2_INIT_BUSYBOX
+choice
+	prompt "automatic module startup"
+	default BR2_PACKAGE_WS2812_INITD_NONE
+	depends on BR2_PACKAGE_WS2812_MODULE && BR2_INIT_BUSYBOX
+
+	config BR2_PACKAGE_WS2812_INITD_NONE
+			bool "none"
+			help
+				No script will be dropped into /etc/init.d directory
+
+	config BR2_PACKAGE_WS2812_INITD_INSTALL
+			bool "install initd script for automatic module startup"
+			help
+				This option will enable dropping the ws2712_module_startup into
+				/etc/init.d/ directory on target. This script will call
+				"modprobe ws2812_spi"
+	depends on BR2_PACKAGE_WS2812_MODULE && BR2_INIT_BUSYBOX
+
+	config BR2_PACKAGE_WS2812_INITD_INSTALL_TEST
+			bool "install initd script for automatic test module startup"
+			help
+				This option will enable dropping the ws2712_module_startup into
+				/etc/init.d/ directory on target. This script will call
+				"modprobe ws2812_mod".
+	depends on BR2_PACKAGE_WS2812_MODULE && BR2_INIT_BUSYBOX
+endchoice
 
 comment "init.s script for automatic module startup requires BUSY_BOX"
 	depends on BR2_PACKAGE_WS2812_MODULE && !BR2_INIT_BUSYBOX

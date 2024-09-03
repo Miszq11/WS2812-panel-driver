@@ -41,5 +41,6 @@ set(CMAKE_BUILD_TYPE Release)
 
 
 add_executable(WS2812_app app_main.c)
+target_include_directories(WS2812_app PUBLIC "/usr/include")
 #target_include_directories(WS2812_app PRIVATE "${tfb_SOURCE_DIR}/include")
 target_link_libraries(WS2812_app PRIVATE fbg)

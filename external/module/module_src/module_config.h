@@ -46,18 +46,36 @@
 
   #define WS2812_SPI_BUS_NUM 0
 
+/**
+ *  @brief structure holding important data shared through all functions
+ *         in the module.
+ *
+ *
+ *
+ */
   struct WS2812_module_info {
-    // spi
-    // dma...
-    // workqueue...
+    /// Pixel buffer (mapped to user space)
     u8 *fb_virt;
+    /// Pixel count of the display in bytes
+    size_t fb_real_size;
+    /// Pixel count of whole frame in bytes (may be bigger than fb_real_size)
     size_t fb_virt_size;
-    //work buffer input
+    /// Work buffer input
     u8 *work_buffer_input;
+    /// Size of the work buffer (bytes)
     size_t work_buffer_input_size;
-    //work buffer output -- SPI input
+    /// work buffer output -- SPI input
     WS2812_SPI_BUFF_TYPE *spi_buffer;
-    size_t spi_buffer_size; // should be 8 times bigger than fb_virt_size!
+    /**
+     * @brief SPI buffer size. It should be calculated like:
+     *
+     *    fb_real_size*8*[size of SPI word]
+     *
+     *    where 8 comes from bits in color
+     *    (it should be fixed or removed from
+     *     possible variables set by user).
+     */
+    size_t spi_buffer_size;
     struct fb_info* info;
     struct work_struct WS2812_work;
     struct workqueue_struct *convert_workqueue;

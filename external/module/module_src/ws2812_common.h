@@ -16,6 +16,10 @@
 struct fb_init_values {
   /// @brief panel real size: x-pixels by y-pixels
   unsigned x_panel_length, y_panel_length;
+  /// @brief virtual pixel board size (whole image)
+  unsigned x_virtual_length, y_virtual_length;
+  /// @brief Pan span values?
+  unsigned x_pan_step, y_pan_step;
   /// @brief bitcount of one color
   unsigned color_bits;
   /// @brief offset of colors in word
@@ -39,6 +43,8 @@ void WS2812_spi_transfer_begin(struct WS2812_module_info* info);
 
 int WS2812_map(struct fb_info* info, struct vm_area_struct* vma);
 int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg);
+int WS2812_fb_pan_display(struct fb_var_screeninfo*, struct fb_info*);
+
 #endif //__KERNEL__
 
 #endif //WS2812_COMMON_H

@@ -7,6 +7,7 @@
 #include <linux/mod_devicetable.h>
 #include <linux/of.h>
 
+#include "asm-generic/errno-base.h"
 #include "debug_ctrl.h"
 #include "linux/property.h"
 #include "module_config.h"
@@ -22,8 +23,9 @@
 
 #define MY_BUS_NUM 0
 
-static int WS2812_spi_probe(struct spi_device *spi);
-static int WS2812_remove(struct spi_device *spi);
+static int WS2812_spi_probe(struct spi_device *);
+static int WS2812_remove(struct spi_device *);
+static int WS2812_fb_parse_dt(struct device_node* , struct fb_init_values*);
 
 
 /**
@@ -61,6 +63,7 @@ static const struct fb_ops WS2812_fb_ops = {
   .fb_imageblit = cfb_imageblit,
   .fb_mmap = WS2812_map,
   .fb_ioctl = WS_fb_ioctl,
+  .fb_pan_display = WS2812_fb_pan_display,
 };
 
 
@@ -74,45 +77,19 @@ static int WS2812_spi_probe(struct spi_device *spi){
   struct device *dev = &spi->dev;
   struct WS2812_module_info *info;
   struct fb_init_values fb_init_values = {0};
-  u32 of_val32 = 0;
 
   printk(KERN_ERR "Probing my_device with SPI ID: %s\n", spi->modalias);
 
   fb_init_values.prep_fb_ops = &WS2812_fb_ops;
-  if(of_property_read_u32(dev->of_node, "panel,x-visible-len", &of_val32) >= 0) {
-    fb_init_values.x_panel_length = of_val32;
-    //PRINT_LOG("read val x len: %u\n",fb_init_values.x_panel_length);
-  } ELSE_RETURN_ERR
 
-  if(of_property_read_u32(dev->of_node, "panel,y-visible-len", &of_val32) >= 0) {
-    fb_init_values.y_panel_length = of_val32;
-    //PRINT_LOG("read val y len: %u\n",fb_init_values.y_panel_length);
-  } ELSE_RETURN_ERR
-
-  if(of_property_read_u32(dev->of_node, "panel,color-bits", &of_val32) >= 0) {
-    fb_init_values.color_bits = of_val32;
-    //PRINT_LOG("read val colour bits: %u\n",fb_init_values.color_bits);
-  } ELSE_RETURN_ERR
-  if(of_property_read_u32(dev->of_node, "panel,green-bit-offset", &of_val32) >=0) {
-    fb_init_values.green_offset = of_val32;
-    //PRINT_LOG("read val green offset: %u\n",fb_init_values.green_offset);
-  } ELSE_RETURN_ERR
-  if(of_property_read_u32(dev->of_node, "panel,red-bit-offset", &of_val32) >= 0) {
-    fb_init_values.red_offset = of_val32;
-    //PRINT_LOG("read val red offset: %u\n",fb_init_values.red_offset);
-  } ELSE_RETURN_ERR
-  if(of_property_read_u32(dev->of_node, "panel,blue-bit-offset", &of_val32) >= 0) {
-    fb_init_values.blue_offset = of_val32;
-   // PRINT_LOG("read val blue offset: %u\n",fb_init_values.blue_offset);
-  } ELSE_RETURN_ERR
-
-
+  if(!WS2812_fb_parse_dt(dev->of_node, &fb_init_values))
+    goto dt_read;
 
   info = devm_kzalloc(dev, sizeof(struct WS2812_module_info), GFP_KERNEL);
   if(info)
     PRINT_LOG("devm success");
   else
-    return -1;
+    return -ENOMEM;
 
   info->WS2812_spi_dev = spi;
   info->WS2812_spi_dev->bits_per_word = BITS_PER_WORD;
@@ -141,6 +118,9 @@ framebuffer_initialized:
   WS2812_uninit_framebuffer(info);
   PRINT_ERR_FA("Critical error returning %d from driver\n", module_errno);
   return module_errno;
+dt_read:
+  PRINT_ERR_FA("Could not parse needed dts entries (did you miss any?)\n");
+  return -EINVAL;
 }
 
 /**
@@ -150,6 +130,7 @@ framebuffer_initialized:
  * @return int
  */
 static int WS2812_remove(struct spi_device *spi){
+  // TODO: add proper removal of fb, spi dev, buffers!!
   int ret = 0;
   pr_info("Probe function remove %d\n",ret);
 return ret;
@@ -169,6 +150,80 @@ static struct spi_driver WS2812_spi_driver = {
   .id_table = WS2812_dt_spi_id,
   .remove = WS2812_remove,
 };
+
+
+/**
+ * @brief Function reading all necessary properties from device tree
+ *        entry, including:
+ *
+ *        \b Obligatory:
+ *          - panel,x-visible-len - Panel x dimension
+ *          - panel,y-visible-len - Panel y dimension
+ *          - panel,color-bits - Bits every color takes in spi communication
+ *          - panel,green-bit-offset - bit offset of green color
+ *          - panel,red-bit-offset - bit offset of red color
+ *          - panel,blue-bit-offset - bit offset of blue color
+ *
+ *        \b Optional:
+ *          - panel,x-virtual-len - Framebuffer x dimension (may be only bigger than x-visible-len)
+ *          - panel,y-virtual-len - Framebuffer y dimension (may be only bigger than y-visible-len)
+ *          - panel,x-pan-step - Allowed x-panstep for display panning
+ *          - panel,y-pan-step - Allowed y-panstep for display panning
+ */
+
+static int WS2812_fb_parse_dt(struct device_node* node, struct fb_init_values* init_vals) {
+  u32 of_val32 = 0;
+
+  if(of_property_read_u32(node, "panel,x-visible-len", &of_val32) >= 0) {
+    init_vals->x_panel_length = of_val32;
+  } ELSE_RETURN_ERR
+
+  if(of_property_read_u32(node, "panel,y-visible-len", &of_val32) >= 0) {
+    init_vals->y_panel_length = of_val32;
+  } ELSE_RETURN_ERR
+
+  // These 4 parameters are optional (simply set the size of panel)
+  if(of_property_read_u32(node, "panel,x-virtual-len", &of_val32) >= 0) {
+    init_vals->x_virtual_length = of_val32;
+  } else {
+    init_vals->x_virtual_length = init_vals->x_panel_length;
+  }
+
+  if(of_property_read_u32(node, "panel,y-virtual-len", &of_val32) >= 0) {
+    init_vals->y_virtual_length = of_val32;
+  } else {
+    init_vals->y_virtual_length = init_vals->y_panel_length;
+  }
+
+  if(of_property_read_u32(node, "panel,x-pan-step", &of_val32) >= 0) {
+    init_vals->y_pan_step = of_val32;
+  } else {
+    init_vals->y_pan_step = 1;
+  }
+
+  if(of_property_read_u32(node, "panel,y-pan-step", &of_val32) >= 0) {
+    init_vals->x_pan_step = of_val32;
+  } else {
+    init_vals->x_pan_step = 1;
+  }
+
+  if(of_property_read_u32(node, "panel,color-bits", &of_val32) >= 0) {
+    init_vals->color_bits = of_val32;
+  } ELSE_RETURN_ERR
+
+  if(of_property_read_u32(node, "panel,green-bit-offset", &of_val32) >=0) {
+    init_vals->green_offset = of_val32;
+  } ELSE_RETURN_ERR
+  if(of_property_read_u32(node, "panel,red-bit-offset", &of_val32) >= 0) {
+    init_vals->red_offset = of_val32;
+  } ELSE_RETURN_ERR
+
+  if(of_property_read_u32(node, "panel,blue-bit-offset", &of_val32) >= 0) {
+    init_vals->blue_offset = of_val32;
+  } ELSE_RETURN_ERR
+
+  return 0;
+}
 
 module_spi_driver(WS2812_spi_driver);
 
