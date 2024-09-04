@@ -20,6 +20,11 @@ Main objectives are to:
       - [Running](#running)
       - [Known bugs](#known-bugs)
       - [Work status](#work-status)
+      - [Why & Hows](#why--hows)
+          - [framebuffes](#framebuffer)
+          - [Workqueue](#work-queue)
+          - [SPI](#spi)
+          - [Module split](#module-split)
 
 
 # About the project
@@ -192,4 +197,54 @@ Achieved functionality:
 | Display panning | <b style="color:yellow"> Ok? </b> |
 | Constant framerate | <b style="color:#f03000"> Not implemented </b> |
 | Ioctl draw | <b style="color:green"> Ok </b> |
+
+## Why & Hows
+
+### framebuffer
+  Length of pixel data buffor is a product of x_virt_size and y_virt_size, for
+  further panning to work. This is because of the lack of found documentation and
+  example uses, of Panning functionality in fb.
+
+  module allows the write of whole pixel buffer (even the virtual part)
+  and then utilizes xoffset, yoffset and line_length (visible line length?),
+  to display currently seen pixels (xres by yres). This can be achieved
+  by mapping the buffer into user space app.
+
+  Linux system does automatically call imageblit on every framebuffers,
+  so this functionality is disabled (empty function) in module. The source
+  of that call is yet to be discovered, thats why this topic is
+  scheduled for further investigation.
+
+### Work queue
+
+  Developers wanted to use workqueue for converting pixel rgb data
+  into SPI transfers, just to avoid locking the kernel code execution
+  for long time.
+
+  Used LED specific gamma correction is for now hardcoded in the
+  work function, but probably will be set to optional and
+  implemented dynamic in further development.
+
+### SPI
+
+  All SPI transfers uses single spi_message, set up at the initialisation
+  of the module. This is because every transfer is the same and the only
+  difference is in data stored in buffor. This buffor is provided by its
+  address.
+
+  Currently there is no DMA support, but all facilities are ready to be
+  implemented to use it.
+
+### Module Split
+
+  There are two main developers of this repository, where only one
+  of them is in possesion of a board and LED panel. Thats why main
+  modules are splited in two, and one common module.
+
+  ws2812_mod is mainly designed for testing the functionality of
+  framebuffer, mapping, spi data preparation, where ws2812_spi
+  aims for real life testing on the device.
+
+  ws2812_common module, exports all necessary functions that are
+  used in both modules.
 
