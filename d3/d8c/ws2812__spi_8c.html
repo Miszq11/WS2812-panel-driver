@@ -69,6 +69,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -79,57 +80,96 @@ $(function() {
 <code>#include &lt;linux/module.h&gt;</code><br />
 <code>#include &lt;linux/fb.h&gt;</code><br />
 <code>#include &lt;linux/export.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="../../da/d1e/ws2812_8h_source.html">ws2812.h</a>&quot;</code><br />
+<code>#include &lt;linux/device.h&gt;</code><br />
+<code>#include &lt;linux/init.h&gt;</code><br />
+<code>#include &lt;linux/mod_devicetable.h&gt;</code><br />
+<code>#include &lt;linux/of.h&gt;</code><br />
 <code>#include &quot;asm-generic/errno-base.h&quot;</code><br />
-<code>#include &quot;asm/memory.h&quot;</code><br />
-<code>#include &quot;asm/page.h&quot;</code><br />
-<code>#include &quot;asm/string.h&quot;</code><br />
-<code>#include &quot;linux/gfp.h&quot;</code><br />
-<code>#include &quot;linux/irqflags.h&quot;</code><br />
-<code>#include &quot;linux/kern_levels.h&quot;</code><br />
-<code>#include &quot;linux/kernel.h&quot;</code><br />
-<code>#include &quot;linux/mm.h&quot;</code><br />
-<code>#include &quot;linux/moduleparam.h&quot;</code><br />
-<code>#include &quot;linux/platform_device.h&quot;</code><br />
-<code>#include &quot;linux/slab.h&quot;</code><br />
-<code>#include &quot;linux/spi/spi.h&quot;</code><br />
-<code>#include &quot;linux/stddef.h&quot;</code><br />
-<code>#include &quot;linux/types.h&quot;</code><br />
-<code>#include &quot;linux/vmalloc.h&quot;</code><br />
-<code>#include &quot;linux/workqueue.h&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../d0/dd4/module__config_8h_source.html">module_config.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d3/d51/debug__ctrl_8h_source.html">debug_ctrl.h</a>&quot;</code><br />
-<code>#include &quot;vdso/bits.h&quot;</code><br />
+<code>#include &quot;linux/property.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d0/dd4/module__config_8h_source.html">module_config.h</a>&quot;</code><br />
+<code>#include &quot;linux/gfp.h&quot;</code><br />
+<code>#include &quot;linux/spi/spi.h&quot;</code><br />
+<code>#include &lt;linux/string.h&gt;</code><br />
+<code>#include &quot;linux/kern_levels.h&quot;</code><br />
+<code>#include &quot;linux/stddef.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d9/d1b/ws2812__common_8h_source.html">ws2812_common.h</a>&quot;</code><br />
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a0460ed1f4e9eea3bdff4bc4070b62d12"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#a0460ed1f4e9eea3bdff4bc4070b62d12">ELSE_RETURN_ERR</a>&#160;&#160;&#160;else return -1;</td></tr>
+<tr class="separator:a0460ed1f4e9eea3bdff4bc4070b62d12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34f4204503af5451792c9e139f655abe"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#a34f4204503af5451792c9e139f655abe">MY_BUS_NUM</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a34f4204503af5451792c9e139f655abe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad94b36675e7eb067ea3ce6ff9e244a44"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#ad94b36675e7eb067ea3ce6ff9e244a44">MODULE_LICENSE</a> (&quot;GPL&quot;)</td></tr>
-<tr class="separator:ad94b36675e7eb067ea3ce6ff9e244a44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e65263bc6e7393a94abf1c519c5feb3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#a1e65263bc6e7393a94abf1c519c5feb3">MODULE_AUTHOR</a> (&quot;Przemyslaw Zeranski&quot;)</td></tr>
-<tr class="separator:a1e65263bc6e7393a94abf1c519c5feb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a131697bad03946993d1eee21e9f673ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#a131697bad03946993d1eee21e9f673ad">MODULE_DESCRIPTION</a> (&quot;WS2812 stip driver (dts version) over SPI. Based on non-dts version.&quot;)</td></tr>
-<tr class="separator:a131697bad03946993d1eee21e9f673ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca6679584f7a0b81ffe01692cfb5657a"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#aca6679584f7a0b81ffe01692cfb5657a">WS2812_spi_probe</a> (struct spi_device *spi)</td></tr>
+<tr class="memdesc:aca6679584f7a0b81ffe01692cfb5657a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Probe function, runs at driver initialization. It reads device information from device tree and initializes frame buffer with read information.  <a href="../../d3/d8c/ws2812__spi_8c.html#aca6679584f7a0b81ffe01692cfb5657a">More...</a><br /></td></tr>
+<tr class="separator:aca6679584f7a0b81ffe01692cfb5657a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf10b4b42bff51809279226eb016eac2"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#abf10b4b42bff51809279226eb016eac2">WS2812_remove</a> (struct spi_device *spi)</td></tr>
+<tr class="memdesc:abf10b4b42bff51809279226eb016eac2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove function, runs when driver is unitialized.  <a href="../../d3/d8c/ws2812__spi_8c.html#abf10b4b42bff51809279226eb016eac2">More...</a><br /></td></tr>
+<tr class="separator:abf10b4b42bff51809279226eb016eac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaba00226176d4972e107ebe7406894a4"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#aaba00226176d4972e107ebe7406894a4">WS2812_fb_parse_dt</a> (struct device_node *node, struct <a class="el" href="../../dc/d0c/structfb__init__values.html">fb_init_values</a> *init_vals)</td></tr>
+<tr class="memdesc:aaba00226176d4972e107ebe7406894a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function reading all necessary properties from device tree entry, including:  <a href="../../d3/d8c/ws2812__spi_8c.html#aaba00226176d4972e107ebe7406894a4">More...</a><br /></td></tr>
+<tr class="separator:aaba00226176d4972e107ebe7406894a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73707fa719be56e1e4d2ca94ff7fee51"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#a73707fa719be56e1e4d2ca94ff7fee51">MODULE_DEVICE_TABLE</a> (of, <a class="el" href="../../d3/d8c/ws2812__spi_8c.html#a1549636606343f7cea76c79d3bb6d976">WS2812_dt_match_id</a>)</td></tr>
 <tr class="separator:a73707fa719be56e1e4d2ca94ff7fee51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc0cea3b1842f07c9238b883f5053762"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#afc0cea3b1842f07c9238b883f5053762">MODULE_DEVICE_TABLE</a> (spi, <a class="el" href="../../d3/d8c/ws2812__spi_8c.html#ac8c9a64c286b4d81e6076224c25f2615">WS2812_dt_spi_id</a>)</td></tr>
 <tr class="separator:afc0cea3b1842f07c9238b883f5053762"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca6679584f7a0b81ffe01692cfb5657a"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#aca6679584f7a0b81ffe01692cfb5657a">WS2812_spi_probe</a> (struct spi_device *spi)</td></tr>
-<tr class="separator:aca6679584f7a0b81ffe01692cfb5657a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf10b4b42bff51809279226eb016eac2"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#abf10b4b42bff51809279226eb016eac2">WS2812_remove</a> (struct spi_device *spi)</td></tr>
-<tr class="separator:abf10b4b42bff51809279226eb016eac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57cd0264eab8046c2422c533eda3d84f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#a57cd0264eab8046c2422c533eda3d84f">module_spi_driver</a> (<a class="el" href="../../d3/d8c/ws2812__spi_8c.html#ae45c4c1252270936fb88a83e175fc7c6">WS2812_spi_driver</a>)</td></tr>
 <tr class="separator:a57cd0264eab8046c2422c533eda3d84f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e65263bc6e7393a94abf1c519c5feb3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#a1e65263bc6e7393a94abf1c519c5feb3">MODULE_AUTHOR</a> (&quot;Przemyslaw Zeranski&quot;)</td></tr>
+<tr class="separator:a1e65263bc6e7393a94abf1c519c5feb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad94b36675e7eb067ea3ce6ff9e244a44"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#ad94b36675e7eb067ea3ce6ff9e244a44">MODULE_LICENSE</a> (&quot;GPL&quot;)</td></tr>
+<tr class="separator:ad94b36675e7eb067ea3ce6ff9e244a44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a131697bad03946993d1eee21e9f673ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#a131697bad03946993d1eee21e9f673ad">MODULE_DESCRIPTION</a> (&quot;WS2812 stip driver (dts version) over SPI. Based on non-dts version.&quot;)</td></tr>
+<tr class="separator:a131697bad03946993d1eee21e9f673ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a1549636606343f7cea76c79d3bb6d976"><td class="memItemLeft" align="right" valign="top">static struct of_device_id&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#a1549636606343f7cea76c79d3bb6d976">WS2812_dt_match_id</a> []</td></tr>
-<tr class="memdesc:a1549636606343f7cea76c79d3bb6d976"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure for device names.  <a href="../../d3/d8c/ws2812__spi_8c.html#a1549636606343f7cea76c79d3bb6d976">More...</a><br /></td></tr>
+<tr class="memdesc:a1549636606343f7cea76c79d3bb6d976"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure for compatible SPI device name in Device Tree (DT)  <a href="../../d3/d8c/ws2812__spi_8c.html#a1549636606343f7cea76c79d3bb6d976">More...</a><br /></td></tr>
 <tr class="separator:a1549636606343f7cea76c79d3bb6d976"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8c9a64c286b4d81e6076224c25f2615"><td class="memItemLeft" align="right" valign="top">static const struct spi_device_id&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#ac8c9a64c286b4d81e6076224c25f2615">WS2812_dt_spi_id</a> []</td></tr>
+<tr class="memdesc:ac8c9a64c286b4d81e6076224c25f2615"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure for DT names of SPI device IDs.  <a href="../../d3/d8c/ws2812__spi_8c.html#ac8c9a64c286b4d81e6076224c25f2615">More...</a><br /></td></tr>
 <tr class="separator:ac8c9a64c286b4d81e6076224c25f2615"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff4d64e1115ee160003b8da94ed85f4d"><td class="memItemLeft" align="right" valign="top">static const struct fb_ops&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#aff4d64e1115ee160003b8da94ed85f4d">WS2812_fb_ops</a></td></tr>
+<tr class="memdesc:aff4d64e1115ee160003b8da94ed85f4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Framebuffer structure.  <a href="../../d3/d8c/ws2812__spi_8c.html#aff4d64e1115ee160003b8da94ed85f4d">More...</a><br /></td></tr>
+<tr class="separator:aff4d64e1115ee160003b8da94ed85f4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae45c4c1252270936fb88a83e175fc7c6"><td class="memItemLeft" align="right" valign="top">static struct spi_driver&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d8c/ws2812__spi_8c.html#ae45c4c1252270936fb88a83e175fc7c6">WS2812_spi_driver</a></td></tr>
+<tr class="memdesc:ae45c4c1252270936fb88a83e175fc7c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">SPI device driver structure, constains driver compatibility list.  <a href="../../d3/d8c/ws2812__spi_8c.html#ae45c4c1252270936fb88a83e175fc7c6">More...</a><br /></td></tr>
 <tr class="separator:ae45c4c1252270936fb88a83e175fc7c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a0460ed1f4e9eea3bdff4bc4070b62d12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0460ed1f4e9eea3bdff4bc4070b62d12">&#9670;&nbsp;</a></span>ELSE_RETURN_ERR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ELSE_RETURN_ERR&#160;&#160;&#160;else return -1;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a34f4204503af5451792c9e139f655abe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34f4204503af5451792c9e139f655abe">&#9670;&nbsp;</a></span>MY_BUS_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MY_BUS_NUM&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a1e65263bc6e7393a94abf1c519c5feb3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1e65263bc6e7393a94abf1c519c5feb3">&#9670;&nbsp;</a></span>MODULE_AUTHOR()</h2>
@@ -259,6 +299,58 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="aaba00226176d4972e107ebe7406894a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaba00226176d4972e107ebe7406894a4">&#9670;&nbsp;</a></span>WS2812_fb_parse_dt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int WS2812_fb_parse_dt </td>
+          <td>(</td>
+          <td class="paramtype">struct device_node *&#160;</td>
+          <td class="paramname"><em>node</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="../../dc/d0c/structfb__init__values.html">fb_init_values</a> *&#160;</td>
+          <td class="paramname"><em>init_vals</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Function reading all necessary properties from device tree entry, including: </p>
+<p><b>Obligatory:</b> </p><ul>
+<li>panel,x-visible-len - Panel x dimension</li>
+<li>panel,y-visible-len - Panel y dimension</li>
+<li>panel,color-bits - Bits every color takes in spi communication</li>
+<li>panel,green-bit-offset - bit offset of green color</li>
+<li>panel,red-bit-offset - bit offset of red color</li>
+<li>panel,blue-bit-offset - bit offset of blue color</li>
+</ul>
+<p><b>Optional:</b> </p><ul>
+<li>panel,x-virtual-len - Framebuffer x dimension (may be only bigger than x-visible-len)</li>
+<li>panel,y-virtual-len - Framebuffer y dimension (may be only bigger than y-visible-len)</li>
+<li>panel,x-pan-step - Allowed x-panstep for display panning</li>
+<li>panel,y-pan-step - Allowed y-panstep for display panning </li>
+</ul>
+
+</div>
+</div>
 <a id="abf10b4b42bff51809279226eb016eac2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abf10b4b42bff51809279226eb016eac2">&#9670;&nbsp;</a></span>WS2812_remove()</h2>
 
@@ -282,6 +374,15 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Remove function, runs when driver is unitialized. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">spi</td><td>SPI device structure </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
 
 </div>
 </div>
@@ -309,6 +410,15 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Probe function, runs at driver initialization. It reads device information from device tree and initializes frame buffer with read information. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">spi</td><td>SPI device structure </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
+
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
@@ -333,12 +443,11 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">={</div>
 <div class="line">  {</div>
-<div class="line">    .compatible = <span class="stringliteral">&quot;WS2812_panel&quot;</span>,</div>
-<div class="line">  },</div>
+<div class="line">    .compatible = <span class="stringliteral">&quot;swis,ws2812-panel&quot;</span>, },</div>
 <div class="line">  {}</div>
 <div class="line">}</div>
 </div><!-- fragment -->
-<p>Structure for device names. </p>
+<p>Structure for compatible SPI device name in Device Tree (DT) </p>
 
 </div>
 </div>
@@ -362,10 +471,50 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">    {<span class="stringliteral">&quot;WS2812_panel&quot;</span>, 0},</div>
+<div class="line">    {.name=<span class="stringliteral">&quot;ws2812-panel&quot;</span>,0},</div>
+<div class="line">  {.name=<span class="stringliteral">&quot;ws2812-panel&quot;</span>,1},</div>
+<div class="line">  {.name=<span class="stringliteral">&quot;ws2812-panel&quot;</span>,2},</div>
 <div class="line">    { }</div>
 <div class="line">}</div>
 </div><!-- fragment -->
+<p>Structure for DT names of SPI device IDs. </p>
+
+</div>
+</div>
+<a id="aff4d64e1115ee160003b8da94ed85f4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff4d64e1115ee160003b8da94ed85f4d">&#9670;&nbsp;</a></span>WS2812_fb_ops</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const struct fb_ops WS2812_fb_ops</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">  .owner = THIS_MODULE,</div>
+<div class="line">  .fb_fillrect = cfb_fillrect,</div>
+<div class="line">  .fb_copyarea = cfb_copyarea,</div>
+<div class="line">  .fb_imageblit = cfb_imageblit,</div>
+<div class="line">  .fb_mmap = <a class="code" href="../../d1/dba/ws2812__common_8c.html#a9cb1351d3bbf4275abc92b248c97cb90">WS2812_map</a>,</div>
+<div class="line">  .fb_ioctl = <a class="code" href="../../d1/dba/ws2812__common_8c.html#ac9e64ac72d9a37ad9701143d48978b3c">WS_fb_ioctl</a>,</div>
+<div class="line">  .fb_pan_display = <a class="code" href="../../d1/dba/ws2812__common_8c.html#acd77549de9e4eea238c767167a2fc2a1">WS2812_fb_pan_display</a>,</div>
+<div class="line">}</div>
+<div class="ttc" id="aws2812__common_8c_html_a9cb1351d3bbf4275abc92b248c97cb90"><div class="ttname"><a href="../../d1/dba/ws2812__common_8c.html#a9cb1351d3bbf4275abc92b248c97cb90">WS2812_map</a></div><div class="ttdeci">int WS2812_map(struct fb_info *info, struct vm_area_struct *vma)</div><div class="ttdoc">Process map request on owned framebuffer. Function maps internal pixel bufor into user-space.</div><div class="ttdef"><b>Definition:</b> ws2812_common.c:189</div></div>
+<div class="ttc" id="aws2812__common_8c_html_ac9e64ac72d9a37ad9701143d48978b3c"><div class="ttname"><a href="../../d1/dba/ws2812__common_8c.html#ac9e64ac72d9a37ad9701143d48978b3c">WS_fb_ioctl</a></div><div class="ttdeci">int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg)</div><div class="ttdoc">IOCTL code handler.</div><div class="ttdef"><b>Definition:</b> ws2812_common.c:317</div></div>
+<div class="ttc" id="aws2812__common_8c_html_acd77549de9e4eea238c767167a2fc2a1"><div class="ttname"><a href="../../d1/dba/ws2812__common_8c.html#acd77549de9e4eea238c767167a2fc2a1">WS2812_fb_pan_display</a></div><div class="ttdeci">int WS2812_fb_pan_display(struct fb_var_screeninfo *var, struct fb_info *info)</div><div class="ttdoc">fbops pan display function.</div><div class="ttdef"><b>Definition:</b> ws2812_common.c:455</div></div>
+</div><!-- fragment -->
+<p>Framebuffer structure. </p>
+
 </div>
 </div>
 <a id="ae45c4c1252270936fb88a83e175fc7c6"></a>
@@ -388,20 +537,21 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">  .probe = <a class="code" href="../../d3/d8c/ws2812__spi_8c.html#aca6679584f7a0b81ffe01692cfb5657a">WS2812_spi_probe</a>,</div>
-<div class="line">  .remove = <a class="code" href="../../d3/d8c/ws2812__spi_8c.html#abf10b4b42bff51809279226eb016eac2">WS2812_remove</a>,</div>
-<div class="line">  .id_table = <a class="code" href="../../d3/d8c/ws2812__spi_8c.html#ac8c9a64c286b4d81e6076224c25f2615">WS2812_dt_spi_id</a>,</div>
 <div class="line">  .driver = {</div>
-<div class="line">    .name = <span class="stringliteral">&quot;WS2812_panel&quot;</span>,</div>
-<div class="line">    </div>
-<div class="line">    </div>
-<div class="line">    </div>
-<div class="line">    },</div>
+<div class="line">    .name = <span class="stringliteral">&quot;ws2812-panel&quot;</span>,</div>
+<div class="line">    .of_match_table = <a class="code" href="../../d3/d8c/ws2812__spi_8c.html#a1549636606343f7cea76c79d3bb6d976">WS2812_dt_match_id</a>,</div>
+<div class="line">  },</div>
+<div class="line">  .probe = <a class="code" href="../../d3/d8c/ws2812__spi_8c.html#aca6679584f7a0b81ffe01692cfb5657a">WS2812_spi_probe</a>,</div>
+<div class="line">  .id_table = <a class="code" href="../../d3/d8c/ws2812__spi_8c.html#ac8c9a64c286b4d81e6076224c25f2615">WS2812_dt_spi_id</a>,</div>
+<div class="line">  .remove = <a class="code" href="../../d3/d8c/ws2812__spi_8c.html#abf10b4b42bff51809279226eb016eac2">WS2812_remove</a>,</div>
 <div class="line">}</div>
-<div class="ttc" id="aws2812__spi_8c_html_abf10b4b42bff51809279226eb016eac2"><div class="ttname"><a href="../../d3/d8c/ws2812__spi_8c.html#abf10b4b42bff51809279226eb016eac2">WS2812_remove</a></div><div class="ttdeci">static int WS2812_remove(struct spi_device *spi)</div><div class="ttdef"><b>Definition:</b> ws2812_spi.c:83</div></div>
-<div class="ttc" id="aws2812__spi_8c_html_ac8c9a64c286b4d81e6076224c25f2615"><div class="ttname"><a href="../../d3/d8c/ws2812__spi_8c.html#ac8c9a64c286b4d81e6076224c25f2615">WS2812_dt_spi_id</a></div><div class="ttdeci">static const struct spi_device_id WS2812_dt_spi_id[]</div><div class="ttdef"><b>Definition:</b> ws2812_spi.c:50</div></div>
-<div class="ttc" id="aws2812__spi_8c_html_aca6679584f7a0b81ffe01692cfb5657a"><div class="ttname"><a href="../../d3/d8c/ws2812__spi_8c.html#aca6679584f7a0b81ffe01692cfb5657a">WS2812_spi_probe</a></div><div class="ttdeci">static int WS2812_spi_probe(struct spi_device *spi)</div><div class="ttdef"><b>Definition:</b> ws2812_spi.c:57</div></div>
+<div class="ttc" id="aws2812__spi_8c_html_a1549636606343f7cea76c79d3bb6d976"><div class="ttname"><a href="../../d3/d8c/ws2812__spi_8c.html#a1549636606343f7cea76c79d3bb6d976">WS2812_dt_match_id</a></div><div class="ttdeci">static struct of_device_id WS2812_dt_match_id[]</div><div class="ttdoc">Structure for compatible SPI device name in Device Tree (DT)</div><div class="ttdef"><b>Definition:</b> ws2812_spi.c:35</div></div>
+<div class="ttc" id="aws2812__spi_8c_html_abf10b4b42bff51809279226eb016eac2"><div class="ttname"><a href="../../d3/d8c/ws2812__spi_8c.html#abf10b4b42bff51809279226eb016eac2">WS2812_remove</a></div><div class="ttdeci">static int WS2812_remove(struct spi_device *)</div><div class="ttdoc">Remove function, runs when driver is unitialized.</div><div class="ttdef"><b>Definition:</b> ws2812_spi.c:136</div></div>
+<div class="ttc" id="aws2812__spi_8c_html_ac8c9a64c286b4d81e6076224c25f2615"><div class="ttname"><a href="../../d3/d8c/ws2812__spi_8c.html#ac8c9a64c286b4d81e6076224c25f2615">WS2812_dt_spi_id</a></div><div class="ttdeci">static const struct spi_device_id WS2812_dt_spi_id[]</div><div class="ttdoc">Structure for DT names of SPI device IDs.</div><div class="ttdef"><b>Definition:</b> ws2812_spi.c:46</div></div>
+<div class="ttc" id="aws2812__spi_8c_html_aca6679584f7a0b81ffe01692cfb5657a"><div class="ttname"><a href="../../d3/d8c/ws2812__spi_8c.html#aca6679584f7a0b81ffe01692cfb5657a">WS2812_spi_probe</a></div><div class="ttdeci">static int WS2812_spi_probe(struct spi_device *)</div><div class="ttdoc">Probe function, runs at driver initialization. It reads device information from device tree and initi...</div><div class="ttdef"><b>Definition:</b> ws2812_spi.c:77</div></div>
 </div><!-- fragment -->
+<p>SPI device driver structure, constains driver compatibility list. </p>
+
 </div>
 </div>
 </div><!-- contents -->

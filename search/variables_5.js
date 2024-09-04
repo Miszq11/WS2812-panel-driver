@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['info_178',['info',['../da/d27/structWS2812__module__info.html#aea13647c71203ec55651f14d4de0e4e7',1,'WS2812_module_info']]]
+  ['keep_5frunning_180',['keep_running',['../db/d57/app__main_8c.html#adab48fd845b19d6ca0b8a07b95bdbc62',1,'app_main.c']]]
 ];

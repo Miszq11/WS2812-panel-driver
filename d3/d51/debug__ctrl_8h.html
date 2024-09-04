@@ -80,15 +80,15 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ac69f81138b033eab0dfd3ce0b77273ea"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/debug__ctrl_8h.html#ac69f81138b033eab0dfd3ce0b77273ea">WS2812_DEBUG</a></td></tr>
-<tr class="separator:ac69f81138b033eab0dfd3ce0b77273ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d5fc64279e8203c73b748965a3d26b5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/debug__ctrl_8h.html#a6d5fc64279e8203c73b748965a3d26b5">PRINT_LOG</a>(frmt, ...)&#160;&#160;&#160;printk(&quot;[LOG_WS2812]: &quot; frmt, __VA_ARGS__)</td></tr>
+<tr class="memitem:a0ab2bc8c1d3a24b89f8e9b70d733adc7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/debug__ctrl_8h.html#a0ab2bc8c1d3a24b89f8e9b70d733adc7">WS2812_DEBUG_STM</a></td></tr>
+<tr class="separator:a0ab2bc8c1d3a24b89f8e9b70d733adc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d5fc64279e8203c73b748965a3d26b5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/debug__ctrl_8h.html#a6d5fc64279e8203c73b748965a3d26b5">PRINT_LOG</a>(frmt, ...)&#160;&#160;&#160;pr_info(&quot;[LOG_WS2812]: &quot; frmt, ##__VA_ARGS__)</td></tr>
 <tr class="separator:a6d5fc64279e8203c73b748965a3d26b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab855ec3e51f03a9b2640cc523b00ecb7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/debug__ctrl_8h.html#ab855ec3e51f03a9b2640cc523b00ecb7">PRINT_ERR</a>(frmt, ...)&#160;&#160;&#160;printk(&quot;\033[1;31m[ERR_WS2812]:\033[0m &quot; frmt, __VA_ARGS__)</td></tr>
+<tr class="memitem:ab855ec3e51f03a9b2640cc523b00ecb7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/debug__ctrl_8h.html#ab855ec3e51f03a9b2640cc523b00ecb7">PRINT_ERR</a>(frmt, ...)&#160;&#160;&#160;pr_err(&quot;\033[1;31m[ERR_WS2812]:\033[0m &quot; frmt, ##__VA_ARGS__)</td></tr>
 <tr class="separator:ab855ec3e51f03a9b2640cc523b00ecb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe07b2362ec57f49018003349c398f56"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/debug__ctrl_8h.html#afe07b2362ec57f49018003349c398f56">PRINT_ERR_FA</a>(frmt, ...)&#160;&#160;&#160;printk(&quot;\033[1;31m[CRITICAL ERR_WS2812]:\033[0m &quot; frmt, __VA_ARGS__)</td></tr>
+<tr class="memitem:afe07b2362ec57f49018003349c398f56"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/debug__ctrl_8h.html#afe07b2362ec57f49018003349c398f56">PRINT_ERR_FA</a>(frmt, ...)&#160;&#160;&#160;pr_err(&quot;\033[1;31m[CRITICAL ERR_WS2812]:\033[0m &quot; frmt, ##__VA_ARGS__)</td></tr>
 <tr class="separator:afe07b2362ec57f49018003349c398f56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9af734ec295439584de4dfe1fbb4d999"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/debug__ctrl_8h.html#a9af734ec295439584de4dfe1fbb4d999">PRINT_GOOD</a>(frmt, ...)&#160;&#160;&#160;printk(&quot;\033[1;32m[INFO GOOD_WS2812]:\033[0m &quot; frmt, __VA_ARGS__)</td></tr>
+<tr class="memitem:a9af734ec295439584de4dfe1fbb4d999"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/debug__ctrl_8h.html#a9af734ec295439584de4dfe1fbb4d999">PRINT_GOOD</a>(frmt, ...)&#160;&#160;&#160;pr_info(&quot;\033[1;32m[INFO GOOD_WS2812]:\033[0m &quot; frmt, ##__VA_ARGS__)</td></tr>
 <tr class="separator:a9af734ec295439584de4dfe1fbb4d999"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
@@ -113,7 +113,7 @@ Macros</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;printk(&quot;\033[1;31m[ERR_WS2812]:\033[0m &quot; frmt, __VA_ARGS__)</td>
+          <td></td><td>&#160;&#160;&#160;pr_err(&quot;\033[1;31m[ERR_WS2812]:\033[0m &quot; frmt, ##__VA_ARGS__)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -141,7 +141,7 @@ Macros</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;printk(&quot;\033[1;31m[CRITICAL ERR_WS2812]:\033[0m &quot; frmt, __VA_ARGS__)</td>
+          <td></td><td>&#160;&#160;&#160;pr_err(&quot;\033[1;31m[CRITICAL ERR_WS2812]:\033[0m &quot; frmt, ##__VA_ARGS__)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -169,7 +169,7 @@ Macros</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;printk(&quot;\033[1;32m[INFO GOOD_WS2812]:\033[0m &quot; frmt, __VA_ARGS__)</td>
+          <td></td><td>&#160;&#160;&#160;pr_info(&quot;\033[1;32m[INFO GOOD_WS2812]:\033[0m &quot; frmt, ##__VA_ARGS__)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -197,21 +197,21 @@ Macros</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;printk(&quot;[LOG_WS2812]: &quot; frmt, __VA_ARGS__)</td>
+          <td></td><td>&#160;&#160;&#160;pr_info(&quot;[LOG_WS2812]: &quot; frmt, ##__VA_ARGS__)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="ac69f81138b033eab0dfd3ce0b77273ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac69f81138b033eab0dfd3ce0b77273ea">&#9670;&nbsp;</a></span>WS2812_DEBUG</h2>
+<a id="a0ab2bc8c1d3a24b89f8e9b70d733adc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ab2bc8c1d3a24b89f8e9b70d733adc7">&#9670;&nbsp;</a></span>WS2812_DEBUG_STM</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define WS2812_DEBUG</td>
+          <td class="memname">#define WS2812_DEBUG_STM</td>
         </tr>
       </table>
 </div><div class="memdoc">

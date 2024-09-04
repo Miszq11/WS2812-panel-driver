@@ -76,26 +76,48 @@ $(function() {
 <div class="title">module_config.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;linux/fb.h&quot;</code><br />
-<code>#include &quot;linux/spi/spi.h&quot;</code><br />
+<div class="textblock"><code>#include &quot;linux/spi/spi.h&quot;</code><br />
 <code>#include &quot;linux/workqueue.h&quot;</code><br />
 <code>#include &lt;linux/types.h&gt;</code><br />
+<code>#include &quot;linux/fb.h&quot;</code><br />
 </div>
 <p><a href="../../d0/dd4/module__config_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">structure holding important data shared through all functions in the module.  <a href="../../da/d27/structWS2812__module__info.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a4429a657e1a4cf746b5948da6944d69d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dd4/module__config_8h.html#a4429a657e1a4cf746b5948da6944d69d">WS_IO_DUMMY</a>&#160;&#160;&#160;_IO('x', 1)</td></tr>
+<tr class="memdesc:a4429a657e1a4cf746b5948da6944d69d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test ioctl code.  <a href="../../d0/dd4/module__config_8h.html#a4429a657e1a4cf746b5948da6944d69d">More...</a><br /></td></tr>
 <tr class="separator:a4429a657e1a4cf746b5948da6944d69d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7db90648edded61aae225dfa48652ce8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dd4/module__config_8h.html#a7db90648edded61aae225dfa48652ce8">WS_IO_PROCESS_AND_SEND</a>&#160;&#160;&#160;_IO('x', 2)</td></tr>
+<tr class="memdesc:a7db90648edded61aae225dfa48652ce8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process pixel buffor and start spitransfer ioctl code.  <a href="../../d0/dd4/module__config_8h.html#a7db90648edded61aae225dfa48652ce8">More...</a><br /></td></tr>
 <tr class="separator:a7db90648edded61aae225dfa48652ce8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d5023bc500ad0b5cca5aa412acde4ea"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dd4/module__config_8h.html#a5d5023bc500ad0b5cca5aa412acde4ea">WS2812_WORKQUEUE_NAME</a>&#160;&#160;&#160;&quot;WS2812_simple_module&quot;</td></tr>
+<tr class="memdesc:a5d5023bc500ad0b5cca5aa412acde4ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process workqueue name.  <a href="../../d0/dd4/module__config_8h.html#a5d5023bc500ad0b5cca5aa412acde4ea">More...</a><br /></td></tr>
 <tr class="separator:a5d5023bc500ad0b5cca5aa412acde4ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af859a98f57110e5243e8f0541319e43b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dd4/module__config_8h.html#af859a98f57110e5243e8f0541319e43b">BITS_PER_WORD</a>&#160;&#160;&#160;16</td></tr>
+<tr class="separator:af859a98f57110e5243e8f0541319e43b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd9982cccc7747d80c1e25d8904535c8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dd4/module__config_8h.html#abd9982cccc7747d80c1e25d8904535c8">WS2812_SPI_TRUE</a>&#160;&#160;&#160;0b0111111111000000</td></tr>
+<tr class="memdesc:abd9982cccc7747d80c1e25d8904535c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">True value of one bit in spi transfer.  <a href="../../d0/dd4/module__config_8h.html#abd9982cccc7747d80c1e25d8904535c8">More...</a><br /></td></tr>
+<tr class="separator:abd9982cccc7747d80c1e25d8904535c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7aad0725699ba59a2916c7c5848cbc9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dd4/module__config_8h.html#aa7aad0725699ba59a2916c7c5848cbc9">WS2812_SPI_FALSE</a>&#160;&#160;&#160;0b0111100000000000</td></tr>
+<tr class="memdesc:aa7aad0725699ba59a2916c7c5848cbc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">False value of one bit in spi transfer.  <a href="../../d0/dd4/module__config_8h.html#aa7aad0725699ba59a2916c7c5848cbc9">More...</a><br /></td></tr>
+<tr class="separator:aa7aad0725699ba59a2916c7c5848cbc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2f229ed58927c70b365ecfe675594e0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dd4/module__config_8h.html#aa2f229ed58927c70b365ecfe675594e0">WS2812_SPI_MAX_SPEED_HZ</a>&#160;&#160;&#160;32000000</td></tr>
+<tr class="separator:aa2f229ed58927c70b365ecfe675594e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acddb5574eaa42b994817fce91656d960"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dd4/module__config_8h.html#acddb5574eaa42b994817fce91656d960">WS2812_SPI_TARGET_HZ</a>&#160;&#160;&#160;15000000</td></tr>
+<tr class="separator:acddb5574eaa42b994817fce91656d960"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6065485d4ae76f8ffe628ff9ee6245d1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dd4/module__config_8h.html#a6065485d4ae76f8ffe628ff9ee6245d1">WS2812_ZERO_PAADING_SIZE</a>&#160;&#160;&#160;50*<a class="el" href="../../d0/dd4/module__config_8h.html#acddb5574eaa42b994817fce91656d960">WS2812_SPI_TARGET_HZ</a>/16000000+10</td></tr>
+<tr class="separator:a6065485d4ae76f8ffe628ff9ee6245d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace8cfd32543637e832266723eadbdf4b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dd4/module__config_8h.html#ace8cfd32543637e832266723eadbdf4b">WS2812_SPI_BUFF_TYPE</a>&#160;&#160;&#160;u16</td></tr>
+<tr class="separator:ace8cfd32543637e832266723eadbdf4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbf0e82d5549facc2a464956ea6896d1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dd4/module__config_8h.html#afbf0e82d5549facc2a464956ea6896d1">WS2812_SPI_BUS_NUM</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:afbf0e82d5549facc2a464956ea6896d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -103,6 +125,108 @@ Variables</h2></td></tr>
 <tr class="separator:ad8779ae46305e2756ea780a05fabb7c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="af859a98f57110e5243e8f0541319e43b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af859a98f57110e5243e8f0541319e43b">&#9670;&nbsp;</a></span>BITS_PER_WORD</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BITS_PER_WORD&#160;&#160;&#160;16</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ace8cfd32543637e832266723eadbdf4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace8cfd32543637e832266723eadbdf4b">&#9670;&nbsp;</a></span>WS2812_SPI_BUFF_TYPE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define WS2812_SPI_BUFF_TYPE&#160;&#160;&#160;u16</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afbf0e82d5549facc2a464956ea6896d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afbf0e82d5549facc2a464956ea6896d1">&#9670;&nbsp;</a></span>WS2812_SPI_BUS_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define WS2812_SPI_BUS_NUM&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa7aad0725699ba59a2916c7c5848cbc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7aad0725699ba59a2916c7c5848cbc9">&#9670;&nbsp;</a></span>WS2812_SPI_FALSE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define WS2812_SPI_FALSE&#160;&#160;&#160;0b0111100000000000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>False value of one bit in spi transfer. </p>
+
+</div>
+</div>
+<a id="aa2f229ed58927c70b365ecfe675594e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2f229ed58927c70b365ecfe675594e0">&#9670;&nbsp;</a></span>WS2812_SPI_MAX_SPEED_HZ</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define WS2812_SPI_MAX_SPEED_HZ&#160;&#160;&#160;32000000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acddb5574eaa42b994817fce91656d960"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acddb5574eaa42b994817fce91656d960">&#9670;&nbsp;</a></span>WS2812_SPI_TARGET_HZ</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define WS2812_SPI_TARGET_HZ&#160;&#160;&#160;15000000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abd9982cccc7747d80c1e25d8904535c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd9982cccc7747d80c1e25d8904535c8">&#9670;&nbsp;</a></span>WS2812_SPI_TRUE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define WS2812_SPI_TRUE&#160;&#160;&#160;0b0111111111000000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>True value of one bit in spi transfer. </p>
+
+</div>
+</div>
 <a id="a5d5023bc500ad0b5cca5aa412acde4ea"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5d5023bc500ad0b5cca5aa412acde4ea">&#9670;&nbsp;</a></span>WS2812_WORKQUEUE_NAME</h2>
 
@@ -111,6 +235,22 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define WS2812_WORKQUEUE_NAME&#160;&#160;&#160;&quot;WS2812_simple_module&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Process workqueue name. </p>
+
+</div>
+</div>
+<a id="a6065485d4ae76f8ffe628ff9ee6245d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6065485d4ae76f8ffe628ff9ee6245d1">&#9670;&nbsp;</a></span>WS2812_ZERO_PAADING_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define WS2812_ZERO_PAADING_SIZE&#160;&#160;&#160;50*<a class="el" href="../../d0/dd4/module__config_8h.html#acddb5574eaa42b994817fce91656d960">WS2812_SPI_TARGET_HZ</a>/16000000+10</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -129,6 +269,8 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Test ioctl code. </p>
+
 </div>
 </div>
 <a id="a7db90648edded61aae225dfa48652ce8"></a>
@@ -142,6 +284,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Process pixel buffor and start spitransfer ioctl code. </p>
 
 </div>
 </div>
@@ -166,14 +310,14 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">  .id         = <span class="stringliteral">&quot;WS2812 Panel fb&quot;</span>,</div>
-<div class="line">  .type       = FB_TYPE_PACKED_PIXELS, </div>
-<div class="line">  .visual     = FB_VISUAL_PSEUDOCOLOR, </div>
-<div class="line">  .xpanstep   = 0, </div>
-<div class="line">  .ypanstep   = 0, </div>
-<div class="line">  .ywrapstep  = 0, </div>
-<div class="line">  .accel      = FB_ACCEL_NONE,</div>
-<div class="line">}</div>
+<div class="line">    .id         = <span class="stringliteral">&quot;WS2812 Panel fb&quot;</span>,</div>
+<div class="line">    .type       = FB_TYPE_PACKED_PIXELS, </div>
+<div class="line">    .visual     = FB_VISUAL_PSEUDOCOLOR, </div>
+<div class="line">    .xpanstep   = 0, </div>
+<div class="line">    .ypanstep   = 0, </div>
+<div class="line">    .ywrapstep  = 0, </div>
+<div class="line">    .accel      = FB_ACCEL_NONE,</div>
+<div class="line">  }</div>
 </div><!-- fragment -->
 </div>
 </div>

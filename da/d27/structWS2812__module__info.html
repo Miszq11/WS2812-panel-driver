@@ -72,21 +72,33 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>structure holding important data shared through all functions in the module.  
+ <a href="../../da/d27/structWS2812__module__info.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="../../d0/dd4/module__config_8h_source.html">module_config.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:abbf808ba073042adaa6d148ddc5219c4"><td class="memItemLeft" align="right" valign="top">u8 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d27/structWS2812__module__info.html#abbf808ba073042adaa6d148ddc5219c4">fb_virt</a></td></tr>
+<tr class="memdesc:abbf808ba073042adaa6d148ddc5219c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pixel buffer (mapped to user space)  <a href="../../da/d27/structWS2812__module__info.html#abbf808ba073042adaa6d148ddc5219c4">More...</a><br /></td></tr>
 <tr class="separator:abbf808ba073042adaa6d148ddc5219c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a740e0abc9704768c1f8511bb379a8f66"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d27/structWS2812__module__info.html#a740e0abc9704768c1f8511bb379a8f66">fb_real_size</a></td></tr>
+<tr class="memdesc:a740e0abc9704768c1f8511bb379a8f66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pixel count of the display in bytes.  <a href="../../da/d27/structWS2812__module__info.html#a740e0abc9704768c1f8511bb379a8f66">More...</a><br /></td></tr>
+<tr class="separator:a740e0abc9704768c1f8511bb379a8f66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af81e13c5d74cc2f16b169547b619050e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d27/structWS2812__module__info.html#af81e13c5d74cc2f16b169547b619050e">fb_virt_size</a></td></tr>
+<tr class="memdesc:af81e13c5d74cc2f16b169547b619050e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pixel count of whole frame in bytes (may be bigger than fb_real_size)  <a href="../../da/d27/structWS2812__module__info.html#af81e13c5d74cc2f16b169547b619050e">More...</a><br /></td></tr>
 <tr class="separator:af81e13c5d74cc2f16b169547b619050e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fe99dd3e599257161f1157e9c16a0cc"><td class="memItemLeft" align="right" valign="top">u8 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d27/structWS2812__module__info.html#a2fe99dd3e599257161f1157e9c16a0cc">work_buffer_input</a></td></tr>
+<tr class="memdesc:a2fe99dd3e599257161f1157e9c16a0cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Work buffer input.  <a href="../../da/d27/structWS2812__module__info.html#a2fe99dd3e599257161f1157e9c16a0cc">More...</a><br /></td></tr>
 <tr class="separator:a2fe99dd3e599257161f1157e9c16a0cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a633ad3b0bfc403ec6e619ef98d4c9b7f"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d27/structWS2812__module__info.html#a633ad3b0bfc403ec6e619ef98d4c9b7f">work_buffer_input_size</a></td></tr>
+<tr class="memdesc:a633ad3b0bfc403ec6e619ef98d4c9b7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the work buffer (bytes)  <a href="../../da/d27/structWS2812__module__info.html#a633ad3b0bfc403ec6e619ef98d4c9b7f">More...</a><br /></td></tr>
 <tr class="separator:a633ad3b0bfc403ec6e619ef98d4c9b7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a853f5a21b62dc41a9e1b442479409d53"><td class="memItemLeft" align="right" valign="top">u8 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d27/structWS2812__module__info.html#a853f5a21b62dc41a9e1b442479409d53">spi_buffer</a></td></tr>
-<tr class="separator:a853f5a21b62dc41a9e1b442479409d53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83e303358ab7ceed0536e488db5d3dc3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/dd4/module__config_8h.html#ace8cfd32543637e832266723eadbdf4b">WS2812_SPI_BUFF_TYPE</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d27/structWS2812__module__info.html#a83e303358ab7ceed0536e488db5d3dc3">spi_buffer</a></td></tr>
+<tr class="memdesc:a83e303358ab7ceed0536e488db5d3dc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">work buffer output &ndash; SPI input  <a href="../../da/d27/structWS2812__module__info.html#a83e303358ab7ceed0536e488db5d3dc3">More...</a><br /></td></tr>
+<tr class="separator:a83e303358ab7ceed0536e488db5d3dc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab6fda70a14b9dc37f9669ba114b1299"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d27/structWS2812__module__info.html#aab6fda70a14b9dc37f9669ba114b1299">spi_buffer_size</a></td></tr>
+<tr class="memdesc:aab6fda70a14b9dc37f9669ba114b1299"><td class="mdescLeft">&#160;</td><td class="mdescRight">SPI buffer size. It should be calculated like:  <a href="../../da/d27/structWS2812__module__info.html#aab6fda70a14b9dc37f9669ba114b1299">More...</a><br /></td></tr>
 <tr class="separator:aab6fda70a14b9dc37f9669ba114b1299"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea13647c71203ec55651f14d4de0e4e7"><td class="memItemLeft" align="right" valign="top">struct fb_info *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d27/structWS2812__module__info.html#aea13647c71203ec55651f14d4de0e4e7">info</a></td></tr>
 <tr class="separator:aea13647c71203ec55651f14d4de0e4e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -109,7 +121,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a8926b136dfe8270d3421122bd47d2bd1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d27/structWS2812__module__info.html#a8926b136dfe8270d3421122bd47d2bd1">spi_transfer_continous</a></td></tr>
 <tr class="separator:a8926b136dfe8270d3421122bd47d2bd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Data Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>structure holding important data shared through all functions in the module. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="ae04edd96e7b4e346aec95115ff0e793e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae04edd96e7b4e346aec95115ff0e793e">&#9670;&nbsp;</a></span>convert_workqueue</h2>
 
@@ -121,6 +135,22 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a740e0abc9704768c1f8511bb379a8f66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a740e0abc9704768c1f8511bb379a8f66">&#9670;&nbsp;</a></span>fb_real_size</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t WS2812_module_info::fb_real_size</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pixel count of the display in bytes. </p>
 
 </div>
 </div>
@@ -136,6 +166,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Pixel buffer (mapped to user space) </p>
+
 </div>
 </div>
 <a id="af81e13c5d74cc2f16b169547b619050e"></a>
@@ -149,6 +181,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Pixel count of whole frame in bytes (may be bigger than fb_real_size) </p>
 
 </div>
 </div>
@@ -166,17 +200,19 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a853f5a21b62dc41a9e1b442479409d53"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a853f5a21b62dc41a9e1b442479409d53">&#9670;&nbsp;</a></span>spi_buffer</h2>
+<a id="a83e303358ab7ceed0536e488db5d3dc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83e303358ab7ceed0536e488db5d3dc3">&#9670;&nbsp;</a></span>spi_buffer</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">u8* WS2812_module_info::spi_buffer</td>
+          <td class="memname"><a class="el" href="../../d0/dd4/module__config_8h.html#ace8cfd32543637e832266723eadbdf4b">WS2812_SPI_BUFF_TYPE</a>* WS2812_module_info::spi_buffer</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>work buffer output &ndash; SPI input </p>
 
 </div>
 </div>
@@ -191,6 +227,10 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>SPI buffer size. It should be calculated like: </p>
+<p>fb_real_size*8*[size of SPI word]</p>
+<p>where 8 comes from bits in color (it should be fixed or removed from possible variables set by user). </p>
 
 </div>
 </div>
@@ -248,6 +288,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Work buffer input. </p>
+
 </div>
 </div>
 <a id="a633ad3b0bfc403ec6e619ef98d4c9b7f"></a>
@@ -261,6 +303,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Size of the work buffer (bytes) </p>
 
 </div>
 </div>

@@ -76,25 +76,31 @@ $(function() {
 <div class="title">app_main.c File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;linux/fb.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;stddef.h&gt;</code><br />
+<code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
 <code>#include &lt;sys/ioctl.h&gt;</code><br />
 <code>#include &lt;sys/stat.h&gt;</code><br />
 <code>#include &lt;signal.h&gt;</code><br />
 <code>#include &lt;unistd.h&gt;</code><br />
+<code>#include &lt;WS2812_panel.h&gt;</code><br />
 <code>#include &quot;fbgraphics.h&quot;</code><br />
 <code>#include &quot;fbg_fbdev.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d4/dfd/pixel__art_8h_source.html">pixel_art.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a4429a657e1a4cf746b5948da6944d69d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d57/app__main_8c.html#a4429a657e1a4cf746b5948da6944d69d">WS_IO_DUMMY</a>&#160;&#160;&#160;_IO('x', 1)</td></tr>
-<tr class="separator:a4429a657e1a4cf746b5948da6944d69d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7db90648edded61aae225dfa48652ce8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d57/app__main_8c.html#a7db90648edded61aae225dfa48652ce8">WS_IO_PROCESS_AND_SEND</a>&#160;&#160;&#160;_IO('x', 2)</td></tr>
-<tr class="separator:a7db90648edded61aae225dfa48652ce8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad353e9076b5963031a7fd03486347248"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d57/app__main_8c.html#ad353e9076b5963031a7fd03486347248">PIX_COL</a>(x,  y,  color)&#160;&#160;&#160;<a class="el" href="../../d4/dfd/pixel__art_8h.html#acd906d2f75c508ca3111830bd245213e">pixel_buffor</a>[3*(y + x*<a class="el" href="../../d4/dfd/pixel__art_8h.html#a83acf4af6107f057052c7b75193e6eaf">pixel_buffor_y</a>) + color]</td></tr>
+<tr class="separator:ad353e9076b5963031a7fd03486347248"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a9e1874568e9a77889a1bf51abbaaa5b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d57/app__main_8c.html#a9e1874568e9a77889a1bf51abbaaa5b0">int_handler</a> (int dummy)</td></tr>
 <tr class="separator:a9e1874568e9a77889a1bf51abbaaa5b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82a1d9de3b09c9d31da88c0a095afeb5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d57/app__main_8c.html#a82a1d9de3b09c9d31da88c0a095afeb5">fb_fbgdraw_fix</a> (struct _fbg *fbg)</td></tr>
+<tr class="separator:a82a1d9de3b09c9d31da88c0a095afeb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7f212d587a0fb776c8afa5e0a933bf7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d57/app__main_8c.html#ac7f212d587a0fb776c8afa5e0a933bf7">printBuff</a> (struct _fbg *fbg)</td></tr>
 <tr class="memdesc:ac7f212d587a0fb776c8afa5e0a933bf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function for printing buffered values.  <a href="../../db/d57/app__main_8c.html#ac7f212d587a0fb776c8afa5e0a933bf7">More...</a><br /></td></tr>
 <tr class="separator:ac7f212d587a0fb776c8afa5e0a933bf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -104,6 +110,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a68b20996d2152584356b2bd8ec729079"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d57/app__main_8c.html#a68b20996d2152584356b2bd8ec729079">animate_pixel</a> (struct _fbg *fbg, struct _fbg_fbdev_context *fbdev_context, unsigned char r, unsigned char g, unsigned char b)</td></tr>
 <tr class="memdesc:a68b20996d2152584356b2bd8ec729079"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays simple animation. In this version the animation is a pixel moving through the LED panel. The r, g and b parameters are inverted to GRB.  <a href="../../db/d57/app__main_8c.html#a68b20996d2152584356b2bd8ec729079">More...</a><br /></td></tr>
 <tr class="separator:a68b20996d2152584356b2bd8ec729079"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4412e98d86fc7cefddaa068112b0b3f3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d57/app__main_8c.html#a4412e98d86fc7cefddaa068112b0b3f3">print_image_and_pan_display</a> (struct _fbg *fbg, struct _fbg_fbdev_context *fbdev_context, uint32_t useconds)</td></tr>
+<tr class="separator:a4412e98d86fc7cefddaa068112b0b3f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ddf1224851353fc92bfbff6f499fa97"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d57/app__main_8c.html#a0ddf1224851353fc92bfbff6f499fa97">main</a> (int argc, char *argv[])</td></tr>
 <tr class="memdesc:a0ddf1224851353fc92bfbff6f499fa97"><td class="mdescLeft">&#160;</td><td class="mdescRight">The main function. Tests the application and displays set of colours and animation on WS2812 LED panel.  <a href="../../db/d57/app__main_8c.html#a0ddf1224851353fc92bfbff6f499fa97">More...</a><br /></td></tr>
 <tr class="separator:a0ddf1224851353fc92bfbff6f499fa97"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,28 +122,34 @@ Variables</h2></td></tr>
 <tr class="separator:adab48fd845b19d6ca0b8a07b95bdbc62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a4429a657e1a4cf746b5948da6944d69d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4429a657e1a4cf746b5948da6944d69d">&#9670;&nbsp;</a></span>WS_IO_DUMMY</h2>
+<a id="ad353e9076b5963031a7fd03486347248"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad353e9076b5963031a7fd03486347248">&#9670;&nbsp;</a></span>PIX_COL</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define WS_IO_DUMMY&#160;&#160;&#160;_IO('x', 1)</td>
+          <td class="memname">#define PIX_COL</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x, </td>
         </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7db90648edded61aae225dfa48652ce8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7db90648edded61aae225dfa48652ce8">&#9670;&nbsp;</a></span>WS_IO_PROCESS_AND_SEND</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
         <tr>
-          <td class="memname">#define WS_IO_PROCESS_AND_SEND&#160;&#160;&#160;_IO('x', 2)</td>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">y, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">color&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="../../d4/dfd/pixel__art_8h.html#acd906d2f75c508ca3111830bd245213e">pixel_buffor</a>[3*(y + x*<a class="el" href="../../d4/dfd/pixel__art_8h.html#a83acf4af6107f057052c7b75193e6eaf">pixel_buffor_y</a>) + color]</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -190,8 +204,7 @@ Variables</h2></td></tr>
 <p>Displays simple animation. In this version the animation is a pixel moving through the LED panel. The r, g and b parameters are inverted to GRB. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">fbg</td><td>frame buffer structure, defined in external library <br  />
- </td></tr>
+    <tr><td class="paramname">fbg</td><td>frame buffer structure, defined in external library </td></tr>
     <tr><td class="paramname">fbdev_context</td><td>fbdev wrapper data structure </td></tr>
     <tr><td class="paramname">r</td><td>green colour value for RGB space </td></tr>
     <tr><td class="paramname">g</td><td>red colour value for RGB space </td></tr>
@@ -199,6 +212,24 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a82a1d9de3b09c9d31da88c0a095afeb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82a1d9de3b09c9d31da88c0a095afeb5">&#9670;&nbsp;</a></span>fb_fbgdraw_fix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fb_fbgdraw_fix </td>
+          <td>(</td>
+          <td class="paramtype">struct _fbg *&#160;</td>
+          <td class="paramname"><em>fbg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -255,6 +286,40 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a id="a4412e98d86fc7cefddaa068112b0b3f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4412e98d86fc7cefddaa068112b0b3f3">&#9670;&nbsp;</a></span>print_image_and_pan_display()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int print_image_and_pan_display </td>
+          <td>(</td>
+          <td class="paramtype">struct _fbg *&#160;</td>
+          <td class="paramname"><em>fbg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct _fbg_fbdev_context *&#160;</td>
+          <td class="paramname"><em>fbdev_context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>useconds</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

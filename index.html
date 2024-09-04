@@ -69,9 +69,16 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_MainPage"></a> Doxygen documentation of kernel module and user app source for displaying images onto WS2812 diodes panels.</p>
-<p>Implemented module uses framebuffer as a medium of drawing image onto led panel (tested for 8x8 panels). Way of initializing framebuffer is described in <a class="el" href="d7/dae/ws2812__mod_8c.html#a0715e38878e4bf268f0738b6f09f5b9d">frame_buffer_init</a>.</p>
-<p>Framebuffer pixel data is beeing processed by work function (<a class="el" href="d7/dae/ws2812__mod_8c.html#a8616e4aaad61126d95590176083fec76">WS2812_convert_work_fun</a>) in work queue, so processing will not take a lot of time in kernel space.</p>
-<p><a class="el" href="d7/dae/ws2812__mod_8c.html#a9baa6a0fae1f115a00d0c064301ab9b6">module_init</a>  
+<p>Implemented module uses framebuffer as a medium of drawing image onto led panel (tested for 8x8 panels). Way of initializing framebuffer is described in <a class="el" href="d9/d1b/ws2812__common_8h.html#af8c4cc0f6304407222440e13496942fb">frame_buffer_init</a>.</p>
+<p>Framebuffer pixel data is beeing processed by work function (<a class="el" href="d1/dba/ws2812__common_8c.html#a8616e4aaad61126d95590176083fec76">WS2812_convert_work_fun</a>) in work queue, so processing will not take a lot of time in kernel space.</p>
+<p>Driver can be initalized in two ways, via probing Device Tree <a class="el" href="d3/d8c/ws2812__spi_8c.html#aca6679584f7a0b81ffe01692cfb5657a">WS2812_spi_probe</a> or via modprobe <a class="el" href="d7/dae/ws2812__mod_8c.html#a109001ac96eae5bf02760167959b9c2c">WS2812_init</a>. After proper initalization new frame buffer should appear in /dev/ folder for example /dev/fb0. Newly created buffer will be used by an app <a class="el" href="db/d57/app__main_8c.html">app_main.c</a>. Current version of the app is programmed to display 4 different animations/pictures on LED panel:</p><ol type="1">
+<li>green square,</li>
+<li>red square,</li>
+<li>panning animation,</li>
+<li>pixel animation.</li>
+</ol>
+<p>SPI is utilized as an PWM generator. By setting different amount of ones and zeros in transmitted word, we were able to get a timings in specification of the LED datasheet. Used 16 bit word size transferred to 4 bit PWM resolution, which was used to drive LEDs.</p>
+<p> 
 <details open>
   <summary><strong>Graph representation of what is going on in module</strong></summary>
 </p>

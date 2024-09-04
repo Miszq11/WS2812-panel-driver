@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['r_5foffset_44',['r_offset',['../d7/dae/ws2812__mod_8c.html#a5d2b52390421d9363f05b09ad668048a',1,'ws2812_mod.c']]],
-  ['red_45',['red',['../d6/df6/def__msg_8h.html#a09e76869622a26b00091952ebe75f40a',1,'def_msg.h']]],
-  ['reset_5fcode_46',['reset_code',['../d6/df6/def__msg_8h.html#a0b23aef938a2f13c7b509c4ea4358b49',1,'def_msg.h']]],
-  ['run_5fcontinously_47',['run_continously',['../d7/dae/ws2812__mod_8c.html#abb98800a698594d4aa628b1fb071fde1',1,'ws2812_mod.c']]]
+  ['r_5foffset_54',['r_offset',['../d7/dae/ws2812__mod_8c.html#a5d2b52390421d9363f05b09ad668048a',1,'ws2812_mod.c']]],
+  ['red_5foffset_55',['red_offset',['../dc/d0c/structfb__init__values.html#ab9245a8cf76a94c4e4d352bf5e584918',1,'fb_init_values']]],
+  ['run_5fcontinously_56',['run_continously',['../d9/d1b/ws2812__common_8h.html#abb98800a698594d4aa628b1fb071fde1',1,'ws2812_common.h']]]
 ];

@@ -69,7 +69,6 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -80,60 +79,30 @@ $(function() {
 <code>#include &lt;linux/module.h&gt;</code><br />
 <code>#include &lt;linux/fb.h&gt;</code><br />
 <code>#include &lt;linux/export.h&gt;</code><br />
-<code>#include &quot;asm-generic/errno-base.h&quot;</code><br />
-<code>#include &quot;asm/memory.h&quot;</code><br />
-<code>#include &quot;asm/page.h&quot;</code><br />
-<code>#include &quot;asm/string.h&quot;</code><br />
-<code>#include &quot;linux/gfp.h&quot;</code><br />
-<code>#include &quot;linux/irqflags.h&quot;</code><br />
-<code>#include &quot;linux/kern_levels.h&quot;</code><br />
-<code>#include &quot;linux/kernel.h&quot;</code><br />
-<code>#include &quot;linux/mm.h&quot;</code><br />
-<code>#include &quot;linux/moduleparam.h&quot;</code><br />
-<code>#include &quot;linux/platform_device.h&quot;</code><br />
-<code>#include &quot;linux/slab.h&quot;</code><br />
-<code>#include &quot;linux/spi/spi.h&quot;</code><br />
-<code>#include &quot;linux/stddef.h&quot;</code><br />
-<code>#include &quot;linux/types.h&quot;</code><br />
-<code>#include &quot;linux/vmalloc.h&quot;</code><br />
-<code>#include &quot;linux/workqueue.h&quot;</code><br />
+<code>#include &lt;linux/kernel.h&gt;</code><br />
+<code>#include &lt;linux/moduleparam.h&gt;</code><br />
+<code>#include &lt;linux/spi/spi.h&gt;</code><br />
+<code>#include &lt;linux/stddef.h&gt;</code><br />
+<code>#include &lt;linux/types.h&gt;</code><br />
+<code>#include &lt;linux/vmalloc.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="../../d0/dd4/module__config_8h_source.html">module_config.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d3/d51/debug__ctrl_8h_source.html">debug_ctrl.h</a>&quot;</code><br />
-<code>#include &quot;vdso/bits.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d9/d1b/ws2812__common_8h_source.html">ws2812_common.h</a>&quot;</code><br />
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:abd9982cccc7747d80c1e25d8904535c8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#abd9982cccc7747d80c1e25d8904535c8">WS2812_SPI_TRUE</a>&#160;&#160;&#160;0b11111100 /* check that!*/</td></tr>
-<tr class="separator:abd9982cccc7747d80c1e25d8904535c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7aad0725699ba59a2916c7c5848cbc9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#aa7aad0725699ba59a2916c7c5848cbc9">WS2812_SPI_FALSE</a>&#160;&#160;&#160;0b11000000 /* check that as well!*/</td></tr>
-<tr class="separator:aa7aad0725699ba59a2916c7c5848cbc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbf0e82d5549facc2a464956ea6896d1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#afbf0e82d5549facc2a464956ea6896d1">WS2812_SPI_BUS_NUM</a>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:afbf0e82d5549facc2a464956ea6896d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2f229ed58927c70b365ecfe675594e0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#aa2f229ed58927c70b365ecfe675594e0">WS2812_SPI_MAX_SPEED_HZ</a>&#160;&#160;&#160;10000000</td></tr>
-<tr class="separator:aa2f229ed58927c70b365ecfe675594e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acddb5574eaa42b994817fce91656d960"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#acddb5574eaa42b994817fce91656d960">WS2812_SPI_TARGET_HZ</a>&#160;&#160;&#160;8000000</td></tr>
-<tr class="separator:acddb5574eaa42b994817fce91656d960"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6065485d4ae76f8ffe628ff9ee6245d1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a6065485d4ae76f8ffe628ff9ee6245d1">WS2812_ZERO_PAADING_SIZE</a>&#160;&#160;&#160;50*<a class="el" href="../../d7/dae/ws2812__mod_8c.html#acddb5574eaa42b994817fce91656d960">WS2812_SPI_TARGET_HZ</a>/8000000+10</td></tr>
-<tr class="separator:a6065485d4ae76f8ffe628ff9ee6245d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae317f0961f759c2a75a76867e1ef6f69"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#ae317f0961f759c2a75a76867e1ef6f69">WS_SPI_IDX</a>(x,  y,  color)&#160;&#160;&#160;24*(x + y*priv-&gt;info-&gt;var.xres) + 8*color + <a class="el" href="../../d7/dae/ws2812__mod_8c.html#a6065485d4ae76f8ffe628ff9ee6245d1">WS2812_ZERO_PAADING_SIZE</a></td></tr>
-<tr class="separator:ae317f0961f759c2a75a76867e1ef6f69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb30dbdb8f8167a9a585cb15326c1670"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#acb30dbdb8f8167a9a585cb15326c1670">WS_WORK_IDX</a>(x,  y,  color)&#160;&#160;&#160;3*(x + y*priv-&gt;info-&gt;var.xres) + color</td></tr>
-<tr class="separator:acb30dbdb8f8167a9a585cb15326c1670"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79d8ec505d43cf91329406a6d9ad2aee"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a79d8ec505d43cf91329406a6d9ad2aee">WS_CHEAT</a>(x,  y,  color,  bit)</td></tr>
-<tr class="separator:a79d8ec505d43cf91329406a6d9ad2aee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad94b36675e7eb067ea3ce6ff9e244a44"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#ad94b36675e7eb067ea3ce6ff9e244a44">MODULE_LICENSE</a> (&quot;GPL&quot;)</td></tr>
-<tr class="separator:ad94b36675e7eb067ea3ce6ff9e244a44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a860d24c75b63e1c4c56bd05db2a8089d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a860d24c75b63e1c4c56bd05db2a8089d">MODULE_AUTHOR</a> (&quot;Michal Smolinski&quot;)</td></tr>
-<tr class="separator:a860d24c75b63e1c4c56bd05db2a8089d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97b3e2c24049a0009109545f47baf28d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a97b3e2c24049a0009109545f47baf28d">MODULE_DESCRIPTION</a> (&quot;WS2812 stip driver (non-dts version) over SPI&quot;)</td></tr>
-<tr class="separator:a97b3e2c24049a0009109545f47baf28d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d6b158dd592d04b3cfddf447df6f15b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a3d6b158dd592d04b3cfddf447df6f15b">module_param</a> (<a class="el" href="../../d7/dae/ws2812__mod_8c.html#a87c008953bf79122f6eb53274f3ed4a5">x_panel_len</a>, uint, 0444)</td></tr>
 <tr class="separator:a3d6b158dd592d04b3cfddf447df6f15b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0631a08bba76e9b9a736529d9b6df88d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a0631a08bba76e9b9a736529d9b6df88d">module_param</a> (<a class="el" href="../../d7/dae/ws2812__mod_8c.html#a2dc46871e439f8c2090fb7f7d5519a15">y_panel_len</a>, uint, 0444)</td></tr>
 <tr class="separator:a0631a08bba76e9b9a736529d9b6df88d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a532e8acb6ba65ae40eba904288f44ed3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a532e8acb6ba65ae40eba904288f44ed3">module_param</a> (<a class="el" href="../../d7/dae/ws2812__mod_8c.html#a589cbb1db758adba78522d8623f6dace">x_virtual_len</a>, uint, 0444)</td></tr>
+<tr class="separator:a532e8acb6ba65ae40eba904288f44ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ed571069f2a2c042ade507399f1a3ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a3ed571069f2a2c042ade507399f1a3ad">module_param</a> (<a class="el" href="../../d7/dae/ws2812__mod_8c.html#abb58bb4485b253b9a7a8349c30ed6e8f">y_virtual_len</a>, uint, 0444)</td></tr>
+<tr class="separator:a3ed571069f2a2c042ade507399f1a3ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f96b69339ff0eb5b60a9eaa6806c44c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a2f96b69339ff0eb5b60a9eaa6806c44c">module_param</a> (<a class="el" href="../../d7/dae/ws2812__mod_8c.html#a74e0d7ece28df156aad0ecaf6613d73e">x_pan_step</a>, uint, 0444)</td></tr>
+<tr class="separator:a2f96b69339ff0eb5b60a9eaa6806c44c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18fba0313873bf96afba98b0b053de52"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a18fba0313873bf96afba98b0b053de52">module_param</a> (<a class="el" href="../../d7/dae/ws2812__mod_8c.html#a798d6256fdf9583f25926cfe7310cf2b">y_pan_step</a>, uint, 0444)</td></tr>
+<tr class="separator:a18fba0313873bf96afba98b0b053de52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afee1b59217e0089d4e9cc135891f083f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#afee1b59217e0089d4e9cc135891f083f">module_param</a> (<a class="el" href="../../d7/dae/ws2812__mod_8c.html#a79424eee94b2c212a401655aae8aa9aa">color_bits</a>, ushort, 0444)</td></tr>
 <tr class="separator:afee1b59217e0089d4e9cc135891f083f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5087a20f050b71e9b56435d5345f2925"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a5087a20f050b71e9b56435d5345f2925">module_param</a> (<a class="el" href="../../d7/dae/ws2812__mod_8c.html#a143aa6615304dddd954b6a075bd3ac67">g_offset</a>, ushort, 0444)</td></tr>
@@ -143,37 +112,30 @@ Functions</h2></td></tr>
 <tr class="memitem:afacee433c6cc86e438332189db94454a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#afacee433c6cc86e438332189db94454a">module_param</a> (<a class="el" href="../../d7/dae/ws2812__mod_8c.html#ab05eee4c39098934655e6b2a93751e63">b_offset</a>, ushort, 0444)</td></tr>
 <tr class="separator:afacee433c6cc86e438332189db94454a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a109001ac96eae5bf02760167959b9c2c"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a109001ac96eae5bf02760167959b9c2c">WS2812_init</a> (void)</td></tr>
+<tr class="memdesc:a109001ac96eae5bf02760167959b9c2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Module initalization function.  <a href="../../d7/dae/ws2812__mod_8c.html#a109001ac96eae5bf02760167959b9c2c">More...</a><br /></td></tr>
 <tr class="separator:a109001ac96eae5bf02760167959b9c2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8757aa2bb135b2132193de155946c9b7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a8757aa2bb135b2132193de155946c9b7">WS2812_uninit</a> (void)</td></tr>
+<tr class="memdesc:a8757aa2bb135b2132193de155946c9b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Module deitialization function.  <a href="../../d7/dae/ws2812__mod_8c.html#a8757aa2bb135b2132193de155946c9b7">More...</a><br /></td></tr>
 <tr class="separator:a8757aa2bb135b2132193de155946c9b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4fc38339c462578158885f5e9f1d775"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#aa4fc38339c462578158885f5e9f1d775">WS2812_map</a> (struct fb_info *info, struct vm_area_struct *vma)</td></tr>
-<tr class="separator:aa4fc38339c462578158885f5e9f1d775"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9e64ac72d9a37ad9701143d48978b3c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#ac9e64ac72d9a37ad9701143d48978b3c">WS_fb_ioctl</a> (struct fb_info *info, unsigned int cmd, unsigned long arg)</td></tr>
-<tr class="separator:ac9e64ac72d9a37ad9701143d48978b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8616e4aaad61126d95590176083fec76"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a8616e4aaad61126d95590176083fec76">WS2812_convert_work_fun</a> (struct work_struct *work_str)</td></tr>
-<tr class="separator:a8616e4aaad61126d95590176083fec76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac45cc813bade7beb20cba19ce8254942"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#ac45cc813bade7beb20cba19ce8254942">WS2812_work_init</a> (struct <a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a> *info)</td></tr>
-<tr class="separator:ac45cc813bade7beb20cba19ce8254942"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcdaeccf294df3f97a64488eb2502a72"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#afcdaeccf294df3f97a64488eb2502a72">fb_fillrect</a> (struct fb_info *info, const struct fb_fillrect *area)</td></tr>
+<tr class="separator:afcdaeccf294df3f97a64488eb2502a72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39dc295662af1dcd985b84ea17b558bb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a39dc295662af1dcd985b84ea17b558bb">fb_copyarea</a> (struct fb_info *info, const struct fb_copyarea *area)</td></tr>
+<tr class="separator:a39dc295662af1dcd985b84ea17b558bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a098996aae0b95d7bdc35cc3eb29342"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a0a098996aae0b95d7bdc35cc3eb29342">fb_imageblit</a> (struct fb_info *info, const struct fb_image *area)</td></tr>
+<tr class="separator:a0a098996aae0b95d7bdc35cc3eb29342"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a271c3d7f1b941f9481e431fcdc7bfa92"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a271c3d7f1b941f9481e431fcdc7bfa92">WS2812_spi_init</a> (struct <a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a> *info)</td></tr>
+<tr class="memdesc:a271c3d7f1b941f9481e431fcdc7bfa92"><td class="mdescLeft">&#160;</td><td class="mdescRight">SPI initalization function.  <a href="../../d7/dae/ws2812__mod_8c.html#a271c3d7f1b941f9481e431fcdc7bfa92">More...</a><br /></td></tr>
 <tr class="separator:a271c3d7f1b941f9481e431fcdc7bfa92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0715e38878e4bf268f0738b6f09f5b9d"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a0715e38878e4bf268f0738b6f09f5b9d">frame_buffer_init</a> (void)</td></tr>
-<tr class="separator:a0715e38878e4bf268f0738b6f09f5b9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4ac691bb9f7ea0db53caa036844dfd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#af4ac691bb9f7ea0db53caa036844dfd2">WS2812_uninit_framebuffer</a> (struct <a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a> *info)</td></tr>
-<tr class="separator:af4ac691bb9f7ea0db53caa036844dfd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2afd1b51745748e4c563ad677dd05e5b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a2afd1b51745748e4c563ad677dd05e5b">WS2812_uninit_work</a> (struct <a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a> *info)</td></tr>
-<tr class="separator:a2afd1b51745748e4c563ad677dd05e5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92898788a9899c0c64c39f8a9dbbf395"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a92898788a9899c0c64c39f8a9dbbf395">WS2812_uninit_spi</a> (struct <a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a> *info)</td></tr>
-<tr class="separator:a92898788a9899c0c64c39f8a9dbbf395"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae8ab4c9b908be3a3b1d7a357afca6e2"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#aae8ab4c9b908be3a3b1d7a357afca6e2">WS2712_spi_completion</a> (void *arg)</td></tr>
-<tr class="separator:aae8ab4c9b908be3a3b1d7a357afca6e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a964ced2cfc9bd0106da9c83023cba8c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a964ced2cfc9bd0106da9c83023cba8c0">WS2812_spi_setup_message</a> (struct <a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a> *info)</td></tr>
-<tr class="separator:a964ced2cfc9bd0106da9c83023cba8c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a536ff50d67964a0f1e39150404e7148e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a536ff50d67964a0f1e39150404e7148e">WS2812_spi_transfer_begin</a> (struct <a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a> *info)</td></tr>
-<tr class="separator:a536ff50d67964a0f1e39150404e7148e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9baa6a0fae1f115a00d0c064301ab9b6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a9baa6a0fae1f115a00d0c064301ab9b6">module_init</a> (<a class="el" href="../../d7/dae/ws2812__mod_8c.html#a109001ac96eae5bf02760167959b9c2c">WS2812_init</a>)</td></tr>
 <tr class="separator:a9baa6a0fae1f115a00d0c064301ab9b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adec57837821679543860f23c8a4ae809"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#adec57837821679543860f23c8a4ae809">module_exit</a> (<a class="el" href="../../d7/dae/ws2812__mod_8c.html#a8757aa2bb135b2132193de155946c9b7">WS2812_uninit</a>)</td></tr>
 <tr class="separator:adec57837821679543860f23c8a4ae809"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97b3e2c24049a0009109545f47baf28d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a97b3e2c24049a0009109545f47baf28d">MODULE_DESCRIPTION</a> (&quot;WS2812 stip driver (non-dts version) over SPI&quot;)</td></tr>
+<tr class="separator:a97b3e2c24049a0009109545f47baf28d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad94b36675e7eb067ea3ce6ff9e244a44"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#ad94b36675e7eb067ea3ce6ff9e244a44">MODULE_LICENSE</a> (&quot;GPL&quot;)</td></tr>
+<tr class="separator:ad94b36675e7eb067ea3ce6ff9e244a44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a860d24c75b63e1c4c56bd05db2a8089d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a860d24c75b63e1c4c56bd05db2a8089d">MODULE_AUTHOR</a> (&quot;Michal Smolinski&quot;)</td></tr>
+<tr class="separator:a860d24c75b63e1c4c56bd05db2a8089d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -181,6 +143,14 @@ Variables</h2></td></tr>
 <tr class="separator:a87c008953bf79122f6eb53274f3ed4a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2dc46871e439f8c2090fb7f7d5519a15"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a2dc46871e439f8c2090fb7f7d5519a15">y_panel_len</a> = 8</td></tr>
 <tr class="separator:a2dc46871e439f8c2090fb7f7d5519a15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a589cbb1db758adba78522d8623f6dace"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a589cbb1db758adba78522d8623f6dace">x_virtual_len</a> = 16</td></tr>
+<tr class="separator:a589cbb1db758adba78522d8623f6dace"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb58bb4485b253b9a7a8349c30ed6e8f"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#abb58bb4485b253b9a7a8349c30ed6e8f">y_virtual_len</a> = 8</td></tr>
+<tr class="separator:abb58bb4485b253b9a7a8349c30ed6e8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74e0d7ece28df156aad0ecaf6613d73e"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a74e0d7ece28df156aad0ecaf6613d73e">x_pan_step</a> = 1</td></tr>
+<tr class="separator:a74e0d7ece28df156aad0ecaf6613d73e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a798d6256fdf9583f25926cfe7310cf2b"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a798d6256fdf9583f25926cfe7310cf2b">y_pan_step</a> = 1</td></tr>
+<tr class="separator:a798d6256fdf9583f25926cfe7310cf2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79424eee94b2c212a401655aae8aa9aa"><td class="memItemLeft" align="right" valign="top">unsigned short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a79424eee94b2c212a401655aae8aa9aa">color_bits</a> = 8</td></tr>
 <tr class="separator:a79424eee94b2c212a401655aae8aa9aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a143aa6615304dddd954b6a075bd3ac67"><td class="memItemLeft" align="right" valign="top">unsigned short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a143aa6615304dddd954b6a075bd3ac67">g_offset</a> = 0</td></tr>
@@ -189,129 +159,33 @@ Variables</h2></td></tr>
 <tr class="separator:a5d2b52390421d9363f05b09ad668048a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab05eee4c39098934655e6b2a93751e63"><td class="memItemLeft" align="right" valign="top">unsigned short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#ab05eee4c39098934655e6b2a93751e63">b_offset</a> = 16</td></tr>
 <tr class="separator:ab05eee4c39098934655e6b2a93751e63"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb98800a698594d4aa628b1fb071fde1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#abb98800a698594d4aa628b1fb071fde1">run_continously</a> = false</td></tr>
-<tr class="separator:abb98800a698594d4aa628b1fb071fde1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a67585c36bf0db9cc77688e1029b92c"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a7a67585c36bf0db9cc77688e1029b92c">module_errno</a> = 0</td></tr>
-<tr class="separator:a7a67585c36bf0db9cc77688e1029b92c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0644b9e298330826b8a2fb32851a1a7"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#ac0644b9e298330826b8a2fb32851a1a7">module_info</a> = NULL</td></tr>
 <tr class="separator:ac0644b9e298330826b8a2fb32851a1a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff4d64e1115ee160003b8da94ed85f4d"><td class="memItemLeft" align="right" valign="top">static const struct fb_ops&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#aff4d64e1115ee160003b8da94ed85f4d">WS2812_fb_ops</a></td></tr>
+<tr class="memdesc:aff4d64e1115ee160003b8da94ed85f4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Framebuffer operations structure.  <a href="../../d7/dae/ws2812__mod_8c.html#aff4d64e1115ee160003b8da94ed85f4d">More...</a><br /></td></tr>
 <tr class="separator:aff4d64e1115ee160003b8da94ed85f4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="afbf0e82d5549facc2a464956ea6896d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afbf0e82d5549facc2a464956ea6896d1">&#9670;&nbsp;</a></span>WS2812_SPI_BUS_NUM</h2>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a39dc295662af1dcd985b84ea17b558bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39dc295662af1dcd985b84ea17b558bb">&#9670;&nbsp;</a></span>fb_copyarea()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">#define WS2812_SPI_BUS_NUM&#160;&#160;&#160;0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa7aad0725699ba59a2916c7c5848cbc9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa7aad0725699ba59a2916c7c5848cbc9">&#9670;&nbsp;</a></span>WS2812_SPI_FALSE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define WS2812_SPI_FALSE&#160;&#160;&#160;0b11000000 /* check that as well!*/</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa2f229ed58927c70b365ecfe675594e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2f229ed58927c70b365ecfe675594e0">&#9670;&nbsp;</a></span>WS2812_SPI_MAX_SPEED_HZ</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define WS2812_SPI_MAX_SPEED_HZ&#160;&#160;&#160;10000000</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="acddb5574eaa42b994817fce91656d960"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acddb5574eaa42b994817fce91656d960">&#9670;&nbsp;</a></span>WS2812_SPI_TARGET_HZ</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define WS2812_SPI_TARGET_HZ&#160;&#160;&#160;8000000</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abd9982cccc7747d80c1e25d8904535c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd9982cccc7747d80c1e25d8904535c8">&#9670;&nbsp;</a></span>WS2812_SPI_TRUE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define WS2812_SPI_TRUE&#160;&#160;&#160;0b11111100 /* check that!*/</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a6065485d4ae76f8ffe628ff9ee6245d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6065485d4ae76f8ffe628ff9ee6245d1">&#9670;&nbsp;</a></span>WS2812_ZERO_PAADING_SIZE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define WS2812_ZERO_PAADING_SIZE&#160;&#160;&#160;50*<a class="el" href="../../d7/dae/ws2812__mod_8c.html#acddb5574eaa42b994817fce91656d960">WS2812_SPI_TARGET_HZ</a>/8000000+10</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a79d8ec505d43cf91329406a6d9ad2aee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79d8ec505d43cf91329406a6d9ad2aee">&#9670;&nbsp;</a></span>WS_CHEAT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define WS_CHEAT</td>
+          <td class="memname">static void fb_copyarea </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x, </td>
+          <td class="paramtype">struct fb_info *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">y, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">color, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">bit&#160;</td>
+          <td class="paramtype">const struct fb_copyarea *&#160;</td>
+          <td class="paramname"><em>area</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -319,99 +193,83 @@ Variables</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">        priv-&gt;spi_buffer[ <a class="code" href="../../d7/dae/ws2812__mod_8c.html#ae317f0961f759c2a75a76867e1ef6f69">WS_SPI_IDX</a>(x, y, color) + bit] = \</div>
-<div class="line">        (priv-&gt;work_buffer_input[<a class="code" href="../../d7/dae/ws2812__mod_8c.html#acb30dbdb8f8167a9a585cb15326c1670">WS_WORK_IDX</a>(x, y, color)] &amp; BIT(7-bit))? <a class="code" href="../../d7/dae/ws2812__mod_8c.html#abd9982cccc7747d80c1e25d8904535c8">WS2812_SPI_TRUE</a> : <a class="code" href="../../d7/dae/ws2812__mod_8c.html#aa7aad0725699ba59a2916c7c5848cbc9">WS2812_SPI_FALSE</a></div>
-<div class="ttc" id="aws2812__mod_8c_html_aa7aad0725699ba59a2916c7c5848cbc9"><div class="ttname"><a href="../../d7/dae/ws2812__mod_8c.html#aa7aad0725699ba59a2916c7c5848cbc9">WS2812_SPI_FALSE</a></div><div class="ttdeci">#define WS2812_SPI_FALSE</div><div class="ttdef"><b>Definition:</b> ws2812_mod.c:34</div></div>
-<div class="ttc" id="aws2812__mod_8c_html_abd9982cccc7747d80c1e25d8904535c8"><div class="ttname"><a href="../../d7/dae/ws2812__mod_8c.html#abd9982cccc7747d80c1e25d8904535c8">WS2812_SPI_TRUE</a></div><div class="ttdeci">#define WS2812_SPI_TRUE</div><div class="ttdef"><b>Definition:</b> ws2812_mod.c:33</div></div>
-<div class="ttc" id="aws2812__mod_8c_html_acb30dbdb8f8167a9a585cb15326c1670"><div class="ttname"><a href="../../d7/dae/ws2812__mod_8c.html#acb30dbdb8f8167a9a585cb15326c1670">WS_WORK_IDX</a></div><div class="ttdeci">#define WS_WORK_IDX(x, y, color)</div></div>
-<div class="ttc" id="aws2812__mod_8c_html_ae317f0961f759c2a75a76867e1ef6f69"><div class="ttname"><a href="../../d7/dae/ws2812__mod_8c.html#ae317f0961f759c2a75a76867e1ef6f69">WS_SPI_IDX</a></div><div class="ttdeci">#define WS_SPI_IDX(x, y, color)</div></div>
-</div><!-- fragment -->
+
 </div>
 </div>
-<a id="ae317f0961f759c2a75a76867e1ef6f69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae317f0961f759c2a75a76867e1ef6f69">&#9670;&nbsp;</a></span>WS_SPI_IDX</h2>
+<a id="afcdaeccf294df3f97a64488eb2502a72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcdaeccf294df3f97a64488eb2502a72">&#9670;&nbsp;</a></span>fb_fillrect()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">#define WS_SPI_IDX</td>
+          <td class="memname">static void fb_fillrect </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x, </td>
+          <td class="paramtype">struct fb_info *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">y, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">color&#160;</td>
+          <td class="paramtype">const struct fb_fillrect *&#160;</td>
+          <td class="paramname"><em>area</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;24*(x + y*priv-&gt;info-&gt;var.xres) + 8*color + <a class="el" href="../../d7/dae/ws2812__mod_8c.html#a6065485d4ae76f8ffe628ff9ee6245d1">WS2812_ZERO_PAADING_SIZE</a></td>
+          <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="acb30dbdb8f8167a9a585cb15326c1670"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb30dbdb8f8167a9a585cb15326c1670">&#9670;&nbsp;</a></span>WS_WORK_IDX</h2>
+<a id="a0a098996aae0b95d7bdc35cc3eb29342"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a098996aae0b95d7bdc35cc3eb29342">&#9670;&nbsp;</a></span>fb_imageblit()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">#define WS_WORK_IDX</td>
+          <td class="memname">static void fb_imageblit </td>
           <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x, </td>
+          <td class="paramtype">struct fb_info *&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">y, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">color&#160;</td>
+          <td class="paramtype">const struct fb_image *&#160;</td>
+          <td class="paramname"><em>area</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;3*(x + y*priv-&gt;info-&gt;var.xres) + color</td>
+          <td></td><td></td>
         </tr>
       </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a0715e38878e4bf268f0738b6f09f5b9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0715e38878e4bf268f0738b6f09f5b9d">&#9670;&nbsp;</a></span>frame_buffer_init()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct <a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a> * frame_buffer_init </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -507,7 +365,7 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="afacee433c6cc86e438332189db94454a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afacee433c6cc86e438332189db94454a">&#9670;&nbsp;</a></span>module_param() <span class="overload">[1/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#afacee433c6cc86e438332189db94454a">&#9670;&nbsp;</a></span>module_param() <span class="overload">[1/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -541,7 +399,7 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="afee1b59217e0089d4e9cc135891f083f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afee1b59217e0089d4e9cc135891f083f">&#9670;&nbsp;</a></span>module_param() <span class="overload">[2/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#afee1b59217e0089d4e9cc135891f083f">&#9670;&nbsp;</a></span>module_param() <span class="overload">[2/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -575,7 +433,7 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="a5087a20f050b71e9b56435d5345f2925"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5087a20f050b71e9b56435d5345f2925">&#9670;&nbsp;</a></span>module_param() <span class="overload">[3/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5087a20f050b71e9b56435d5345f2925">&#9670;&nbsp;</a></span>module_param() <span class="overload">[3/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -609,7 +467,7 @@ Variables</h2></td></tr>
 </div>
 </div>
 <a id="a803f1cab1575cda2b000b7391e91983e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a803f1cab1575cda2b000b7391e91983e">&#9670;&nbsp;</a></span>module_param() <span class="overload">[4/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a803f1cab1575cda2b000b7391e91983e">&#9670;&nbsp;</a></span>module_param() <span class="overload">[4/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -642,8 +500,42 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a2f96b69339ff0eb5b60a9eaa6806c44c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f96b69339ff0eb5b60a9eaa6806c44c">&#9670;&nbsp;</a></span>module_param() <span class="overload">[5/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">module_param </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a74e0d7ece28df156aad0ecaf6613d73e">x_pan_step</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">0444&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a3d6b158dd592d04b3cfddf447df6f15b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d6b158dd592d04b3cfddf447df6f15b">&#9670;&nbsp;</a></span>module_param() <span class="overload">[5/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d6b158dd592d04b3cfddf447df6f15b">&#9670;&nbsp;</a></span>module_param() <span class="overload">[6/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -676,8 +568,76 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a532e8acb6ba65ae40eba904288f44ed3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a532e8acb6ba65ae40eba904288f44ed3">&#9670;&nbsp;</a></span>module_param() <span class="overload">[7/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">module_param </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a589cbb1db758adba78522d8623f6dace">x_virtual_len</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">0444&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a18fba0313873bf96afba98b0b053de52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18fba0313873bf96afba98b0b053de52">&#9670;&nbsp;</a></span>module_param() <span class="overload">[8/10]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">module_param </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#a798d6256fdf9583f25926cfe7310cf2b">y_pan_step</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">0444&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a0631a08bba76e9b9a736529d9b6df88d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0631a08bba76e9b9a736529d9b6df88d">&#9670;&nbsp;</a></span>module_param() <span class="overload">[6/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0631a08bba76e9b9a736529d9b6df88d">&#9670;&nbsp;</a></span>module_param() <span class="overload">[9/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -710,54 +670,36 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="aae8ab4c9b908be3a3b1d7a357afca6e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aae8ab4c9b908be3a3b1d7a357afca6e2">&#9670;&nbsp;</a></span>WS2712_spi_completion()</h2>
+<a id="a3ed571069f2a2c042ade507399f1a3ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ed571069f2a2c042ade507399f1a3ad">&#9670;&nbsp;</a></span>module_param() <span class="overload">[10/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void WS2712_spi_completion </td>
+          <td class="memname">module_param </td>
           <td>(</td>
-          <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>arg</em></td><td>)</td>
-          <td></td>
+          <td class="paramtype"><a class="el" href="../../d7/dae/ws2812__mod_8c.html#abb58bb4485b253b9a7a8349c30ed6e8f">y_virtual_len</a>&#160;</td>
+          <td class="paramname">, </td>
         </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8616e4aaad61126d95590176083fec76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8616e4aaad61126d95590176083fec76">&#9670;&nbsp;</a></span>WS2812_convert_work_fun()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
         <tr>
-          <td class="memname">static void WS2812_convert_work_fun </td>
-          <td>(</td>
-          <td class="paramtype">struct work_struct *&#160;</td>
-          <td class="paramname"><em>work_str</em></td><td>)</td>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">0444&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>
@@ -786,41 +728,8 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="aa4fc38339c462578158885f5e9f1d775"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa4fc38339c462578158885f5e9f1d775">&#9670;&nbsp;</a></span>WS2812_map()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static int WS2812_map </td>
-          <td>(</td>
-          <td class="paramtype">struct fb_info *&#160;</td>
-          <td class="paramname"><em>info</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">struct vm_area_struct *&#160;</td>
-          <td class="paramname"><em>vma</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>Module initalization function. </p>
+<dl class="section return"><dt>Returns</dt><dd>int Returns 0 on success </dd></dl>
 
 </div>
 </div>
@@ -840,41 +749,14 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="a964ced2cfc9bd0106da9c83023cba8c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a964ced2cfc9bd0106da9c83023cba8c0">&#9670;&nbsp;</a></span>WS2812_spi_setup_message()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WS2812_spi_setup_message </td>
-          <td>(</td>
-          <td class="paramtype">struct <a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a> *&#160;</td>
-          <td class="paramname"><em>info</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a536ff50d67964a0f1e39150404e7148e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a536ff50d67964a0f1e39150404e7148e">&#9670;&nbsp;</a></span>WS2812_spi_transfer_begin()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WS2812_spi_transfer_begin </td>
-          <td>(</td>
-          <td class="paramtype">struct <a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a> *&#160;</td>
-          <td class="paramname"><em>info</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>SPI initalization function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">info</td><td>Module info struct </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>int Returns 0 on success </dd></dl>
 
 </div>
 </div>
@@ -902,111 +784,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a id="af4ac691bb9f7ea0db53caa036844dfd2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4ac691bb9f7ea0db53caa036844dfd2">&#9670;&nbsp;</a></span>WS2812_uninit_framebuffer()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WS2812_uninit_framebuffer </td>
-          <td>(</td>
-          <td class="paramtype">struct <a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a> *&#160;</td>
-          <td class="paramname"><em>info</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a92898788a9899c0c64c39f8a9dbbf395"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92898788a9899c0c64c39f8a9dbbf395">&#9670;&nbsp;</a></span>WS2812_uninit_spi()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WS2812_uninit_spi </td>
-          <td>(</td>
-          <td class="paramtype">struct <a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a> *&#160;</td>
-          <td class="paramname"><em>info</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2afd1b51745748e4c563ad677dd05e5b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2afd1b51745748e4c563ad677dd05e5b">&#9670;&nbsp;</a></span>WS2812_uninit_work()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void WS2812_uninit_work </td>
-          <td>(</td>
-          <td class="paramtype">struct <a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a> *&#160;</td>
-          <td class="paramname"><em>info</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac45cc813bade7beb20cba19ce8254942"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac45cc813bade7beb20cba19ce8254942">&#9670;&nbsp;</a></span>WS2812_work_init()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int WS2812_work_init </td>
-          <td>(</td>
-          <td class="paramtype">struct <a class="el" href="../../da/d27/structWS2812__module__info.html">WS2812_module_info</a> *&#160;</td>
-          <td class="paramname"><em>info</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac9e64ac72d9a37ad9701143d48978b3c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac9e64ac72d9a37ad9701143d48978b3c">&#9670;&nbsp;</a></span>WS_fb_ioctl()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int WS_fb_ioctl </td>
-          <td>(</td>
-          <td class="paramtype">struct fb_info *&#160;</td>
-          <td class="paramname"><em>info</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned int&#160;</td>
-          <td class="paramname"><em>cmd</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">unsigned long&#160;</td>
-          <td class="paramname"><em>arg</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>Module deitialization function. </p>
 
 </div>
 </div>
@@ -1053,28 +831,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a7a67585c36bf0db9cc77688e1029b92c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a67585c36bf0db9cc77688e1029b92c">&#9670;&nbsp;</a></span>module_errno</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int module_errno = 0</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="ac0644b9e298330826b8a2fb32851a1a7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac0644b9e298330826b8a2fb32851a1a7">&#9670;&nbsp;</a></span>module_info</h2>
 
@@ -1097,20 +853,6 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">unsigned short r_offset = 8</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="abb98800a698594d4aa628b1fb071fde1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb98800a698594d4aa628b1fb071fde1">&#9670;&nbsp;</a></span>run_continously</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool run_continously = false</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1142,17 +884,41 @@ Variables</h2></td></tr>
 <div class="line">  </div>
 <div class="line">  </div>
 <div class="line">  </div>
-<div class="line">  .fb_fillrect = cfb_fillrect, </div>
-<div class="line">  .fb_copyarea = cfb_copyarea, </div>
-<div class="line">  .fb_imageblit = cfb_imageblit, </div>
-<div class="line">  .fb_mmap = <a class="code" href="../../d7/dae/ws2812__mod_8c.html#aa4fc38339c462578158885f5e9f1d775">WS2812_map</a>,</div>
+<div class="line"> </div>
+<div class="line">    .fb_fillrect = cfb_fillrect, </div>
+<div class="line">    .fb_copyarea = cfb_copyarea, </div>
+<div class="line">    .fb_imageblit = cfb_imageblit, </div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line"> </div>
+<div class="line">  .fb_mmap = <a class="code" href="../../d1/dba/ws2812__common_8c.html#a9cb1351d3bbf4275abc92b248c97cb90">WS2812_map</a>,</div>
 <div class="line">  </div>
 <div class="line">  </div>
-<div class="line">  .fb_ioctl = <a class="code" href="../../d7/dae/ws2812__mod_8c.html#ac9e64ac72d9a37ad9701143d48978b3c">WS_fb_ioctl</a>,</div>
+<div class="line">  .fb_ioctl = <a class="code" href="../../d1/dba/ws2812__common_8c.html#ac9e64ac72d9a37ad9701143d48978b3c">WS_fb_ioctl</a>,</div>
+<div class="line">  .fb_pan_display = <a class="code" href="../../d1/dba/ws2812__common_8c.html#acd77549de9e4eea238c767167a2fc2a1">WS2812_fb_pan_display</a></div>
 <div class="line">}</div>
-<div class="ttc" id="aws2812__mod_8c_html_aa4fc38339c462578158885f5e9f1d775"><div class="ttname"><a href="../../d7/dae/ws2812__mod_8c.html#aa4fc38339c462578158885f5e9f1d775">WS2812_map</a></div><div class="ttdeci">static int WS2812_map(struct fb_info *info, struct vm_area_struct *vma)</div><div class="ttdef"><b>Definition:</b> ws2812_mod.c:404</div></div>
-<div class="ttc" id="aws2812__mod_8c_html_ac9e64ac72d9a37ad9701143d48978b3c"><div class="ttname"><a href="../../d7/dae/ws2812__mod_8c.html#ac9e64ac72d9a37ad9701143d48978b3c">WS_fb_ioctl</a></div><div class="ttdeci">int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg)</div><div class="ttdef"><b>Definition:</b> ws2812_mod.c:427</div></div>
+<div class="ttc" id="aws2812__common_8c_html_a9cb1351d3bbf4275abc92b248c97cb90"><div class="ttname"><a href="../../d1/dba/ws2812__common_8c.html#a9cb1351d3bbf4275abc92b248c97cb90">WS2812_map</a></div><div class="ttdeci">int WS2812_map(struct fb_info *info, struct vm_area_struct *vma)</div><div class="ttdoc">Process map request on owned framebuffer. Function maps internal pixel bufor into user-space.</div><div class="ttdef"><b>Definition:</b> ws2812_common.c:189</div></div>
+<div class="ttc" id="aws2812__common_8c_html_ac9e64ac72d9a37ad9701143d48978b3c"><div class="ttname"><a href="../../d1/dba/ws2812__common_8c.html#ac9e64ac72d9a37ad9701143d48978b3c">WS_fb_ioctl</a></div><div class="ttdeci">int WS_fb_ioctl(struct fb_info *info, unsigned int cmd, unsigned long arg)</div><div class="ttdoc">IOCTL code handler.</div><div class="ttdef"><b>Definition:</b> ws2812_common.c:317</div></div>
+<div class="ttc" id="aws2812__common_8c_html_acd77549de9e4eea238c767167a2fc2a1"><div class="ttname"><a href="../../d1/dba/ws2812__common_8c.html#acd77549de9e4eea238c767167a2fc2a1">WS2812_fb_pan_display</a></div><div class="ttdeci">int WS2812_fb_pan_display(struct fb_var_screeninfo *var, struct fb_info *info)</div><div class="ttdoc">fbops pan display function.</div><div class="ttdef"><b>Definition:</b> ws2812_common.c:455</div></div>
 </div><!-- fragment -->
+<p>Framebuffer operations structure. </p>
+
+</div>
+</div>
+<a id="a74e0d7ece28df156aad0ecaf6613d73e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74e0d7ece28df156aad0ecaf6613d73e">&#9670;&nbsp;</a></span>x_pan_step</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned x_pan_step = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 </div>
 </div>
 <a id="a87c008953bf79122f6eb53274f3ed4a5"></a>
@@ -1169,6 +935,34 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a589cbb1db758adba78522d8623f6dace"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a589cbb1db758adba78522d8623f6dace">&#9670;&nbsp;</a></span>x_virtual_len</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned x_virtual_len = 16</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a798d6256fdf9583f25926cfe7310cf2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a798d6256fdf9583f25926cfe7310cf2b">&#9670;&nbsp;</a></span>y_pan_step</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned y_pan_step = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a2dc46871e439f8c2090fb7f7d5519a15"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2dc46871e439f8c2090fb7f7d5519a15">&#9670;&nbsp;</a></span>y_panel_len</h2>
 
@@ -1177,6 +971,20 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">unsigned y_panel_len = 8</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abb58bb4485b253b9a7a8349c30ed6e8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb58bb4485b253b9a7a8349c30ed6e8f">&#9670;&nbsp;</a></span>y_virtual_len</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned y_virtual_len = 8</td>
         </tr>
       </table>
 </div><div class="memdoc">
