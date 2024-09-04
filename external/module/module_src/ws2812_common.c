@@ -228,6 +228,11 @@ static void WS2812_convert_work_fun(struct work_struct* work_str) {
   size_t x, y, color;
   size_t x_offset = 0, y_offset = 0;
 
+  if(priv->spi_transfer_in_progress) {
+    PRINT_LOG("previous message still in progress! ABORTING\n");
+    return;
+  }
+
   #ifdef NO_DEVICE_TESTING
   unsigned long flags;
   #endif
