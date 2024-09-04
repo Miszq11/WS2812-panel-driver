@@ -52,7 +52,7 @@ static void fb_imageblit(struct fb_info* info, const struct fb_image* area);
 int WS2812_spi_init(struct WS2812_module_info* info);
 
 /**
- * @brief Framebuffer structure
+ * @brief Framebuffer operations structure
  *
  */
 
@@ -179,7 +179,7 @@ framebuffer_initialized:
 }
 
 /**
- * @brief Module unitialization function
+ * @brief Module deitialization function
  *
  */
 

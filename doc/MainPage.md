@@ -25,7 +25,6 @@ the LED datasheet. Used 16 bit word size transferred to 4 bit PWM resolution,
 which was used to drive LEDs.
 
 
-\ref module_init
 \htmlonly
 <details open>
   <summary><strong>Graph representation of what is going on in module</strong></summary>
