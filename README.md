@@ -201,12 +201,12 @@ Achieved functionality:
 
 ## Why & Hows
 
-### framebuffer
+### Framebuffer
   Length of pixel data buffor is a product of x_virt_size and y_virt_size, for
   further panning to work. This is because of the lack of found documentation and
   example uses, of Panning functionality in fb.
 
-  module allows the write of whole pixel buffer (even the virtual part)
+  Module allows the write of whole pixel buffer (even the virtual part)
   and then utilizes xoffset, yoffset and line_length (visible line length?),
   to display currently seen pixels (xres by yres). This can be achieved
   by mapping the buffer into user space app.
@@ -236,6 +236,14 @@ Achieved functionality:
   Currently there is no DMA support, but all facilities are ready to be
   implemented to use it.
 
+  As mentioned before, SPI was used as a way of generating PWM signal needed
+  by WS2812 LEDs. Using 16 bit SPI word size enbled us to
+  change PWM pulse width quite easily and
+  with moderate precision.
+
+  As explained in LED [datasheet](https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf) pulse width may be changed in every
+  cycle. Using plain PWM driver that may be difficult to achieve without constant
+  function calls, which in consequence may cause signal timings to break. With use of SPI data as PWM signal we mitigated this problem, because one can create buffer of _n_ messages and push it to be sent without worrying much about timings (only true if one sets correct SPI clock beforehand).
 ### Module Split
 
   There are two main developers of this repository, where only one
