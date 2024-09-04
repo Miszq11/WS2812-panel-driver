@@ -185,7 +185,8 @@ Achieved functionality:
 | :--- | :---: |
 | SPI device driver | <b style="color:green"> Ok </b> |
 | DTS support | <b style="color:green"> Ok </b> |
-| SPI to WS2812 communication | <b style="color:yellow"> Ok? Timings <br> messed up? </b> |
+| SPI to WS2812 communication | <b style="color:green"> Ok </b> |
+| SPI signal integrity | <b style="color:green"> Ok (barely) </b> |
 | SPI DMA tx buff | <b style="color:#f03000"> No, <br> testing </b> |
 | convert pixel data to spi data | <b style="color:green"> Ok </b> |
 | convert in work | <b style="color:green"> Ok </b> |
