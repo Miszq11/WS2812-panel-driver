@@ -170,8 +170,16 @@ int main(int argc, char* argv[]) {
   struct _fbg_fbdev_context *fbdev_context = fbg->user_context;
   unsigned long dummy = 0;
 
+
   //draw whole white red!
   fprintf(stdout, "APP connected with resolution: %dx%d", fbg->width, fbg->height);
+
+  fprintf(stdout, "Drawing: \"display pan test\"\n");
+  if(print_image_and_pan_display(fbg, fbdev_context, 1000000)) {
+    fprintf(stderr, "exit\n");
+    exit(-1);
+  }
+
   fbg_background(fbg, 255, 0, 0); // can also be replaced by fbg_background(fbg, 0, 0, 0);
   fprintf(stdout, "Drawing now: \"fbg_background\"\n");
   fbg_flip(fbg);
@@ -195,11 +203,7 @@ int main(int argc, char* argv[]) {
   printf("sleeping for 2 seconds?\n");
   sleep(1);
 
-  fprintf(stdout, "Drawing: \"display pan test\"\n");
-  if(print_image_and_pan_display(fbg, fbdev_context, 1000000)) {
-    fprintf(stderr, "exit\n");
-    exit(-1);
-  }
+
 
   fprintf(stdout, "Drawing: \"animation\"\n");
   animate_pixel(fbg, fbdev_context, 0, 191, 191);

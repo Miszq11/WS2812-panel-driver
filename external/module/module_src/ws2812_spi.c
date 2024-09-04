@@ -55,12 +55,13 @@ MODULE_DEVICE_TABLE(spi, WS2812_dt_spi_id);
  * @brief Framebuffer structure
  *
  */
+static void fb_imageblit(struct fb_info* info, const struct fb_image* area) {return;}
 
 static const struct fb_ops WS2812_fb_ops = {
   .owner = THIS_MODULE,
   .fb_fillrect = cfb_fillrect,
   .fb_copyarea = cfb_copyarea,
-  .fb_imageblit = cfb_imageblit,
+  .fb_imageblit = fb_imageblit,
   .fb_mmap = WS2812_map,
   .fb_ioctl = WS_fb_ioctl,
   .fb_pan_display = WS2812_fb_pan_display,
