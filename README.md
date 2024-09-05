@@ -44,7 +44,7 @@ with 4 bit resolution.
 ## How it works
 Video of the working display can be found on one of the contributors youtube channel.
 
-[![Watch the video](https://img.youtube.com/vi/VwPaDlaS9uE/maxresdefault.jpg)](https://youtu.be/VwPaDlaS9uE?si=0EJWLzdlCJsrLGLw "Click to watch video")
+[![Watch the video](https://img.youtube.com/vi/OZ-iTeJUp58/maxresdefault.jpg)](https://youtu.be/OZ-iTeJUp58 "Click to watch video")
 
 ## Hardware used
 - STM32MP157C-DK2 Development board
